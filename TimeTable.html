@@ -6,7 +6,7 @@
     <title>TimeTable</title>
     <style>
       div {
-        border: 1px solid black;
+        outline: 1px solid black;
       }
       .container {
         width: 100%;
@@ -16,42 +16,78 @@
       .top {
         width: 100%;
         height: 4%;
+        display: flex;
         border: none;
+        position: fixed;
       }
       .middle {
         width: 500%;
         height: 92%;
+        padding-top: 2.1%;
       }
       .bottom {
-        display: flex;
         width: 100%;
         height: 4%;
+        display: flex;
         position: fixed;
       }
       .middleDay {
-        display: flex;
-        justify-content: space-evenly;
         width: 100%;
         height: 100%;
-      }
-      .middleTeacher {
         display: flex;
         justify-content: space-evenly;
+      }
+      .middleTeacher {
         width: 100%;
         height: 92%;
+        display: flex;
+        justify-content: space-evenly;
+      }
+
+      .dayTable,
+      .teacherTable {
+        width: 100%;
+        height: 100%;
+        display: flex;
+      }
+      .timeColumn {
+        height: 100%;
+        width: 8%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+        text-align: center;
+        line-height: 200%;
+      }
+      .teacherColumn {
+        height: 100%;
+        width: 9%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+      .cell {
+        height: 4.18%;
+      }
+      .textCell {
+        height: 100%;
+        width: 100%;
+        resize: none;
+        padding: 0;
+        border: 0;
       }
 
       .btnDayandTeacher {
-        position: fixed;
         width: 10%;
-        height: 3.5%;
+        height: 100%;
       }
       .btnAddTeacher {
-        position: fixed;
         width: 10%;
-        height: 3.5%;
-        margin-left: 10%;
+        height: 100%;
       }
+
       .btnAddPage {
         width: 2.5%;
         height: 100%;
@@ -60,23 +96,10 @@
         width: 12%;
         height: 100%;
       }
+      .btnClicked {
+        background-color: rgb(180, 176, 176);
+      }
 
-      .dayTable {
-        display: flex;
-        width: 100%;
-        height: 100%;
-      }
-      .timeColumn {
-        height: 100%;
-        width: 8%;
-      }
-      .teacherColumn {
-        height: 100%;
-        width: 9%;
-      }
-      .cell {
-        height: 4.18%;
-      }
       .hide {
         display: none;
       }
@@ -85,7 +108,7 @@
   <body>
     <div class="container">
       <div class="top">
-        <button class="btnDayandTeacher">요일별</button>
+        <button class="btnDayandTeacher" onclick="goToTeacherPage()">요일별</button>
         <button class="btnAddTeacher">선생님 추가</button>
       </div>
       <div class="middle" pageNumber="0">
@@ -118,28 +141,28 @@
             </div>
             <div class="teacherColumn">
               <div class="cell firstCell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
           <div class="dayTable" day="1">
@@ -170,28 +193,28 @@
             </div>
             <div class="teacherColumn">
               <div class="cell firstCell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
           <div class="dayTable" day="2">
@@ -222,28 +245,28 @@
             </div>
             <div class="teacherColumn">
               <div class="cell firstCell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
           <div class="dayTable" day="3">
@@ -274,28 +297,28 @@
             </div>
             <div class="teacherColumn">
               <div class="cell firstCell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
           <div class="dayTable" day="4">
@@ -326,28 +349,28 @@
             </div>
             <div class="teacherColumn">
               <div class="cell firstCell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
           <div class="dayTable" day="5">
@@ -378,28 +401,28 @@
             </div>
             <div class="teacherColumn">
               <div class="cell firstCell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
           <div class="dayTable" day="6">
@@ -430,28 +453,28 @@
             </div>
             <div class="teacherColumn">
               <div class="cell firstCell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
-              <div class="cell"></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
         </div>
@@ -459,35 +482,106 @@
       </div>
       <div class="bottom">
         <button class="btnAddPage" onclick="addPageBtn()">+</button>
-        <button class="btnAddedPage"></button>
+        <button class="btnAddedPage btnClicked" btnNumber="0" onclick="shiftPage()"></button>
       </div>
     </div>
     <script>
-      ////변수 선언
-      let thisPage = 0;
+      ////////변수 선언
+      let thisPageNumber = parseInt(document.querySelector(".btnClicked").getAttribute("btnNumber"));
+      let thisPage;
+      let numOfPages = 1;
+      let numOfTeachers;
 
-      ////함수 선언
+      ////////함수 선언
+      //Top: 요일별버튼 클릭 시 '화면전환'
+      function goToTeacherPage() {
+        //thisPage 찾기
+        for (let i = 0; i < numOfPages; i++) {
+          if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisPageNumber) {
+            thisPage = document.querySelectorAll(".middle")[i];
+            break;
+          }
+        }
+        //화면전환
+        if (thisPage.querySelector(".middleTeacher").classList.contains("hide")) {
+          document.querySelector(".btnDayandTeacher").innerHTML = "선생님별";
+          thisPage.querySelector(".middleDay").classList.add("hide");
+          thisPage.querySelector(".middleTeacher").classList.remove("hide");
+        } else {
+          document.querySelector(".btnDayandTeacher").innerHTML = "요일별";
+          thisPage.querySelector(".middleDay").classList.remove("hide");
+          thisPage.querySelector(".middleTeacher").classList.add("hide");
+        }
+
+        ///////////////////선생님별 테이블 만들기(1)!!!!!!!!!!!!!!!!!!!!!!!
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
+        for (let i = 0; i < numOfTeachers; i++) {
+          let teacherTable = document.createElement("div");
+          teacherTable.classList.add("teacherTable");
+
+          let cloneTimeColumn = thisPage.querySelector(".timeColumn").cloneNode(true);
+          teacherTable.appendChild(cloneTimeColumn);
+          thisPage.querySelector(".middleTeacher").appendChild(teacherTable);
+        }
+      }
+
+      /////////////////////////////////선생님 추가 함수(2)!!!!!!!!!!!!!!!!!!!!!!!!
+
       //Bottom: 페이지 추가버튼 클릭 시 '버튼 생성 및 페이지 생성'
       function addPageBtn() {
+        //새 버튼 추가
         let newPageBtn = document.createElement("button");
         newPageBtn.classList.add("btnAddedPage");
+        newPageBtn.setAttribute("btnNumber", document.querySelectorAll(".btnAddedPage").length);
+        newPageBtn.addEventListener("click", shiftPage);
         document.querySelector(".bottom").appendChild(newPageBtn);
 
-        let result = confirm("새로운 페이지를 만드시겠습니까?");
+        //새 페이지 추가
+        let result = confirm("새로운 페이지 생성: OK\n기존 페이지 복사: Cancel");
+        let clonePage;
+
+        clonePage = document.querySelectorAll(".middle")[thisPageNumber].cloneNode(true);
+        clonePage.setAttribute("pageNumber", document.querySelectorAll(".middle").length);
         if (result) {
-          //새 페이지 만들기
-          let clonePage = document.querySelectorAll(".middle")[thisPage].cloneNode(false);
-          clonePage.setAttribute("pageNumber", document.querySelectorAll(".middle").length);
-        } else {
-          //현재 페이지 복사하기
-          let clonePage = document.querySelectorAll(".middle")[thisPage].cloneNode(true);
-          clonePage.setAttribute("pageNumber", document.querySelectorAll(".middle").length);
+          for (let i = 0; i < clonePage.querySelectorAll(".textCell").length; i++) {
+            clonePage.querySelectorAll(".textCell")[i].value = "";
+          }
         }
-        //클론페이지 중간에 끼워넣기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        clonePage.classList.add("hide");
+        document.querySelector(".container").insertBefore(clonePage, document.querySelector(".container").children[2]);
+
+        //페이지 수 기억
+        numOfPages = document.querySelectorAll(".middle").length;
       }
 
       //Bottom: 페이지버튼 클릭 시 '페이지 전환'
-      function shiftPage() {}
+      function shiftPage() {
+        let thisBtnNumber = event.target.getAttribute("btnNumber");
+        for (let i = 0; i < numOfPages; i++) {
+          if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisBtnNumber) {
+            document.querySelectorAll(".middle")[i].classList.remove("hide");
+
+            //페이지 전환 후, 요일별vs선생님별 설정
+            thisPage = document.querySelectorAll(".middle")[i];
+            if (thisPage.querySelector(".middleTeacher").classList.contains("hide")) {
+              document.querySelector(".btnDayandTeacher").innerHTML = "요일별";
+            } else {
+              document.querySelector(".btnDayandTeacher").innerHTML = "선생님별";
+            }
+          } else {
+            document.querySelectorAll(".middle")[i].classList.add("hide");
+          }
+        }
+
+        //버튼에 색 주기
+        for (let i = 0; i < numOfPages; i++) {
+          document.querySelectorAll(".btnAddedPage")[i].classList.remove("btnClicked");
+        }
+        event.target.classList.add("btnClicked");
+
+        //페이지 번호 기억
+        thisPageNumber = parseInt(document.querySelector(".btnClicked").getAttribute("btnNumber"));
+      }
     </script>
   </body>
 </html>
