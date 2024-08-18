@@ -5,8 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TimeTable</title>
     <style>
-      div {
-        outline: 1px solid black;
+      input,
+      textarea {
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+        text-align: center;
+        line-height: 210%;
       }
       .container {
         height: 95vh;
@@ -63,9 +66,15 @@
         width: 14vh;
         display: flex;
         flex-direction: column;
+
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+        text-align: center;
+        line-height: 200%;
       }
+
       .cell {
         height: 3.7%;
+        outline: 1px solid black;
       }
       .textCell {
         height: 100%;
@@ -73,6 +82,12 @@
         resize: none;
         padding: 0;
         border: 0;
+      }
+      .teacherName {
+        background-color: rgb(192, 199, 204);
+        height: 100%;
+        width: 94%;
+        font-size: 100%;
       }
 
       .btnSave {
@@ -116,7 +131,7 @@
         <div class="middleDay">
           <div class="dayTable" day="0">
             <div class="timeColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">월</div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -145,7 +160,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -176,7 +191,7 @@
           </div>
           <div class="dayTable" day="1">
             <div class="timeColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">화</div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -205,7 +220,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -236,7 +251,7 @@
           </div>
           <div class="dayTable" day="2">
             <div class="timeColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">수</div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -265,7 +280,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -296,7 +311,7 @@
           </div>
           <div class="dayTable" day="3">
             <div class="timeColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">목</div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -325,7 +340,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -356,7 +371,7 @@
           </div>
           <div class="dayTable" day="4">
             <div class="timeColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">금</div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -385,7 +400,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -416,7 +431,7 @@
           </div>
           <div class="dayTable" day="5">
             <div class="timeColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">토</div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -445,7 +460,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -476,7 +491,7 @@
           </div>
           <div class="dayTable" day="6">
             <div class="timeColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">일</div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -505,7 +520,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -567,7 +582,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">월</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -596,7 +611,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">화</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -625,7 +640,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">수</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -654,7 +669,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">목</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -683,7 +698,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">금</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -712,7 +727,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">토</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -741,7 +756,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell">일</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -785,7 +800,10 @@
       let thisPage;
       let numOfPages = 1;
       let numOfTeachers;
-
+      let dataCell = {
+        pageNum: undefined,
+        tableNum: undefined,
+      };
       ////////함수 선언////////
       //Top: 저장버튼 클릭 시 '요일별-선생님별' 복사 (1:값, 2:셀정보)
       function saveData() {
@@ -826,6 +844,7 @@
           }
         }
       }
+
       //Top: 요일별버튼 클릭 시 '화면전환'
       function goToTeacherPage() {
         //thisPage 찾기
@@ -845,25 +864,6 @@
           thisPage.querySelector(".middleDay").classList.remove("hide");
           thisPage.querySelector(".middleTeacher").classList.add("hide");
         }
-
-        //선생님별 테이블 만들고 열 복사
-        // numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
-        // if (thisPage.querySelector(".middleTeacher").children.length == 0) {
-        //   for (let i = 0; i < numOfTeachers; i++) {
-        //     let teacherTable = document.createElement("div");
-        //     teacherTable.classList.add("teacherTable");
-
-        //     let cloneTimeColumn = thisPage.querySelector(".timeColumn").cloneNode(true);
-        //     teacherTable.appendChild(cloneTimeColumn);
-
-        //     thisPage.querySelector(".middleTeacher").appendChild(teacherTable);
-
-        //     for (let j = 0; j < 7; j++) {
-        //       let cloneTeacherColumn = thisPage.querySelectorAll(".dayTable")[j].querySelectorAll(".teacherColumn")[i].cloneNode(true);
-        //       thisPage.querySelectorAll(".teacherTable")[i].appendChild(cloneTeacherColumn);
-        //     }
-        //   }
-        // }
       }
 
       //Top: 선생님 추가버튼 클릭 시
@@ -887,11 +887,26 @@
         //선생님별: 테이블 1개씩 추가하기
         let cloneTeacherTable = thisPage.querySelector(".teacherTable").cloneNode(true);
         for (let i = 0; i < cloneTeacherTable.querySelectorAll(".textCell").length; i++) {
-          cloneTeacherTable.querySelectorAll(".textCell").value = "";
+          cloneTeacherTable.querySelectorAll(".textCell")[i].value = "";
         }
         thisPage.querySelector(".middleTeacher").appendChild(cloneTeacherTable);
       }
-
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //middle: 선생님 이름칸 클릭 시 이름 변경
+      function nameTeacher(div) {
+        if (div.children.length == 0) {
+          let inputTeacherName = document.createElement("input");
+          inputTeacherName.classList.add("teacherName");
+          div.appendChild(inputTeacherName);
+          inputTeacherName.focus();
+        }
+        ///////////////선생님 이름 한번에 요일 전부 복사하기(1), 요일별-선생님별에 복사하기(2)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+        // let index = Array.prototype.indexOf.call(div.parentNode.parentNode.children, div.parentNode) - 1;
+        // for (let i = 0; i < 7; i++) {
+        //   thisPage.querySelectorAll(".dayTable")[i].querySelectorAll('.teacherColumn')[index].querySelector('.firstCell').
+        // }
+      }
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       //Bottom: 페이지 추가버튼 클릭 시 '버튼 생성 및 페이지 생성'
       function addPageBtn() {
         //새 버튼 추가
