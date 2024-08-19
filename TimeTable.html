@@ -37,7 +37,6 @@
         width: 100%;
         height: 92%;
         display: flex;
-        flex-direction: row;
       }
       .middleTeacher {
         width: 100%;
@@ -85,7 +84,7 @@
       }
       .teacherName {
         background-color: rgb(192, 199, 204);
-        height: 100%;
+        height: 94%;
         width: 94%;
         font-size: 100%;
       }
@@ -160,7 +159,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -220,7 +219,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -280,7 +279,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -340,7 +339,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -400,7 +399,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -460,7 +459,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -520,7 +519,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn">
-              <div class="cell firstCell" onclick="nameTeacher(this)"></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -553,7 +552,7 @@
         <div class="middleTeacher hide">
           <div class="teacherTable">
             <div class="timeColumn">
-              <div class="cell firstCell"></div>
+              <div class="cell firstCell"><input class="teacherName" /></div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -892,20 +891,34 @@
         thisPage.querySelector(".middleTeacher").appendChild(cloneTeacherTable);
       }
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       //middle: 선생님 이름칸 클릭 시 이름 변경
       function nameTeacher(div) {
-        if (div.children.length == 0) {
-          let inputTeacherName = document.createElement("input");
-          inputTeacherName.classList.add("teacherName");
-          div.appendChild(inputTeacherName);
-          inputTeacherName.focus();
+        //thisPage 찾기
+        for (let i = 0; i < numOfPages; i++) {
+          if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisPageNumber) {
+            thisPage = document.querySelectorAll(".middle")[i];
+            break;
+          }
         }
-        ///////////////선생님 이름 한번에 요일 전부 복사하기(1), 요일별-선생님별에 복사하기(2)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+
+        let thisTeacherName = div.querySelector(".teacherName");
+        thisTeacherName.addEventListener("keydown", function (event) {
+          if (event.key == "Enter") {
+            let index = Array.prototype.indexOf.call(div.parentNode.parentNode.children, div.parentNode) - 1;
+            for (let i = 0; i < 7; i++) {
+              thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[index].querySelector(".teacherName").value = thisTeacherName.value;
+            }
+          }
+        });
+
+        ///////////////선생님별 테이블에서 시간col 넓이(1), 요일별-선생님별에 복사하기(2)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         // let index = Array.prototype.indexOf.call(div.parentNode.parentNode.children, div.parentNode) - 1;
         // for (let i = 0; i < 7; i++) {
         //   thisPage.querySelectorAll(".dayTable")[i].querySelectorAll('.teacherColumn')[index].querySelector('.firstCell').
         // }
       }
+      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       //Bottom: 페이지 추가버튼 클릭 시 '버튼 생성 및 페이지 생성'
       function addPageBtn() {
