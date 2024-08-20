@@ -9,7 +9,9 @@
       textarea {
         font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
         text-align: center;
+        overflow: hidden;
         line-height: 210%;
+        vertical-align: top;
       }
       .container {
         height: 95vh;
@@ -29,7 +31,7 @@
       }
       .bottom {
         width: 100%;
-        height: 4%;
+        height: 4vh;
         display: flex;
         position: fixed;
       }
@@ -44,13 +46,17 @@
         display: flex;
       }
 
-      .dayTable,
-      .teacherTable {
+      .dayTable {
         height: 100%;
-        border: 1.5px solid black;
+        outline: 1px solid black;
         display: flex;
       }
-      .timeColumn {
+      .teacherTable {
+        height: 100%;
+        outline: 1px solid black;
+        display: flex;
+      }
+      .dayTable .timeColumn {
         height: 100%;
         min-width: 10vh;
         display: flex;
@@ -60,7 +66,27 @@
         text-align: center;
         line-height: 200%;
       }
-      .teacherColumn {
+      .dayTable .teacherColumn {
+        height: 100%;
+        width: 14vh;
+        display: flex;
+        flex-direction: column;
+
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+        text-align: center;
+        line-height: 200%;
+      }
+      .teacherTable .timeColumn {
+        height: 100%;
+        width: 10vh;
+        display: flex;
+        flex-direction: column;
+
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+        text-align: center;
+        line-height: 200%;
+      }
+      .teacherTable .teacherColumn {
         height: 100%;
         width: 14vh;
         display: flex;
@@ -83,10 +109,12 @@
         border: 0;
       }
       .teacherName {
-        background-color: rgb(192, 199, 204);
-        height: 94%;
-        width: 94%;
+        height: 100%;
+        width: 100%;
+        border: 0;
+        padding: 0;
         font-size: 100%;
+        background-color: rgb(223, 227, 230);
       }
 
       .btnSave {
@@ -97,7 +125,9 @@
         width: 10%;
         height: 100%;
       }
-      .btnAddTeacher {
+      .btnAddTeacher,
+      .btnDeleteTeacher,
+      .btnDeletePage {
         width: 10%;
         height: 100%;
       }
@@ -114,6 +144,9 @@
         background-color: rgb(180, 176, 176);
       }
 
+      .redBorder {
+        border: 3px dotted red;
+      }
       .hide {
         display: none;
       }
@@ -125,6 +158,8 @@
         <button class="btnSave" onclick="saveData()">저장</button>
         <button class="btnDayandTeacher" onclick="goToTeacherPage()">요일별</button>
         <button class="btnAddTeacher" onclick="addTeacher()">선생님 추가</button>
+        <button class="btnDeleteTeacher" onclick="deleteTeacher()">선생님 삭제</button>
+        <button class="btnDeletePage" onclick="deletePage()">페이지 삭제</button>
       </div>
       <div class="middle" pageNumber="0">
         <div class="middleDay">
@@ -552,7 +587,7 @@
         <div class="middleTeacher hide">
           <div class="teacherTable">
             <div class="timeColumn">
-              <div class="cell firstCell"><input class="teacherName" /></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -816,9 +851,18 @@
         //numOfTeachers 찾기
         numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
 
-        //값 복사
         if (thisPage.querySelector(".middleDay").classList.contains("hide")) {
           //선생님별 -> 요일별
+          //선생님 이름 복사
+          for (let j = 0; j < numOfTeachers; j++) {
+            for (let i = 0; i < 7; i++) {
+              thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherName")[j].value = thisPage
+                .querySelectorAll(".teacherTable")
+                [j].querySelector(".teacherName").value;
+            }
+          }
+
+          //셀 값 복사 ++ 정보 복사(****)
           for (let i = 0; i < 7; i++) {
             for (let j = 0; j < numOfTeachers; j++) {
               for (let k = 0; k < 26; k++) {
@@ -831,6 +875,12 @@
           }
         } else {
           //요일별 -> 선생님별
+          //선생님 이름 복사
+          for (let i = 0; i < numOfTeachers; i++) {
+            thisPage.querySelectorAll(".teacherTable")[i].querySelector(".teacherName").value = thisPage.querySelector(".dayTable").querySelectorAll(".teacherName")[i].value;
+          }
+
+          //셀 값 복사
           for (let i = 0; i < 7; i++) {
             for (let j = 0; j < numOfTeachers; j++) {
               for (let k = 0; k < 26; k++) {
@@ -879,6 +929,7 @@
           let cloneTeacherColumn = thisPage.querySelector(".teacherColumn").cloneNode(true);
           for (let j = 0; j < cloneTeacherColumn.querySelectorAll(".textCell").length; j++) {
             cloneTeacherColumn.querySelectorAll(".textCell")[j].value = "";
+            cloneTeacherColumn.querySelector(".teacherName").value = "";
           }
           thisPage.querySelectorAll(".dayTable")[i].appendChild(cloneTeacherColumn);
         }
@@ -887,8 +938,73 @@
         let cloneTeacherTable = thisPage.querySelector(".teacherTable").cloneNode(true);
         for (let i = 0; i < cloneTeacherTable.querySelectorAll(".textCell").length; i++) {
           cloneTeacherTable.querySelectorAll(".textCell")[i].value = "";
+          cloneTeacherTable.querySelector(".teacherName").value = "";
         }
         thisPage.querySelector(".middleTeacher").appendChild(cloneTeacherTable);
+      }
+
+      //Top: 선생님 삭제버튼 클릭 시
+      function deleteTeacher() {
+        //thisPage 찾기
+        for (let i = 0; i < numOfPages; i++) {
+          if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisPageNumber) {
+            thisPage = document.querySelectorAll(".middle")[i];
+            break;
+          }
+        }
+        //numOfTeachers 찾기
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
+
+        //선생님 삭제버튼 클릭되어있을 때 클릭한 경우
+        if (event.target.classList.contains("btnClicked")) {
+          event.target.classList.remove("btnClicked");
+
+          //화면이 middleDay
+          if (thisPage.querySelector(".middleTeacher").classList.contains("hide")) {
+            for (let i = 0; i < thisPage.querySelector(".middleDay").querySelectorAll(".teacherColumn").length; i++) {
+              thisPage.querySelector(".middleDay").querySelectorAll(".teacherColumn")[i].classList.remove("redBorder");
+            }
+            //화면이 middleTeacher
+          } else {
+            for (let i = 0; i < thisPage.querySelector(".middleTeacher").querySelectorAll(".timeColumn").length; i++) {
+              thisPage.querySelector(".middleTeacher").querySelectorAll(".timeColumn")[i].classList.remove("redBorder");
+            }
+          }
+          //버튼 활성화
+          for (let i = 0; i < thisPage.parentNode.querySelectorAll("button").length; i++) {
+            if (thisPage.parentNode.querySelectorAll("button")[i].classList.contains("btnDeleteTeacher")) {
+            } else {
+              thisPage.parentNode.querySelectorAll("button")[i].disabled = false;
+            }
+          }
+          //이벤트리스너 제거(2)
+        } else {
+          //선생님 삭제버튼 클릭안되어있을 때 클릭한 경우
+          event.target.classList.add("btnClicked");
+
+          //화면이 middleDay
+          if (thisPage.querySelector(".middleTeacher").classList.contains("hide")) {
+            for (let i = 0; i < thisPage.querySelector(".middleDay").querySelectorAll(".teacherColumn").length; i++) {
+              thisPage.querySelector(".middleDay").querySelectorAll(".teacherColumn")[i].classList.add("redBorder");
+            }
+            //화면이 middleTeacher
+          } else {
+            for (let i = 0; i < thisPage.querySelector(".middleTeacher").querySelectorAll(".timeColumn").length; i++) {
+              thisPage.querySelector(".middleTeacher").querySelectorAll(".timeColumn")[i].classList.add("redBorder");
+            }
+          }
+          //버튼 비활성화
+          for (let i = 0; i < thisPage.parentNode.querySelectorAll("button").length; i++) {
+            if (thisPage.parentNode.querySelectorAll("button")[i].classList.contains("btnDeleteTeacher")) {
+            } else {
+              thisPage.parentNode.querySelectorAll("button")[i].disabled = true;
+            }
+          }
+
+          //함수 추가(1)
+
+          //이벤트리스너 추가(1)
+        }
       }
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -902,21 +1018,20 @@
           }
         }
 
+        //선생님 이름 모든 열에 복사
         let thisTeacherName = div.querySelector(".teacherName");
         thisTeacherName.addEventListener("keydown", function (event) {
-          if (event.key == "Enter") {
-            let index = Array.prototype.indexOf.call(div.parentNode.parentNode.children, div.parentNode) - 1;
-            for (let i = 0; i < 7; i++) {
-              thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[index].querySelector(".teacherName").value = thisTeacherName.value;
+          if (event.key == "Enter" || event.key == "Tab") {
+            if (thisPage.querySelector(".middleTeacher").classList.contains("hide")) {
+              let index = Array.prototype.indexOf.call(div.parentNode.parentNode.children, div.parentNode) - 1;
+              for (let i = 0; i < 7; i++) {
+                thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[index].querySelector(".teacherName").value = thisTeacherName.value;
+              }
             }
+            //focus없애기
+            this.blur();
           }
         });
-
-        ///////////////선생님별 테이블에서 시간col 넓이(1), 요일별-선생님별에 복사하기(2)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        // let index = Array.prototype.indexOf.call(div.parentNode.parentNode.children, div.parentNode) - 1;
-        // for (let i = 0; i < 7; i++) {
-        //   thisPage.querySelectorAll(".dayTable")[i].querySelectorAll('.teacherColumn')[index].querySelector('.firstCell').
-        // }
       }
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
