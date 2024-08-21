@@ -132,7 +132,8 @@
         height: 100%;
       }
 
-      .btnAddPage {
+      .btnAddPage,
+      .btnDeletePage {
         width: 2.5%;
         height: 100%;
       }
@@ -159,7 +160,6 @@
         <button class="btnDayandTeacher" onclick="goToTeacherPage()">요일별</button>
         <button class="btnAddTeacher" onclick="addTeacher()">선생님 추가</button>
         <button class="btnDeleteTeacher" onclick="deleteTeacher()">선생님 삭제</button>
-        <button class="btnDeletePage" onclick="deletePage()">페이지 삭제</button>
       </div>
       <div class="middle" pageNumber="0">
         <div class="middleDay">
@@ -824,33 +824,43 @@
       <div class="bottom">
         <button class="btnAddPage" onclick="addPageBtn()">+</button>
         <button class="btnAddedPage btnClicked" btnNumber="0" onclick="shiftPage()"></button>
+        <button class="btnDeletePage" onclick="deletePage()">X</button>
       </div>
     </div>
     <script>
       //셀움직일때는 textCell 개수로 +21씩 움직여야할 듯
 
       ////////변수 선언////////
-      let thisPageNumber = parseInt(document.querySelector(".btnClicked").getAttribute("btnNumber"));
+      let pageIndex;
       let thisPage;
-      let numOfPages = 1;
+      let thisPageBtn;
+      let numOfPages;
       let numOfTeachers;
       let dataCell = {
         pageNum: undefined,
         tableNum: undefined,
       };
       ////////함수 선언////////
+      //기본 페이지 정보 선언 및 변경 함수
+      function findThisPage() {
+        for (let i = 0; i < document.querySelectorAll(".btnAddedPage").length; i++) {
+          if (document.querySelectorAll(".btnAddedPage")[i].classList.contains("btnClicked")) {
+            thisPageBtn = document.querySelectorAll(".btnAddedPage")[i];
+            pageIndex = Array.prototype.indexOf.call(thisPageBtn.parentNode.children, thisPageBtn) - 1;
+          }
+          thisPage = document.querySelectorAll(".middle")[pageIndex];
+        }
+        numOfPages = document.querySelectorAll(".middle").length;
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
+        console.log("pageIndex: " + pageIndex);
+        console.log("numOfPages: " + numOfPages);
+        console.log("numOfTeachers: " + numOfTeachers);
+        console.log(thisPage);
+      }
+
       //Top: 저장버튼 클릭 시 '요일별-선생님별' 복사 (1:값, 2:셀정보)
       function saveData() {
-        //thisPage 찾기
-        for (let i = 0; i < numOfPages; i++) {
-          if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisPageNumber) {
-            thisPage = document.querySelectorAll(".middle")[i];
-            break;
-          }
-        }
-        //numOfTeachers 찾기
-        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
-
+        findThisPage();
         if (thisPage.querySelector(".middleDay").classList.contains("hide")) {
           //선생님별 -> 요일별
           //선생님 이름 복사
@@ -896,13 +906,7 @@
 
       //Top: 요일별버튼 클릭 시 '화면전환'
       function goToTeacherPage() {
-        //thisPage 찾기
-        for (let i = 0; i < numOfPages; i++) {
-          if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisPageNumber) {
-            thisPage = document.querySelectorAll(".middle")[i];
-            break;
-          }
-        }
+        findThisPage();
         //화면전환
         if (thisPage.querySelector(".middleTeacher").classList.contains("hide")) {
           document.querySelector(".btnDayandTeacher").innerHTML = "선생님별";
@@ -917,13 +921,7 @@
 
       //Top: 선생님 추가버튼 클릭 시
       function addTeacher() {
-        //thisPage 찾기
-        for (let i = 0; i < numOfPages; i++) {
-          if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisPageNumber) {
-            thisPage = document.querySelectorAll(".middle")[i];
-            break;
-          }
-        }
+        findThisPage();
         //요일별: 1열을 복사하여 각 테이블에 붙이기
         for (let i = 0; i < 7; i++) {
           let cloneTeacherColumn = thisPage.querySelector(".teacherColumn").cloneNode(true);
@@ -945,20 +943,10 @@
 
       //Top: 선생님 삭제버튼 클릭 시
       function deleteTeacher() {
-        //thisPage 찾기
-        for (let i = 0; i < numOfPages; i++) {
-          if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisPageNumber) {
-            thisPage = document.querySelectorAll(".middle")[i];
-            break;
-          }
-        }
-        //numOfTeachers 찾기
-        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
-
+        findThisPage();
         //선생님 삭제버튼 클릭되어있을 때 클릭한 경우
         if (event.target.classList.contains("btnClicked")) {
           event.target.classList.remove("btnClicked");
-
           //화면이 middleDay
           if (thisPage.querySelector(".middleTeacher").classList.contains("hide")) {
             for (let i = 0; i < thisPage.querySelector(".middleDay").querySelectorAll(".teacherColumn").length; i++) {
@@ -977,7 +965,13 @@
               thisPage.parentNode.querySelectorAll("button")[i].disabled = false;
             }
           }
-          //이벤트리스너 제거(2)
+          //이벤트리스너 제거
+          for (let i = 0; i < thisPage.querySelector(".middleDay").querySelectorAll(".teacherColumn").length; i++) {
+            thisPage.querySelector(".middleDay").querySelectorAll(".teacherColumn")[i].removeEventListener("click", executeDelete);
+          }
+          for (let i = 0; i < thisPage.querySelector(".middleTeacher").querySelectorAll(".timeColumn").length; i++) {
+            thisPage.querySelector(".middleTeacher").querySelectorAll(".timeColumn")[i].removeEventListener("click", executeDelete2);
+          }
         } else {
           //선생님 삭제버튼 클릭안되어있을 때 클릭한 경우
           event.target.classList.add("btnClicked");
@@ -1000,24 +994,44 @@
               thisPage.parentNode.querySelectorAll("button")[i].disabled = true;
             }
           }
+          //이벤트리스너 추가
+          for (let i = 0; i < thisPage.querySelector(".middleDay").querySelectorAll(".teacherColumn").length; i++) {
+            thisPage.querySelector(".middleDay").querySelectorAll(".teacherColumn")[i].addEventListener("click", executeDelete);
+          }
+          for (let i = 0; i < thisPage.querySelector(".middleTeacher").querySelectorAll(".timeColumn").length; i++) {
+            thisPage.querySelector(".middleTeacher").querySelectorAll(".timeColumn")[i].addEventListener("click", executeDelete2);
+          }
+        }
+      }
 
-          //함수 추가(1)
+      //deleteTeacher의 하위함수: middleDay에서 선생님 삭제
+      function executeDelete(event) {
+        let index = Array.prototype.indexOf.call(event.target.parentNode.parentNode.parentNode.children, event.target.parentNode.parentNode) - 1;
+        if (numOfTeachers > 1) {
+          for (let i = 0; i < 7; i++) {
+            thisPage.querySelector(".middleDay").querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[index].remove();
+          }
+          thisPage.querySelector(".middleTeacher").querySelectorAll(".teacherTable")[index].remove();
+        }
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
+      }
 
-          //이벤트리스너 추가(1)
+      //deleteTeacher의 하위함수: middleTeacher에서 선생님 삭제
+      function executeDelete2(event) {
+        let index = Array.prototype.indexOf.call(event.target.parentNode.parentNode.parentNode.children, event.target.parentNode.parentNode);
+        if (numOfTeachers > 1) {
+          thisPage.querySelector(".middleTeacher").querySelectorAll(".teacherTable")[index].remove();
+          for (let i = 0; i < 7; i++) {
+            thisPage.querySelector(".middleDay").querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[index].remove();
+          }
+          numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
         }
       }
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       //middle: 선생님 이름칸 클릭 시 이름 변경
       function nameTeacher(div) {
-        //thisPage 찾기
-        for (let i = 0; i < numOfPages; i++) {
-          if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisPageNumber) {
-            thisPage = document.querySelectorAll(".middle")[i];
-            break;
-          }
-        }
-
+        findThisPage();
         //선생님 이름 모든 열에 복사
         let thisTeacherName = div.querySelector(".teacherName");
         thisTeacherName.addEventListener("keydown", function (event) {
@@ -1037,17 +1051,18 @@
       ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       //Bottom: 페이지 추가버튼 클릭 시 '버튼 생성 및 페이지 생성'
       function addPageBtn() {
+        findThisPage();
         //새 버튼 추가
         let newPageBtn = document.createElement("button");
         newPageBtn.classList.add("btnAddedPage");
         newPageBtn.setAttribute("btnNumber", document.querySelectorAll(".btnAddedPage").length);
         newPageBtn.addEventListener("click", shiftPage);
-        document.querySelector(".bottom").appendChild(newPageBtn);
+        document.querySelector(".bottom").insertBefore(newPageBtn, document.querySelector(".btnDeletePage"));
 
         //새 페이지 추가
         let result = confirm("새로운 페이지 생성: OK\n기존 페이지 복사: Cancel");
         let clonePage;
-        clonePage = document.querySelectorAll(".middle")[thisPageNumber].cloneNode(true);
+        clonePage = document.querySelectorAll(".middle")[pageIndex].cloneNode(true);
         clonePage.setAttribute("pageNumber", document.querySelectorAll(".middle").length);
         if (result) {
           for (let i = 0; i < clonePage.querySelectorAll(".textCell").length; i++) {
@@ -1063,6 +1078,7 @@
 
       //Bottom: 페이지버튼 클릭 시 '페이지 전환'
       function shiftPage() {
+        // findThisPage();
         let thisBtnNumber = event.target.getAttribute("btnNumber");
         for (let i = 0; i < numOfPages; i++) {
           if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisBtnNumber) {
@@ -1086,9 +1102,21 @@
         }
         event.target.classList.add("btnClicked");
 
-        //페이지 번호 기억
-        thisPageNumber = parseInt(document.querySelector(".btnClicked").getAttribute("btnNumber"));
+        findThisPage();
       }
+
+      // function deletePage() {
+
+      //   if (numOfPages > 1) {
+      //     thisPage.remove();
+      //     document.querySelectorAll(".middle")[0].classList.remove("hide");
+
+      //     thisPageBtn.remove();
+      //     document.querySelectorAll(".btnAddedPage")[0].classList.add("btnClicked");
+
+      //     findThisPage();
+      //   }
+      // }
     </script>
   </body>
 </html>
