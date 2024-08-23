@@ -145,6 +145,18 @@
         background-color: rgb(180, 176, 176);
       }
 
+      .namingInput {
+        background-color: inherit;
+        border: 0;
+        width: 90%;
+        height: 90%;
+      }
+
+      .namingInput:focus {
+        border: none;
+        outline: none;
+      }
+
       .redBorder {
         border: 3px dotted red;
       }
@@ -161,9 +173,10 @@
         <button class="btnAddTeacher" onclick="addTeacher()">선생님 추가</button>
         <button class="btnDeleteTeacher" onclick="deleteTeacher()">선생님 삭제</button>
       </div>
-      <div class="middle" pageNumber="0">
+      <div class="middle">
         <div class="middleDay">
           <div class="dayTable" day="0">
+            //여기에 셀 함수 1.이동 2.ctrl이동 3.shift이동 4.병합 5.해제 6.복사 7.잘라내기 8.붙여넣기
             <div class="timeColumn">
               <div class="cell firstCell">월</div>
               <div class="cell">11:00-11:30</div>
@@ -193,7 +206,7 @@
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -253,7 +266,7 @@
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -313,7 +326,7 @@
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -373,7 +386,7 @@
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -433,7 +446,7 @@
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -493,7 +506,7 @@
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -553,7 +566,7 @@
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -615,7 +628,7 @@
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell">월</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -644,7 +657,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell">화</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -673,7 +686,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell">수</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -702,7 +715,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell">목</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -731,7 +744,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell">금</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -760,7 +773,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell">토</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -789,7 +802,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
-            <div class="teacherColumn">
+            <div class="teacherColumn" onkeydown="moveCell(this)">
               <div class="cell firstCell">일</div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -823,7 +836,7 @@
       </div>
       <div class="bottom">
         <button class="btnAddPage" onclick="addPageBtn()">+</button>
-        <button class="btnAddedPage btnClicked" btnNumber="0" onclick="shiftPage()"></button>
+        <button class="btnAddedPage btnClicked" onclick="shiftPage()" ondblclick="pageBtnNaming(this)"></button>
         <button class="btnDeletePage" onclick="deletePage()">X</button>
       </div>
     </div>
@@ -840,6 +853,12 @@
         pageNum: undefined,
         tableNum: undefined,
       };
+
+      let currentCell;
+      let currentRow;
+      let cellRow;
+      let cellCol;
+
       ////////함수 선언////////
       //기본 페이지 정보 선언 및 변경 함수
       function findThisPage() {
@@ -852,10 +871,46 @@
         }
         numOfPages = document.querySelectorAll(".middle").length;
         numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
-        console.log("pageIndex: " + pageIndex);
-        console.log("numOfPages: " + numOfPages);
-        console.log("numOfTeachers: " + numOfTeachers);
-        console.log(thisPage);
+        // console.log("pageIndex: " + pageIndex);
+        // console.log("numOfPages: " + numOfPages);
+        // console.log("numOfTeachers: " + numOfTeachers);
+        // console.log(thisPage);
+      }
+
+      //셀 이동함수!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      function moveCell(div) {
+        currentCell = document.activeElement;
+        currentRow = document.activeElement.parentNode.parentNode;
+        cellRow = Array.prototype.indexOf.call(div.children, currentCell.parentNode) - 1;
+        cellCol = Array.prototype.indexOf.call(div.parentNode.children, div) - 1;
+        // event.preventDefault();
+
+        if (event.key == "ArrowUp") {
+          if (cellRow > 0) {
+            cellRow--;
+            currentCell.blur();
+            currentRow.querySelectorAll(".textCell")[cellRow].focus();
+          }
+        } else if (event.key == "ArrowDown") {
+          if (cellRow < 25) {
+            cellRow++;
+            currentCell.blur();
+            currentRow.querySelectorAll(".textCell")[cellRow].focus();
+          }
+        } else if (event.key == "ArrowLeft") {
+          if (cellCol > 0) {
+            cellCol--;
+            currentCell.blur();
+            currentRow.parentNode.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].focus();
+          }
+        } else if (event.key == "ArrowRight") {
+          if (cellCol < currentRow.parentNode.children.length - 2) {
+            cellCol++;
+            currentCell.blur();
+            currentRow.parentNode.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].focus();
+          }
+        }
+        // console.log("(" + cellRow + "," + cellCol + ")");
       }
 
       //Top: 저장버튼 클릭 시 '요일별-선생님별' 복사 (1:값, 2:셀정보)
@@ -939,6 +994,8 @@
           cloneTeacherTable.querySelector(".teacherName").value = "";
         }
         thisPage.querySelector(".middleTeacher").appendChild(cloneTeacherTable);
+
+        findThisPage();
       }
 
       //Top: 선생님 삭제버튼 클릭 시
@@ -1055,7 +1112,8 @@
         //새 버튼 추가
         let newPageBtn = document.createElement("button");
         newPageBtn.classList.add("btnAddedPage");
-        newPageBtn.setAttribute("btnNumber", document.querySelectorAll(".btnAddedPage").length);
+        newPageBtn.addEventListener("dblclick", pageBtnNaming);
+
         newPageBtn.addEventListener("click", shiftPage);
         document.querySelector(".bottom").insertBefore(newPageBtn, document.querySelector(".btnDeletePage"));
 
@@ -1063,7 +1121,6 @@
         let result = confirm("새로운 페이지 생성: OK\n기존 페이지 복사: Cancel");
         let clonePage;
         clonePage = document.querySelectorAll(".middle")[pageIndex].cloneNode(true);
-        clonePage.setAttribute("pageNumber", document.querySelectorAll(".middle").length);
         if (result) {
           for (let i = 0; i < clonePage.querySelectorAll(".textCell").length; i++) {
             clonePage.querySelectorAll(".textCell")[i].value = "";
@@ -1078,45 +1135,62 @@
 
       //Bottom: 페이지버튼 클릭 시 '페이지 전환'
       function shiftPage() {
-        // findThisPage();
-        let thisBtnNumber = event.target.getAttribute("btnNumber");
-        for (let i = 0; i < numOfPages; i++) {
-          if (document.querySelectorAll(".middle")[i].getAttribute("pageNumber") == thisBtnNumber) {
-            document.querySelectorAll(".middle")[i].classList.remove("hide");
+        findThisPage();
+        thisPage.classList.add("hide");
+        thisPageBtn.classList.remove("btnClicked");
+        event.target.classList.add("btnClicked");
+        findThisPage();
 
-            //페이지 전환 후, 요일별vs선생님별 설정
-            thisPage = document.querySelectorAll(".middle")[i];
-            if (thisPage.querySelector(".middleTeacher").classList.contains("hide")) {
-              document.querySelector(".btnDayandTeacher").innerHTML = "요일별";
-            } else {
-              document.querySelector(".btnDayandTeacher").innerHTML = "선생님별";
-            }
-          } else {
-            document.querySelectorAll(".middle")[i].classList.add("hide");
+        thisPage.classList.remove("hide");
+
+        //페이지 전환 후, 요일별vs선생님별 설정
+        if (thisPage.querySelector(".middleTeacher").classList.contains("hide")) {
+          document.querySelector(".btnDayandTeacher").innerHTML = "요일별";
+        } else {
+          document.querySelector(".btnDayandTeacher").innerHTML = "선생님별";
+        }
+      }
+
+      //Bottom: 페이지 삭제 함수
+      function deletePage() {
+        findThisPage();
+
+        if (numOfPages > 1) {
+          //삭제여부 확인
+          let result = confirm("정말로 페이지를 삭제하시겠습니까?");
+          if (result) {
+            thisPage.remove();
+            document.querySelectorAll(".middle")[0].classList.remove("hide");
+
+            thisPageBtn.remove();
+            document.querySelectorAll(".btnAddedPage")[0].classList.add("btnClicked");
           }
         }
-
-        //버튼에 색 주기
-        for (let i = 0; i < numOfPages; i++) {
-          document.querySelectorAll(".btnAddedPage")[i].classList.remove("btnClicked");
-        }
-        event.target.classList.add("btnClicked");
-
         findThisPage();
       }
 
-      // function deletePage() {
+      //Bottom: 페이지 이름 변경 함수
+      function pageBtnNaming() {
+        findThisPage();
+        let button = thisPageBtn;
+        if (button.innerHTML != "") {
+          button.innerHTML = "";
+        }
+        let tempInput = document.createElement("input");
+        tempInput.classList.add("namingInput");
+        button.appendChild(tempInput);
+        tempInput.focus();
+        tempInput.addEventListener("keydown", function (event) {
+          if (event.key == "Enter" || event.key == "Tab") {
+            tempInput.remove();
+          }
+        });
 
-      //   if (numOfPages > 1) {
-      //     thisPage.remove();
-      //     document.querySelectorAll(".middle")[0].classList.remove("hide");
-
-      //     thisPageBtn.remove();
-      //     document.querySelectorAll(".btnAddedPage")[0].classList.add("btnClicked");
-
-      //     findThisPage();
-      //   }
-      // }
+        tempInput.addEventListener("blur", function () {
+          button.innerHTML = tempInput.value;
+          tempInput.remove();
+        });
+      }
     </script>
   </body>
 </html>
