@@ -868,6 +868,7 @@
       let cellCol;
       let shadowRow = 0;
       let shadowCol = 0;
+      let shadowCell;
       ////////함수 선언////////
       //기본 페이지 정보 선언 및 변경 함수
       function findThisPage() {
@@ -887,7 +888,7 @@
       }
 
       //셀 이동함수!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      ///////////////쉬프트누를때 원래자리와 이동한자리가 따로 놀아야함!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      ///////////////Ctrl+shift 방향키를 shift방향키보고 참고해서 완성할것
       function moveCell(div) {
         currentCell = document.activeElement;
         currentRow = document.activeElement.parentNode.parentNode;
@@ -899,35 +900,11 @@
         let downCell = cellRow < 25 ? currentRow.querySelectorAll(".textCell")[cellRow + 1] : null;
         let leftCell = cellCol > 0 ? currentTable.querySelectorAll(".teacherColumn")[cellCol - 1].querySelectorAll(".textCell")[cellRow] : null;
         let rightCell = cellCol < currentTable.children.length - 2 ? currentTable.querySelectorAll(".teacherColumn")[cellCol + 1].querySelectorAll(".textCell")[cellRow] : null;
-        ///살짝 맛탱이 갔음/////////////////////////////////////////////////////////////////////
         if (event.ctrlKey && event.shiftKey) {
           if (event.key == "ArrowUp") {
-            while (cellRow - shadowRow > -1 && currentRow.querySelectorAll(".textCell")[cellRow - shadowRow].value == "") {
-              currentCell.classList.add("cellClicked");
-              currentRow.querySelectorAll(".textCell")[cellRow - shadowRow].classList.add("cellClicked");
-              shadowRow++;
-            }
           } else if (event.key == "ArrowDown") {
-            while (cellRow + shadowRow < 26 && currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].value == "") {
-              currentCell.classList.add("cellClicked");
-              currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
-              shadowRow++;
-            }
           } else if (event.key == "ArrowLeft") {
-            while (cellCol - shadowCol > -1 && currentTable.querySelectorAll(".teacherColumn")[cellCol - shadowCol].querySelectorAll(".textCell")[cellRow].value == "") {
-              currentCell.classList.add("cellClicked");
-              currentTable.querySelectorAll(".teacherColumn")[cellCol - shadowCol].querySelectorAll(".textCell")[cellRow].classList.add("cellClicked");
-              shadowCol++;
-            }
           } else if (event.key == "ArrowRight") {
-            while (
-              cellCol + shadowCol < currentTable.children.length - 1 &&
-              currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].value == ""
-            ) {
-              currentCell.classList.add("cellClicked");
-              currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].classList.add("cellClicked");
-              shadowCol++;
-            }
           }
         } else if (event.ctrlKey) {
           if (event.key == "ArrowUp") {
@@ -954,28 +931,60 @@
           currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].focus();
         } else if (event.shiftKey) {
           if (event.key == "ArrowUp") {
-            if (cellRow - shadowRow > -1) {
-              currentCell.classList.add("cellClicked");
-              currentRow.querySelectorAll(".textCell")[cellRow - shadowRow].classList.add("cellClicked");
-              shadowRow++;
+            if (shadowRow <= 0) {
+              if (cellRow + shadowRow > -1) {
+                shadowRow--;
+                if (cellRow + shadowRow < 0) {
+                  shadowRow++;
+                }
+                currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                currentCell.classList.add("cellClicked");
+              }
+            } else {
+              shadowRow--;
+              currentRow.querySelectorAll(".textCell")[cellRow + shadowRow + 1].classList.remove("cellClicked");
             }
           } else if (event.key == "ArrowDown") {
-            if (cellRow - shadowRow < 26) {
-              currentCell.classList.add("cellClicked");
-              currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+            if (shadowRow >= 0) {
+              if (cellRow + shadowRow < 25) {
+                shadowRow++;
+                if (cellRow + shadowRow < 0) {
+                  shadowRow--;
+                }
+                currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                currentCell.classList.add("cellClicked");
+              }
+            } else {
               shadowRow++;
+              currentRow.querySelectorAll(".textCell")[cellRow + shadowRow - 1].classList.remove("cellClicked");
             }
           } else if (event.key == "ArrowLeft") {
-            if (cellCol - shadowCol > -1) {
-              currentCell.classList.add("cellClicked");
-              currentTable.querySelectorAll(".teacherColumn")[cellCol - shadowCol].querySelectorAll(".textCell")[cellRow].classList.add("cellClicked");
-              shadowCol++;
+            if (shadowCol <= 0) {
+              if (cellCol + shadowCol > -1) {
+                shadowCol--;
+                if (cellCol + shadowCol < 0) {
+                  shadowCol++;
+                }
+                currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].classList.add("cellClicked");
+                currentCell.classList.add("cellClicked");
+              }
+            } else {
+              shadowCol--;
+              currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol + 1].querySelectorAll(".textCell")[cellRow].classList.remove("cellClicked");
             }
           } else if (event.key == "ArrowRight") {
-            if (cellCol - shadowCol < currentTable.children.length - 1) {
-              currentCell.classList.add("cellClicked");
-              currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].classList.add("cellClicked");
+            if (shadowCol >= 0) {
+              if (cellCol + shadowCol < currentTable.querySelectorAll(".teacherColumn").length - 1) {
+                shadowCol++;
+                if (cellCol + shadowCol < 0) {
+                  shadowCol--;
+                }
+                currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].classList.add("cellClicked");
+                currentCell.classList.add("cellClicked");
+              }
+            } else {
               shadowCol++;
+              currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol - 1].querySelectorAll(".textCell")[cellRow].classList.remove("cellClicked");
             }
           }
         } else {
