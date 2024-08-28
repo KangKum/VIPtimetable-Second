@@ -885,7 +885,6 @@
       }
 
       //셀 이동함수!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      //병합셀 건너띄기;
       function moveCell(div) {
         currentCell = document.activeElement;
         currentRow = document.activeElement.parentNode.parentNode;
@@ -897,6 +896,7 @@
         let downCell = cellRow < 25 ? currentRow.querySelectorAll(".textCell")[cellRow + 1] : null;
         let leftCell = cellCol > 0 ? currentTable.querySelectorAll(".teacherColumn")[cellCol - 1].querySelectorAll(".textCell")[cellRow] : null;
         let rightCell = cellCol < currentTable.children.length - 2 ? currentTable.querySelectorAll(".teacherColumn")[cellCol + 1].querySelectorAll(".textCell")[cellRow] : null;
+
         if (event.ctrlKey && event.shiftKey) {
           if (event.key == "ArrowUp") {
             if (shadowCol == 0) {
@@ -1001,6 +1001,13 @@
               while (cellCol + shadowCol > 0) {
                 if (shadowCol <= 0) {
                   shadowCol--;
+                  if (
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.contains("hide") ||
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.contains("merged")
+                  ) {
+                    shadowCol++;
+                    break;
+                  }
                   currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
                   currentCell.classList.add("cellClicked");
                 } else {
@@ -1067,6 +1074,13 @@
               while (cellCol + shadowCol < currentTable.querySelectorAll(".teacherColumn").length - 1) {
                 if (shadowCol >= 0) {
                   shadowCol++;
+                  if (
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.contains("hide") ||
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.contains("merged")
+                  ) {
+                    shadowCol--;
+                    break;
+                  }
                   currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
                   currentCell.classList.add("cellClicked");
                 } else {
@@ -1180,8 +1194,11 @@
           if (event.key == "ArrowUp") {
             if (shadowCol == 0) {
               if (shadowRow <= 0) {
-                if (cellRow + shadowRow > -1) {
+                if (cellRow + shadowRow > 0) {
                   shadowRow--;
+                  while (currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.contains("hide")) {
+                    shadowRow--;
+                  }
                   if (cellRow + shadowRow < 0) {
                     shadowRow++;
                   }
@@ -1190,6 +1207,9 @@
                 }
               } else {
                 shadowRow--;
+                while (currentRow.querySelectorAll(".textCell")[cellRow + shadowRow + 1].parentNode.classList.contains("hide")) {
+                  shadowRow--;
+                }
                 currentRow.querySelectorAll(".textCell")[cellRow + shadowRow + 1].classList.remove("cellClicked");
               }
             } else {
@@ -1224,6 +1244,9 @@
               if (shadowRow >= 0) {
                 if (cellRow + shadowRow < 25) {
                   shadowRow++;
+                  while (currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.contains("hide")) {
+                    shadowRow++;
+                  }
                   if (cellRow + shadowRow < 0) {
                     shadowRow--;
                   }
@@ -1232,6 +1255,9 @@
                 }
               } else {
                 shadowRow++;
+                while (currentRow.querySelectorAll(".textCell")[cellRow + shadowRow - 1].parentNode.classList.contains("hide")) {
+                  shadowRow++;
+                }
                 currentRow.querySelectorAll(".textCell")[cellRow + shadowRow - 1].classList.remove("cellClicked");
               }
             } else {
@@ -1266,6 +1292,12 @@
               if (shadowCol <= 0) {
                 if (cellCol + shadowCol > -1) {
                   shadowCol--;
+                  if (
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide") ||
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("merged")
+                  ) {
+                    shadowCol++;
+                  }
                   if (cellCol + shadowCol < 0) {
                     shadowCol++;
                   }
@@ -1308,6 +1340,12 @@
               if (shadowCol >= 0) {
                 if (cellCol + shadowCol < currentTable.querySelectorAll(".teacherColumn").length - 1) {
                   shadowCol++;
+                  if (
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide") ||
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("merged")
+                  ) {
+                    shadowCol--;
+                  }
                   if (cellCol + shadowCol < 0) {
                     shadowCol--;
                   }
@@ -1350,18 +1388,30 @@
           if (event.key == "ArrowUp") {
             if (cellRow > 0) {
               cellRow--;
+              while (currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide")) {
+                cellRow--;
+              }
             }
           } else if (event.key == "ArrowDown") {
             if (cellRow < 25) {
               cellRow++;
+              while (currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide")) {
+                cellRow++;
+              }
             }
           } else if (event.key == "ArrowLeft") {
             if (cellCol > 0) {
               cellCol--;
+              while (currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide")) {
+                cellRow--;
+              }
             }
           } else if (event.key == "ArrowRight") {
             if (cellCol < currentTable.children.length - 2) {
               cellCol++;
+              while (currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide")) {
+                cellRow--;
+              }
             }
           }
           currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].focus();
@@ -1586,7 +1636,11 @@
             allClickedCell[0].parentNode.setAttribute("includingCell", allClickedCell.length);
             allClickedCell[0].focus();
           }
-          console.log(document.querySelectorAll(".cellClicked")[0]);
+        } else {
+          for (let i = 0; i < allClickedCell.length; i++) {
+            allClickedCell[i].classList.remove("cellClicked");
+          }
+          currentCell.focus();
         }
       }
 
