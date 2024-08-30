@@ -182,7 +182,7 @@
         <button class="btnDeleteTeacher" onclick="deleteTeacher()">선생님 삭제</button>
         <button class="btnMerge" onclick="mergeCell()">병합/해제</button>
       </div>
-      <div class="middle">
+      <div class="middle" onclick="noFocus()">
         <div class="middleDay">
           <div class="dayTable" day="0">
             //여기에 셀 함수 1.이동 2.ctrl이동 3.shift이동 4.병합 5.해제 6.복사 7.잘라내기 8.붙여넣기
@@ -216,7 +216,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -276,7 +276,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -336,7 +336,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -396,7 +396,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -456,7 +456,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -516,7 +516,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -576,7 +576,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -609,7 +609,7 @@
         <div class="middleTeacher hide">
           <div class="teacherTable">
             <div class="timeColumn">
-              <div class="cell firstCell" onclick="nameTeacher(this)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -884,7 +884,7 @@
         numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
       }
 
-      //셀 이동함수!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      //셀 이동함수
       function moveCell(div) {
         currentCell = document.activeElement;
         currentRow = document.activeElement.parentNode.parentNode;
@@ -896,6 +896,11 @@
         let downCell = cellRow < 25 ? currentRow.querySelectorAll(".textCell")[cellRow + 1] : null;
         let leftCell = cellCol > 0 ? currentTable.querySelectorAll(".teacherColumn")[cellCol - 1].querySelectorAll(".textCell")[cellRow] : null;
         let rightCell = cellCol < currentTable.children.length - 2 ? currentTable.querySelectorAll(".teacherColumn")[cellCol + 1].querySelectorAll(".textCell")[cellRow] : null;
+
+        // 선생님 이름칸에서 이동키 입력시 함수 종료
+        // if (document.activeElement.classList.contains("teacherName")) {
+        //   return;
+        // }
 
         if (event.ctrlKey && event.shiftKey) {
           if (event.key == "ArrowUp") {
@@ -1425,6 +1430,11 @@
         }
       }
 
+      //선생님 이름셀에 이동함수 막는 함수
+      function preventKeyDown(event) {
+        event.stopPropagation();
+      }
+
       //마우스클릭시
       function mouseClick(div) {
         currentCell = document.activeElement;
@@ -1439,7 +1449,8 @@
         shadowRow = 0;
         shadowCol = 0;
       }
-      //Top: 저장버튼 클릭 시 '요일별-선생님별' 복사 (1:값, 2:셀정보) >>>> 요일별/선생님별 전환 시 병합셀 그대로 가져가기;
+
+      //Top: 저장버튼 클릭 시 '요일별-선생님별' 복사 (1:값, 2:셀정보) >>>> 요일별/선생님별 전환 시 병합셀 그대로 가져가기(2);
       function saveData() {
         findThisPage();
         if (thisPage.querySelector(".middleDay").classList.contains("hide")) {
@@ -1667,13 +1678,12 @@
           numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".teacherColumn").length;
         }
       }
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       //middle: 선생님 이름칸 클릭 시 이름 변경
       function nameTeacher(div) {
         findThisPage();
         //선생님 이름 모든 열에 복사
+
         let thisTeacherName = div.querySelector(".teacherName");
         thisTeacherName.addEventListener("keydown", function (event) {
           if (event.key == "Enter" || event.key == "Tab") {
@@ -1688,8 +1698,6 @@
           }
         });
       }
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-      ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       //Bottom: 페이지 추가버튼 클릭 시 '버튼 생성 및 페이지 생성'
       function addPageBtn() {
@@ -1761,7 +1769,7 @@
         findThisPage();
       }
 
-      //Bottom: 페이지 이름 변경 함수; 엔터나 탭치면 포커스 없애야지; 종종 하얘지는 현상고치기
+      //Bottom: 페이지 이름 변경 함수
       function pageBtnNaming() {
         findThisPage();
         let button = thisPageBtn;
@@ -1773,17 +1781,23 @@
         button.appendChild(tempInput);
         tempInput.focus();
 
-        // tempInput.addEventListener("blur", function () {
-        //   button.innerHTML = tempInput.value;
-        //   tempInput.remove();
-        // });
-
         tempInput.addEventListener("keydown", function (event) {
           if (event.key == "Enter" || event.key == "Tab") {
             button.innerHTML = tempInput.value;
             tempInput.remove();
           }
         });
+      }
+
+      //All: 바탕 클릭시
+      function noFocus() {
+        findThisPage();
+        if (document.querySelectorAll(".namingInput").length > 0) {
+          for (let i = 0; i < document.querySelectorAll(".namingInput").length; i++) {
+            let button = thisPageBtn;
+            button.innerHTML = document.querySelectorAll(".namingInput")[i].value;
+          }
+        }
       }
     </script>
   </body>
