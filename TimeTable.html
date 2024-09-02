@@ -216,7 +216,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onkeydown="preventKeyDown(event)"><input class="teacherName" onfocus="nameTeacher(this)" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -276,7 +276,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -336,7 +336,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -396,7 +396,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -456,7 +456,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -516,7 +516,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -576,7 +576,7 @@
               <div class="cell">11:30-12:00</div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
-              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
               <div class="cell"><textarea class="textCell"></textarea></div>
@@ -609,7 +609,7 @@
         <div class="middleTeacher hide">
           <div class="teacherTable">
             <div class="timeColumn">
-              <div class="cell firstCell" onclick="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
+              <div class="cell firstCell" onkeydown="preventKeyDown(event)"><input class="teacherName" onfocus="nameTeacher(this)" /></div>
               <div class="cell">11:00-11:30</div>
               <div class="cell">11:30-12:00</div>
               <div class="cell">12:00-12:30</div>
@@ -896,11 +896,6 @@
         let downCell = cellRow < 25 ? currentRow.querySelectorAll(".textCell")[cellRow + 1] : null;
         let leftCell = cellCol > 0 ? currentTable.querySelectorAll(".teacherColumn")[cellCol - 1].querySelectorAll(".textCell")[cellRow] : null;
         let rightCell = cellCol < currentTable.children.length - 2 ? currentTable.querySelectorAll(".teacherColumn")[cellCol + 1].querySelectorAll(".textCell")[cellRow] : null;
-
-        // 선생님 이름칸에서 이동키 입력시 함수 종료
-        // if (document.activeElement.classList.contains("teacherName")) {
-        //   return;
-        // }
 
         if (event.ctrlKey && event.shiftKey) {
           if (event.key == "ArrowUp") {
@@ -1450,11 +1445,12 @@
         shadowCol = 0;
       }
 
-      //Top: 저장버튼 클릭 시 '요일별-선생님별' 복사 (1:값, 2:셀정보) >>>> 요일별/선생님별 전환 시 병합셀 그대로 가져가기(2);
+      //Top: 저장버튼 클릭 시 '요일별<->선생님별' 복사
       function saveData() {
         findThisPage();
         if (thisPage.querySelector(".middleDay").classList.contains("hide")) {
           //선생님별 -> 요일별
+
           //선생님 이름 복사
           for (let j = 0; j < numOfTeachers; j++) {
             for (let i = 0; i < 7; i++) {
@@ -1464,32 +1460,77 @@
             }
           }
 
-          //셀 값 복사 ++ 정보 복사(****)
           for (let i = 0; i < 7; i++) {
             for (let j = 0; j < numOfTeachers; j++) {
               for (let k = 0; k < 26; k++) {
+                //셀 값 복사
                 thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".textCell")[k].value = thisPage
                   .querySelectorAll(".teacherTable")
                   [j].querySelectorAll(".teacherColumn")
                   [i].querySelectorAll(".textCell")[k].value;
+                //셀 merged/hide 클래스 복사
+                if (thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].classList.contains("merged")) {
+                  thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].classList.add("merged");
+                } else if (thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].classList.contains("hide")) {
+                  thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].classList.add("hide");
+                } else if (!thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].classList.contains("hide")) {
+                  thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].classList.remove("hide");
+                }
+                //병합된 셀 개수 복사
+                thisPage
+                  .querySelectorAll(".dayTable")
+                  [i].querySelectorAll(".teacherColumn")
+                  [j].querySelectorAll(".cell")
+                  [k + 1].setAttribute(
+                    "includingCell",
+                    thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].getAttribute("includingCell")
+                  );
+                //셀 높이 복사
+                thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].style.height = thisPage
+                  .querySelectorAll(".teacherTable")
+                  [j].querySelectorAll(".teacherColumn")
+                  [i].querySelectorAll(".cell")[k + 1].style.height;
               }
             }
           }
         } else {
           //요일별 -> 선생님별
+
           //선생님 이름 복사
           for (let i = 0; i < numOfTeachers; i++) {
             thisPage.querySelectorAll(".teacherTable")[i].querySelector(".teacherName").value = thisPage.querySelector(".dayTable").querySelectorAll(".teacherName")[i].value;
           }
 
-          //셀 값 복사
           for (let i = 0; i < 7; i++) {
             for (let j = 0; j < numOfTeachers; j++) {
               for (let k = 0; k < 26; k++) {
+                //셀 값 복사
                 thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".textCell")[k].value = thisPage
                   .querySelectorAll(".dayTable")
                   [i].querySelectorAll(".teacherColumn")
                   [j].querySelectorAll(".textCell")[k].value;
+                //셀 merged/hide 클래스 복사
+                if (thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].classList.contains("merged")) {
+                  thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].classList.add("merged");
+                } else if (thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].classList.contains("hide")) {
+                  thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].classList.add("hide");
+                } else if (!thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].classList.contains("hide")) {
+                  thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].classList.remove("hide");
+                }
+                //병합된 셀 개수 복사
+                thisPage
+                  .querySelectorAll(".teacherTable")
+                  [j].querySelectorAll(".teacherColumn")
+                  [i].querySelectorAll(".cell")
+                  [k + 1].setAttribute(
+                    "includingCell",
+                    thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].getAttribute("includingCell")
+                  );
+                //셀 높이 복사
+                thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].style.height = thisPage
+                  .querySelectorAll(".dayTable")
+                  [i].querySelectorAll(".teacherColumn")
+                  [j].querySelectorAll(".cell")[k + 1].style.height;
               }
             }
           }
@@ -1605,7 +1646,7 @@
         }
       }
 
-      //Top: 병합버튼 클릭 시
+      //Top: 병합버튼 클릭 시 "height과 includingCell등 해제하면 원래대로 돌리기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       function mergeCell() {
         findThisPage();
         let allClickedCell = thisPage.querySelectorAll(".cellClicked");
@@ -1680,20 +1721,24 @@
       }
 
       //middle: 선생님 이름칸 클릭 시 이름 변경
-      function nameTeacher(div) {
+      function nameTeacher(input) {
         findThisPage();
         //선생님 이름 모든 열에 복사
-
-        let thisTeacherName = div.querySelector(".teacherName");
+        let thisTeacherName = input;
         thisTeacherName.addEventListener("keydown", function (event) {
           if (event.key == "Enter" || event.key == "Tab") {
+            event.preventDefault();
             if (thisPage.querySelector(".middleTeacher").classList.contains("hide")) {
-              let index = Array.prototype.indexOf.call(div.parentNode.parentNode.children, div.parentNode) - 1;
+              let index = Array.prototype.indexOf.call(input.parentNode.parentNode.parentNode.children, input.parentNode.parentNode) - 1;
               for (let i = 0; i < 7; i++) {
-                thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[index].querySelector(".teacherName").value = thisTeacherName.value;
+                thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[index].querySelector("input").value = input.value;
+              }
+              if (currentTable.querySelectorAll(".teacherColumn")[index + 1]) {
+                currentTable.querySelectorAll(".teacherColumn")[index + 1].querySelector(".teacherName").focus();
+              } else {
+                this.blur();
               }
             }
-            //focus없애기
             this.blur();
           }
         });
