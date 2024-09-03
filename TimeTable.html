@@ -166,7 +166,13 @@
       }
 
       .redBorder {
-        border: 3px dotted red;
+        border: 2px dotted red;
+      }
+      .ctrlBorder {
+        background: #f0f0f0;
+        border: 1px solid #ccc;
+        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2), inset -2px -2px 5px rgba(0, 0, 0, 0.15);
+        transition: box-shadow 0.3s ease-in-out;
       }
       .hide {
         display: none;
@@ -182,9 +188,9 @@
         <button class="btnDeleteTeacher" onclick="deleteTeacher()">선생님 삭제</button>
         <button class="btnMerge" onclick="mergeCell()">병합/해제</button>
       </div>
-      <div class="middle" onclick="noFocus()">
+      <div class="middle">
         <div class="middleDay">
-          <div class="dayTable" day="0">
+          <div class="dayTable">
             //여기에 셀 함수 1.이동 2.ctrl이동 3.shift이동 4.병합 5.해제 6.복사 7.잘라내기 8.붙여넣기
             <div class="timeColumn">
               <div class="cell firstCell">월</div>
@@ -245,7 +251,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
-          <div class="dayTable" day="1">
+          <div class="dayTable">
             <div class="timeColumn">
               <div class="cell firstCell">화</div>
               <div class="cell">11:00-11:30</div>
@@ -305,7 +311,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
-          <div class="dayTable" day="2">
+          <div class="dayTable">
             <div class="timeColumn">
               <div class="cell firstCell">수</div>
               <div class="cell">11:00-11:30</div>
@@ -365,7 +371,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
-          <div class="dayTable" day="3">
+          <div class="dayTable">
             <div class="timeColumn">
               <div class="cell firstCell">목</div>
               <div class="cell">11:00-11:30</div>
@@ -425,7 +431,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
-          <div class="dayTable" day="4">
+          <div class="dayTable">
             <div class="timeColumn">
               <div class="cell firstCell">금</div>
               <div class="cell">11:00-11:30</div>
@@ -485,7 +491,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
-          <div class="dayTable" day="5">
+          <div class="dayTable">
             <div class="timeColumn">
               <div class="cell firstCell">토</div>
               <div class="cell">11:00-11:30</div>
@@ -545,7 +551,7 @@
               <div class="cell"><textarea class="textCell"></textarea></div>
             </div>
           </div>
-          <div class="dayTable" day="6">
+          <div class="dayTable">
             <div class="timeColumn">
               <div class="cell firstCell">일</div>
               <div class="cell">11:00-11:30</div>
@@ -869,6 +875,47 @@
       let shadowRow = 0;
       let shadowCol = 0;
       let shadowCell;
+
+      let ctrlStorage = [];
+      let cellStorage = {};
+      let turnX;
+
+      //key control
+      document.addEventListener("keydown", function (event) {
+        if (event.ctrlKey) {
+          if (event.key == "s") {
+            event.preventDefault();
+            saveData();
+          } else if (event.key == "c") {
+            event.preventDefault();
+            ctrlC();
+          } else if (event.key == "x") {
+            event.preventDefault();
+            ctrlX();
+          } else if (event.key == "v") {
+            event.preventDefault();
+            ctrlV();
+          } else if (event.key == "z") {
+            event.preventDefault();
+            ctrlZ();
+          }
+        } else if (event.shiftKey) {
+          if (event.key == "Enter") {
+            mergeCell();
+          }
+        }
+      });
+
+      //click control
+      document.addEventListener("click", function () {
+        findThisPage();
+        if (document.querySelectorAll(".namingInput").length > 0) {
+          for (let i = 0; i < document.querySelectorAll(".namingInput").length; i++) {
+            let button = thisPageBtn;
+            button.innerHTML = document.querySelectorAll(".namingInput")[i].value;
+          }
+        }
+      });
 
       ////////함수 선언////////
       //기본 페이지 정보 선언 및 변경 함수
@@ -1422,6 +1469,12 @@
           });
           shadowRow = 0;
           shadowCol = 0;
+
+          currentCell = document.activeElement;
+          currentRow = document.activeElement.parentNode.parentNode;
+          currentTable = currentRow.parentNode;
+          cellRow = Array.prototype.indexOf.call(div.children, currentCell.parentNode) - 1;
+          cellCol = Array.prototype.indexOf.call(div.parentNode.children, div) - 1;
         }
       }
 
@@ -1444,6 +1497,102 @@
         shadowRow = 0;
         shadowCol = 0;
       }
+
+      function ctrlC() {
+        findThisPage();
+        turnX = false;
+        if (thisPage.querySelectorAll(".ctrlBorder")) {
+          for (let i = 0; i < thisPage.querySelectorAll(".ctrlBorder").length; i++) {
+            thisPage.querySelectorAll(".ctrlBorder")[i].classList.remove("ctrlBorder");
+          }
+        }
+
+        let allClickedCell = thisPage.querySelectorAll(".cellClicked");
+        if (allClickedCell.length == 0 || allClickedCell.length == 1) {
+          cellStorage.value = currentCell.value;
+          cellStorage.merged = currentCell.parentNode.classList.contains("merged") ? "merged" : "";
+          cellStorage.includingCell = currentCell.parentNode.getAttribute("includingCell") ? currentCell.parentNode.getAttribute("includingCell") : "";
+          cellStorage.height = currentCell.parentNode.style.height ? currentCell.parentNode.style.height : "";
+          currentCell.classList.add("ctrlBorder");
+        } else {
+          for (let i = 0; i < allClickedCell.length; i++) {
+            let tempCellStorage = {
+              value: allClickedCell[i].value,
+              merged: allClickedCell[i].parentNode.classList.contains("merged") ? "merged" : "",
+              includingCell: allClickedCell[i].parentNode.getAttribute("includingCell") ? allClickedCell[i].parentNode.getAttribute("includingCell") : "",
+              height: allClickedCell[i].parentNode.style.height ? allClickedCell[i].parentNode.style.height : "",
+            };
+            ctrlStorage.push(tempCellStorage);
+            allClickedCell[i].classList.add("ctrlBorder");
+          }
+        }
+      }
+
+      function ctrlX() {
+        findThisPage();
+        turnX = true;
+
+        let allClickedCell = thisPage.querySelectorAll(".cellClicked");
+        if (allClickedCell.length == 0) {
+          cellStorage.value = currentCell.value;
+          cellStorage.merged = currentCell.parentNode.classList.contains("merged") ? "merged" : "";
+          cellStorage.includingCell = currentCell.parentNode.getAttribute("includingCell") ? currentCell.parentNode.getAttribute("includingCell") : "";
+          cellStorage.height = currentCell.parentNode.style.height ? currentCell.parentNode.style.height : "";
+          currentCell.classList.add("ctrlBorder");
+        } else {
+          for (let i = 0; i < allClickedCell.length; i++) {
+            let tempCellStorage = {
+              value: allClickedCell[i].value,
+              merged: allClickedCell[i].parentNode.classList.contains("merged") ? "merged" : "",
+              includingCell: allClickedCell[i].parentNode.getAttribute("includingCell") ? allClickedCell[i].parentNode.getAttribute("includingCell") : "",
+              height: allClickedCell[i].parentNode.style.height ? allClickedCell[i].parentNode.style.height : "",
+            };
+            ctrlStorage.push(tempCellStorage);
+            allClickedCell[i].classList.add("ctrlBorder");
+          }
+        }
+      }
+
+      function ctrlV() {
+        let keepgoing = true;
+        if (turnX) {
+          //ctrlX누른 셀 초기화
+        }
+
+        if (ctrlStorage.length > 0) {
+          //여러 셀 복사면
+        } else {
+          //한개 셀 복사면
+          if (cellStorage.includingCell) {
+            //한개 셀의 높이가 2이상이라면
+            for (let i = 0; i < cellStorage.includingCell; i++) {
+              if (currentRow.querySelectorAll(".textCell")[cellRow + i].parentNode.classList.contains("merged")) {
+                keepgoing = false;
+                alert("병합된 셀에서는 실행할 수 없습니다.");
+                break;
+              }
+            }
+            if (keepgoing) {
+              currentCell.value = cellStorage.value;
+              cellStorage.merged ? currentCell.parentNode.classList.add(cellStorage.merged) : "";
+              cellStorage.includingCell ? currentCell.parentNode.setAttribute("includingCell", cellStorage.includingCell) : "";
+              cellStorage.height ? (currentCell.parentNode.style.height = cellStorage.height) : "";
+
+              // let cellIndex = Array.prototype.indexOf.call(currentCell.parentNode.parentNode.children, currentCell.parentNode) - 1;
+              for (let i = 1; i < cellStorage.includingCell; i++) {
+                currentRow.querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("hide");
+              }
+            }
+          } else {
+            //한개 셀의 높이가 1이라면
+            currentCell.value = cellStorage.value;
+            cellStorage.merged ? currentCell.parentNode.classList.add(cellStorage.merged) : "";
+            cellStorage.includingCell ? currentCell.parentNode.getAttribute(cellStorage.includingCell) : "";
+            cellStorage.height ? (currentCell.parentNode.style.height = cellStorage.height) : "";
+          }
+        }
+      }
+      function ctrlZ() {}
 
       //Top: 저장버튼 클릭 시 '요일별<->선생님별' 복사
       function saveData() {
@@ -1476,15 +1625,17 @@
                 } else if (!thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].classList.contains("hide")) {
                   thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].classList.remove("hide");
                 }
-                //병합된 셀 개수 복사
-                thisPage
-                  .querySelectorAll(".dayTable")
-                  [i].querySelectorAll(".teacherColumn")
-                  [j].querySelectorAll(".cell")
-                  [k + 1].setAttribute(
-                    "includingCell",
-                    thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].getAttribute("includingCell")
-                  );
+                //includingcell 복사
+                if (thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].getAttribute("includingCell")) {
+                  thisPage
+                    .querySelectorAll(".dayTable")
+                    [i].querySelectorAll(".teacherColumn")
+                    [j].querySelectorAll(".cell")
+                    [k + 1].setAttribute(
+                      "includingCell",
+                      thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].getAttribute("includingCell")
+                    );
+                }
                 //셀 높이 복사
                 thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].style.height = thisPage
                   .querySelectorAll(".teacherTable")
@@ -1517,15 +1668,17 @@
                 } else if (!thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].classList.contains("hide")) {
                   thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].classList.remove("hide");
                 }
-                //병합된 셀 개수 복사
-                thisPage
-                  .querySelectorAll(".teacherTable")
-                  [j].querySelectorAll(".teacherColumn")
-                  [i].querySelectorAll(".cell")
-                  [k + 1].setAttribute(
-                    "includingCell",
-                    thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].getAttribute("includingCell")
-                  );
+                //includingCell 복사
+                if (thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].getAttribute("includingCell")) {
+                  thisPage
+                    .querySelectorAll(".teacherTable")
+                    [j].querySelectorAll(".teacherColumn")
+                    [i].querySelectorAll(".cell")
+                    [k + 1].setAttribute(
+                      "includingCell",
+                      thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".teacherColumn")[j].querySelectorAll(".cell")[k + 1].getAttribute("includingCell")
+                    );
+                }
                 //셀 높이 복사
                 thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".teacherColumn")[i].querySelectorAll(".cell")[k + 1].style.height = thisPage
                   .querySelectorAll(".dayTable")
@@ -1646,21 +1799,31 @@
         }
       }
 
-      //Top: 병합버튼 클릭 시 "height과 includingCell등 해제하면 원래대로 돌리기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+      //Top: 병합버튼 클릭 시
       function mergeCell() {
         findThisPage();
         let allClickedCell = thisPage.querySelectorAll(".cellClicked");
-        let cellHeight = thisPage.querySelector(".middleTeacher").classList.contains("hide")
-          ? thisPage.querySelector(".middleDay").querySelectorAll(".cell")[thisPage.querySelector(".middleDay").querySelectorAll(".cell").length - 1].offsetHeight
-          : thisPage.querySelector(".middleTeacher").querySelectorAll(".cell")[thisPage.querySelector(".middleTeacher").querySelectorAll(".cell").length - 1].offsetHeight;
         let doSeparate = false;
 
+        //해제
         if (allClickedCell.length == 0) {
-          return;
-        }
-        if (allClickedCell[0].parentNode.parentNode === allClickedCell[allClickedCell.length - 1].parentNode.parentNode) {
+          if (currentCell.parentNode.getAttribute("includingCell")) {
+            let cellIndex = Array.prototype.indexOf.call(currentCell.parentNode.parentNode.children, currentCell.parentNode) - 1;
+            for (let k = cellIndex + 1; k <= cellIndex + parseInt(currentCell.parentNode.getAttribute("includingCell")); k++) {
+              if (k > 25) {
+                break;
+              }
+              currentRow.querySelectorAll(".textCell")[k].parentNode.classList.remove("hide");
+            }
+            currentCell.parentNode.classList.remove("merged");
+            currentCell.parentNode.removeAttribute("style");
+            currentCell.parentNode.removeAttribute("includingCell");
+            currentCell.focus();
+          } else {
+            return;
+          }
+        } else if (allClickedCell[0].parentNode.parentNode === allClickedCell[allClickedCell.length - 1].parentNode.parentNode) {
           for (let j = 0; j < allClickedCell.length; j++) {
-            //해제
             if (allClickedCell[j].parentNode.classList.contains("merged")) {
               doSeparate = true;
               let cellIndex = Array.prototype.indexOf.call(allClickedCell[j].parentNode.parentNode.children, allClickedCell[j].parentNode) - 1;
@@ -1669,9 +1832,11 @@
                   break;
                 }
                 currentRow.querySelectorAll(".textCell")[k].parentNode.classList.remove("hide");
+                currentRow.querySelectorAll(".textCell")[k - 1].classList.add("cellClicked");
               }
+
               allClickedCell[j].parentNode.classList.remove("merged");
-              allClickedCell[j].parentNode.style.height = cellHeight + "px";
+              allClickedCell[j].parentNode.removeAttribute("style");
               allClickedCell[j].parentNode.removeAttribute("includingCell");
               allClickedCell[0].focus();
             }
@@ -1681,10 +1846,11 @@
           if (doSeparate == false) {
             for (let i = 1; i < allClickedCell.length; i++) {
               allClickedCell[i].parentNode.classList.add("hide");
+              allClickedCell[i].classList.remove("cellClicked");
               allClickedCell[i].value = "";
             }
             allClickedCell[0].parentNode.classList.add("merged");
-            allClickedCell[0].parentNode.style.height = cellHeight * allClickedCell.length + "px";
+            allClickedCell[0].parentNode.style.height = 3.7 * allClickedCell.length + "%";
             allClickedCell[0].parentNode.setAttribute("includingCell", allClickedCell.length);
             allClickedCell[0].focus();
           }
@@ -1832,17 +1998,6 @@
             tempInput.remove();
           }
         });
-      }
-
-      //All: 바탕 클릭시
-      function noFocus() {
-        findThisPage();
-        if (document.querySelectorAll(".namingInput").length > 0) {
-          for (let i = 0; i < document.querySelectorAll(".namingInput").length; i++) {
-            let button = thisPageBtn;
-            button.innerHTML = document.querySelectorAll(".namingInput")[i].value;
-          }
-        }
       }
     </script>
   </body>
