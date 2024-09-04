@@ -169,10 +169,7 @@
         border: 2px dotted red;
       }
       .ctrlBorder {
-        background: #f0f0f0;
-        border: 1px solid #ccc;
-        box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.2), inset -2px -2px 5px rgba(0, 0, 0, 0.15);
-        transition: box-shadow 0.3s ease-in-out;
+        box-shadow: 0 0 0 1px green inset, 0 0 0 1px green;
       }
       .hide {
         display: none;
@@ -950,8 +947,11 @@
               while (cellRow + shadowRow > 0) {
                 if (shadowRow <= 0) {
                   shadowRow--;
-                  currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
-                  currentCell.classList.add("cellClicked");
+                  if (currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.contains("hide")) {
+                  } else {
+                    currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                    currentCell.classList.add("cellClicked");
+                  }
                 } else {
                   shadowRow--;
                   currentRow.querySelectorAll(".textCell")[cellRow + shadowRow + 1].classList.remove("cellClicked");
@@ -999,8 +999,11 @@
               while (cellRow + shadowRow < 25) {
                 if (shadowRow >= 0) {
                   shadowRow++;
-                  currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
-                  currentCell.classList.add("cellClicked");
+                  if (currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.contains("hide")) {
+                  } else {
+                    currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                    currentCell.classList.add("cellClicked");
+                  }
                 } else {
                   shadowRow++;
                   currentRow.querySelectorAll(".textCell")[cellRow + shadowRow - 1].classList.remove("cellClicked");
@@ -1286,6 +1289,7 @@
                 }
               }
             }
+            ////////////////////////shift 다운키 눌렀을 때 마지막셀이 병합셀이면 자꾸 오류남!! 여기 고쳐야돼
           } else if (event.key == "ArrowDown") {
             if (shadowCol == 0) {
               if (shadowRow >= 0) {
@@ -1501,11 +1505,7 @@
       function ctrlC() {
         findThisPage();
         turnX = false;
-        if (thisPage.querySelectorAll(".ctrlBorder")) {
-          for (let i = 0; i < thisPage.querySelectorAll(".ctrlBorder").length; i++) {
-            thisPage.querySelectorAll(".ctrlBorder")[i].classList.remove("ctrlBorder");
-          }
-        }
+        initCtrl();
 
         let allClickedCell = thisPage.querySelectorAll(".cellClicked");
         if (allClickedCell.length == 0 || allClickedCell.length == 1) {
@@ -1531,6 +1531,7 @@
       function ctrlX() {
         findThisPage();
         turnX = true;
+        initCtrl();
 
         let allClickedCell = thisPage.querySelectorAll(".cellClicked");
         if (allClickedCell.length == 0) {
@@ -1560,9 +1561,42 @@
         }
 
         if (ctrlStorage.length > 0) {
+          console.log(ctrlStorage.length);
           //여러 셀 복사면
+          let cellHeight = 0;
+          for (let i = 0; i < ctrlStorage.length; i++) {
+            cellHeight += ctrlStorage[i].includingCell ? parseInt(ctrlStorage[i].includingCell) : 1;
+          }
+          console.log(cellHeight);
+          for (let i = 0; i < cellHeight; i++) {
+            if (currentRow.querySelectorAll(".textCell")[cellRow + i].parentNode.classList.contains("merged")) {
+              keepgoing = false;
+              alert("병합된 셀에서는 실행할 수 없습니다.");
+              break;
+            }
+          }
+          if (keepgoing) {
+            let temp = 0;
+            let plus = 0;
+            for (let i = 0; i < ctrlStorage.length; i++) {
+              currentRow.querySelectorAll(".textCell")[cellRow + i + plus].value = ctrlStorage[i].value;
+              ctrlStorage[i].merged ? currentRow.querySelectorAll(".textCell")[cellRow + i + plus].parentNode.classList.add("merged") : "";
+              ctrlStorage[i].includingCell
+                ? currentRow.querySelectorAll(".textCell")[cellRow + i + plus].parentNode.setAttribute("includingCell", ctrlStorage[i].includingCell)
+                : "";
+              ctrlStorage[i].height ? (currentRow.querySelectorAll(".textCell")[cellRow + i + plus].parentNode.style.height = ctrlStorage[i].height) : "";
+
+              for (let j = 1; j < ctrlStorage[i].includingCell; j++) {
+                currentRow.querySelectorAll(".textCell")[cellRow + i + plus + j].parentNode.classList.add("hide");
+                temp++;
+              }
+              plus = temp;
+            }
+          }
         } else {
           //한개 셀 복사면
+          console.log(cellStorage);
+
           if (cellStorage.includingCell) {
             //한개 셀의 높이가 2이상이라면
             for (let i = 0; i < cellStorage.includingCell; i++) {
@@ -1578,7 +1612,6 @@
               cellStorage.includingCell ? currentCell.parentNode.setAttribute("includingCell", cellStorage.includingCell) : "";
               cellStorage.height ? (currentCell.parentNode.style.height = cellStorage.height) : "";
 
-              // let cellIndex = Array.prototype.indexOf.call(currentCell.parentNode.parentNode.children, currentCell.parentNode) - 1;
               for (let i = 1; i < cellStorage.includingCell; i++) {
                 currentRow.querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("hide");
               }
@@ -1592,7 +1625,17 @@
           }
         }
       }
+
       function ctrlZ() {}
+
+      function initCtrl() {
+        cellStorage = {};
+        ctrlStorage = [];
+        let allCtrlBorder = document.querySelectorAll(".ctrlBorder");
+        for (let i = 0; i < allCtrlBorder.length; i++) {
+          allCtrlBorder[i].classList.remove("ctrlBorder");
+        }
+      }
 
       //Top: 저장버튼 클릭 시 '요일별<->선생님별' 복사
       function saveData() {
