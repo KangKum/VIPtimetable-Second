@@ -188,7 +188,8 @@
       <div class="middle">
         <div class="middleDay">
           <div class="dayTable">
-            //여기에 셀 함수 1.이동 2.ctrl이동 3.shift이동 4.병합 5.해제 6.복사 7.잘라내기 8.붙여넣기
+            //7.잘라내기 <br />
+            8.붙여넣기 <br />9.셀 내용 삭제<br />(1개셀, 여러개셀)
             <div class="timeColumn">
               <div class="cell firstCell">월</div>
               <div class="cell">11:00-11:30</div>
@@ -898,6 +899,7 @@
           }
         } else if (event.shiftKey) {
           if (event.key == "Enter") {
+            event.preventDefault();
             mergeCell();
           }
         }
@@ -1239,8 +1241,11 @@
             shadowRow = 0;
             shadowCol = 0;
           }
+
           currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].focus();
         } else if (event.shiftKey) {
+          console.log(currentCell);
+
           if (event.key == "ArrowUp") {
             if (shadowCol == 0) {
               if (shadowRow <= 0) {
@@ -1289,7 +1294,6 @@
                 }
               }
             }
-            ////////////////////////shift 다운키 눌렀을 때 마지막셀이 병합셀이면 자꾸 오류남!! 여기 고쳐야돼
           } else if (event.key == "ArrowDown") {
             if (shadowCol == 0) {
               if (shadowRow >= 0) {
@@ -1297,6 +1301,10 @@
                   shadowRow++;
                   while (currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.contains("hide")) {
                     shadowRow++;
+                    if (cellRow + shadowRow > 25) {
+                      shadowRow--;
+                      break;
+                    }
                   }
                   if (cellRow + shadowRow < 0) {
                     shadowRow--;
@@ -1448,6 +1456,10 @@
               cellRow++;
               while (currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide")) {
                 cellRow++;
+                if (cellRow > 25) {
+                  cellRow--;
+                  break;
+                }
               }
             }
           } else if (event.key == "ArrowLeft") {
