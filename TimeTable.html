@@ -1195,12 +1195,40 @@
               }
             }
           }
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+          //////////////////////ctrl+shift를 ctrl을 이용해서 다시 만들기////////////////////////////////////////////////////////////////////////////
+          ////////////////////////////한번에 글자들 건너띄는거 필요하거든/////////////////////////////////////////////////////////////
+          ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         } else if (event.ctrlKey) {
           if (event.key == "ArrowUp") {
-            while (cellRow > 0 && upCell.value == "") {
-              cellRow--;
-              upCell = currentRow.querySelectorAll(".textCell")[cellRow];
+            if (currentCell.value == "") {
+              if (upCell && upCell.value == "") {
+                while (cellRow > 0 && upCell.value == "") {
+                  cellRow--;
+                  upCell = currentRow.querySelectorAll(".textCell")[cellRow];
+                }
+              } else {
+                if (cellRow > 0) {
+                  cellRow--;
+                }
+              }
+            } else {
+              if (upCell && upCell.value == "") {
+                while (cellRow > 0 && upCell.value == "") {
+                  cellRow--;
+                  upCell = currentRow.querySelectorAll(".textCell")[cellRow];
+                }
+              } else {
+                while (cellRow > 0 && upCell.value != "") {
+                  cellRow--;
+                  upCell = currentRow.querySelectorAll(".textCell")[cellRow];
+                }
+                if (cellRow != 0) {
+                  cellRow++;
+                }
+              }
             }
+
             //클릭된셀 색 제거
             document.querySelectorAll(".cellClicked").forEach(function (element) {
               element.classList.remove("cellClicked");
@@ -1208,10 +1236,48 @@
             shadowRow = 0;
             shadowCol = 0;
           } else if (event.key == "ArrowDown") {
-            while (cellRow < 25 && downCell.value == "") {
-              cellRow++;
-              downCell = currentRow.querySelectorAll(".textCell")[cellRow];
+            if (currentCell.value == "") {
+              if (downCell && downCell.value == "") {
+                while (cellRow < 25 && downCell.value == "") {
+                  cellRow++;
+                  downCell = currentRow.querySelectorAll(".textCell")[cellRow];
+                }
+                if (cellRow == 25) {
+                  if (currentRow.querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide")) {
+                    while (!currentRow.querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("merged")) {
+                      cellRow--;
+                    }
+                  }
+                }
+              } else {
+                if (cellRow < 25) {
+                  cellRow++;
+                }
+              }
+            } else {
+              if (downCell && downCell.value == "") {
+                while (cellRow < 25 && downCell.value == "") {
+                  cellRow++;
+                  downCell = currentRow.querySelectorAll(".textCell")[cellRow];
+                }
+                if (cellRow == 25) {
+                  if (currentRow.querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide")) {
+                    while (!currentRow.querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("merged")) {
+                      cellRow--;
+                    }
+                  }
+                }
+              } else {
+                while (cellRow < 25 && downCell.value != "") {
+                  cellRow++;
+                  downCell = currentRow.querySelectorAll(".textCell")[cellRow];
+                }
+                if (cellRow != 25) {
+                  cellRow--;
+                }
+              }
             }
+
             //클릭된셀 색 제거
             document.querySelectorAll(".cellClicked").forEach(function (element) {
               element.classList.remove("cellClicked");
@@ -1219,10 +1285,34 @@
             shadowRow = 0;
             shadowCol = 0;
           } else if (event.key == "ArrowLeft") {
-            while (cellCol > 0 && leftCell.value == "") {
-              cellCol--;
-              leftCell = currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow];
+            if (currentCell.value == "") {
+              if (leftCell && leftCell.value == "") {
+                while (cellCol > 0 && leftCell.value == "") {
+                  cellCol--;
+                  leftCell = currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow];
+                }
+              } else {
+                if (cellCol > 0) {
+                  cellCol--;
+                }
+              }
+            } else {
+              if (leftCell && leftCell.value == "") {
+                while (cellCol > 0 && leftCell.value == "") {
+                  cellCol--;
+                  leftCell = currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow];
+                }
+              } else {
+                while (cellCol > 0 && leftCell.value != "") {
+                  cellCol--;
+                  leftCell = currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow];
+                }
+                if (cellCol != 0) {
+                  cellCol++;
+                }
+              }
             }
+
             //클릭된셀 색 제거
             document.querySelectorAll(".cellClicked").forEach(function (element) {
               element.classList.remove("cellClicked");
@@ -1230,10 +1320,34 @@
             shadowRow = 0;
             shadowCol = 0;
           } else if (event.key == "ArrowRight") {
-            while (cellCol < currentTable.children.length - 2 && rightCell.value == "") {
-              cellCol++;
-              rightCell = currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow];
+            if (currentCell.value == "") {
+              if (rightCell && rightCell.value == "") {
+                while (cellCol < currentTable.children.length - 2 && rightCell.value == "") {
+                  cellCol++;
+                  rightCell = currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow];
+                }
+              } else {
+                if (cellCol < currentTable.children.length - 2) {
+                  cellCol++;
+                }
+              }
+            } else {
+              if (rightCell && rightCell.value == "") {
+                while (cellCol < currentTable.children.length - 2 && rightCell.value == "") {
+                  cellCol++;
+                  rightCell = currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow];
+                }
+              } else {
+                while (cellCol < currentTable.children.length - 2 && rightCell.value != "") {
+                  cellCol++;
+                  rightCell = currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow];
+                }
+                if (cellCol != currentTable.children.length - 2) {
+                  cellCol--;
+                }
+              }
             }
+
             //클릭된셀 색 제거
             document.querySelectorAll(".cellClicked").forEach(function (element) {
               element.classList.remove("cellClicked");
@@ -1241,11 +1355,10 @@
             shadowRow = 0;
             shadowCol = 0;
           }
-
           currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].focus();
-        } else if (event.shiftKey) {
-          console.log(currentCell);
 
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        } else if (event.shiftKey) {
           if (event.key == "ArrowUp") {
             if (shadowCol == 0) {
               if (shadowRow <= 0) {
@@ -1443,6 +1556,7 @@
               }
             }
           }
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         } else {
           if (event.key == "ArrowUp") {
             if (cellRow > 0) {
@@ -1451,7 +1565,7 @@
                 cellRow--;
               }
             }
-          } else if (event.key == "ArrowDown") {
+          } else if (event.key == "ArrowDown" || event.key == "Enter") {
             if (cellRow < 25) {
               cellRow++;
               while (currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide")) {
@@ -1476,6 +1590,8 @@
                 cellRow--;
               }
             }
+          } else if (event.key == "Delete") {
+            deleteValue(currentCell);
           }
           currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].focus();
 
@@ -1499,6 +1615,16 @@
         event.stopPropagation();
       }
 
+      function deleteValue(textarea) {
+        let allClickedCell = thisPage.querySelectorAll(".cellClicked");
+        if (allClickedCell.length > 1) {
+          for (let i = 0; i < allClickedCell.length; i++) {
+            allClickedCell[i].value = "";
+          }
+        } else {
+          textarea.value = "";
+        }
+      }
       //마우스클릭시
       function mouseClick(div) {
         currentCell = document.activeElement;
@@ -1567,19 +1693,32 @@
       }
 
       function ctrlV() {
+        findThisPage();
         let keepgoing = true;
         if (turnX) {
-          //ctrlX누른 셀 초기화
+          let allCtrlCell = thisPage.querySelectorAll(".ctrlBorder");
+          for (let i = 0; i < allCtrlCell.length; i++) {
+            allCtrlCell[i].classList.remove("ctrlBorder");
+            allCtrlCell[i].value = "";
+            if (parseInt(allCtrlCell[i].parentNode.getAttribute("includingCell")) > 1) {
+              for (let j = 1; j < parseInt(allCtrlCell[i].parentNode.getAttribute("includingCell")); j++) {
+                let cellIndex = Array.prototype.indexOf.call(allCtrlCell[i].parentNode.parentNode.children, allCtrlCell[i].parentNode) - 1;
+                allCtrlCell[i].parentNode.parentNode.querySelectorAll(".textCell")[cellIndex + j].parentNode.classList.remove("hide");
+              }
+              allCtrlCell[i].parentNode.classList.remove("merged");
+              allCtrlCell[i].parentNode.removeAttribute("includingCell");
+              allCtrlCell[i].parentNode.style.height = "";
+            }
+          }
         }
 
         if (ctrlStorage.length > 0) {
-          console.log(ctrlStorage.length);
+          console.log(ctrlStorage);
           //여러 셀 복사면
           let cellHeight = 0;
           for (let i = 0; i < ctrlStorage.length; i++) {
             cellHeight += ctrlStorage[i].includingCell ? parseInt(ctrlStorage[i].includingCell) : 1;
           }
-          console.log(cellHeight);
           for (let i = 0; i < cellHeight; i++) {
             if (currentRow.querySelectorAll(".textCell")[cellRow + i].parentNode.classList.contains("merged")) {
               keepgoing = false;
@@ -1608,7 +1747,6 @@
         } else {
           //한개 셀 복사면
           console.log(cellStorage);
-
           if (cellStorage.includingCell) {
             //한개 셀의 높이가 2이상이라면
             for (let i = 0; i < cellStorage.includingCell; i++) {
