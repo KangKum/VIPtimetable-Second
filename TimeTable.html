@@ -13,9 +13,10 @@
         line-height: 210%;
         vertical-align: top;
       }
-      textarea:focus {
+      /* textarea:focus {
         caret-color: transparent;
-      }
+      } */
+
       .container {
         height: 95vh;
         border: none;
@@ -111,6 +112,13 @@
         padding: 0;
         border: 0;
       }
+
+      .noCursor {
+        caret-color: transparent;
+      }
+      .yesCursor {
+        caret-color: auto;
+      }
       .teacherName {
         height: 100%;
         width: 100%;
@@ -188,8 +196,6 @@
       <div class="middle">
         <div class="middleDay">
           <div class="dayTable">
-            //7.잘라내기 <br />
-            8.붙여넣기 <br />9.셀 내용 삭제<br />(1개셀, 여러개셀)
             <div class="timeColumn">
               <div class="cell firstCell">월</div>
               <div class="cell">11:00-11:30</div>
@@ -221,32 +227,32 @@
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell" onkeydown="preventKeyDown(event)"><input class="teacherName" onfocus="nameTeacher(this)" /></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
           </div>
           <div class="dayTable">
@@ -281,32 +287,32 @@
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
           </div>
           <div class="dayTable">
@@ -341,32 +347,32 @@
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
           </div>
           <div class="dayTable">
@@ -401,32 +407,32 @@
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
           </div>
           <div class="dayTable">
@@ -461,32 +467,32 @@
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
           </div>
           <div class="dayTable">
@@ -521,32 +527,32 @@
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
           </div>
           <div class="dayTable">
@@ -581,32 +587,32 @@
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell" onfocus="nameTeacher(this)" onkeydown="preventKeyDown(event)"><input class="teacherName" /></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
           </div>
         </div>
@@ -643,206 +649,206 @@
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell">월</div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell">화</div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell">수</div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell">목</div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell">금</div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell">토</div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
             <div class="teacherColumn" onkeydown="moveCell(this)" onclick="mouseClick(this)">
               <div class="cell firstCell">일</div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
-              <div class="cell"><textarea class="textCell"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
+              <div class="cell"><textarea class="textCell noCursor"></textarea></div>
             </div>
           </div>
         </div>
@@ -880,27 +886,37 @@
 
       //key control
       document.addEventListener("keydown", function (event) {
-        if (event.ctrlKey) {
-          if (event.key == "s") {
+        if (document.activeElement.classList.contains("textCell")) {
+          if (event.ctrlKey) {
+            if (event.key == "s") {
+              event.preventDefault();
+              saveData();
+            } else if (event.key == "c") {
+              event.preventDefault();
+              ctrlC();
+            } else if (event.key == "x") {
+              event.preventDefault();
+              ctrlX();
+            } else if (event.key == "v") {
+              event.preventDefault();
+              ctrlV();
+            } else if (event.key == "z") {
+              event.preventDefault();
+              ctrlZ();
+            }
+          } else if (event.shiftKey) {
+            if (event.key == "Enter") {
+              event.preventDefault();
+              mergeCell();
+            }
+          } else if (event.key == "F2") {
             event.preventDefault();
-            saveData();
-          } else if (event.key == "c") {
-            event.preventDefault();
-            ctrlC();
-          } else if (event.key == "x") {
-            event.preventDefault();
-            ctrlX();
-          } else if (event.key == "v") {
-            event.preventDefault();
-            ctrlV();
-          } else if (event.key == "z") {
-            event.preventDefault();
-            ctrlZ();
-          }
-        } else if (event.shiftKey) {
-          if (event.key == "Enter") {
-            event.preventDefault();
-            mergeCell();
+            if (document.activeElement.classList.contains("noCursor")) {
+              document.activeElement.classList.add("yesCursor");
+              // document.activeElement.style.caretColor = "auto";
+              let lastLength = document.activeElement.value.length;
+              document.activeElement.setSelectionRange(lastLength, lastLength);
+            }
           }
         }
       });
@@ -1607,6 +1623,11 @@
           currentTable = currentRow.parentNode;
           cellRow = Array.prototype.indexOf.call(div.children, currentCell.parentNode) - 1;
           cellCol = Array.prototype.indexOf.call(div.parentNode.children, div) - 1;
+
+          console.log(thisPage.querySelector(".yesCursor"));
+          if (thisPage.querySelector(".yesCursor")) {
+            thisPage.querySelector(".yesCursor").classList.remove("yesCursor");
+          }
         }
       }
 
@@ -1695,6 +1716,7 @@
       function ctrlV() {
         findThisPage();
         let keepgoing = true;
+        //잘라내기 셀 초기화
         if (turnX) {
           let allCtrlCell = thisPage.querySelectorAll(".ctrlBorder");
           for (let i = 0; i < allCtrlCell.length; i++) {
@@ -1723,6 +1745,10 @@
             if (currentRow.querySelectorAll(".textCell")[cellRow + i].parentNode.classList.contains("merged")) {
               keepgoing = false;
               alert("병합된 셀에서는 실행할 수 없습니다.");
+              break;
+            } else if (!currentRow.querySelectorAll(".textCell")[cellRow + cellHeight - 1]) {
+              keepgoing = false;
+              alert("범위를 초과하였습니다.");
               break;
             }
           }
@@ -1753,6 +1779,10 @@
               if (currentRow.querySelectorAll(".textCell")[cellRow + i].parentNode.classList.contains("merged")) {
                 keepgoing = false;
                 alert("병합된 셀에서는 실행할 수 없습니다.");
+                break;
+              } else if (!currentRow.querySelectorAll(".textCell")[cellRow + parseInt(cellStorage.includingCell) - 1]) {
+                keepgoing = false;
+                alert("범위를 초과하였습니다.");
                 break;
               }
             }
