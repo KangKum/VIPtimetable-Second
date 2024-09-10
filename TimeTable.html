@@ -10,12 +10,9 @@
         font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
         text-align: center;
         overflow: hidden;
-        line-height: 210%;
+        line-height: 2.2;
         vertical-align: top;
       }
-      /* textarea:focus {
-        caret-color: transparent;
-      } */
 
       .container {
         height: 95vh;
@@ -30,7 +27,7 @@
       }
       .middle {
         width: 100%;
-        height: 92%;
+        height: 95%;
         padding-top: 4vh;
       }
       .bottom {
@@ -41,12 +38,12 @@
       }
       .middleDay {
         width: 100%;
-        height: 92%;
+        height: 100%;
         display: flex;
       }
       .middleTeacher {
         width: 100%;
-        height: 92%;
+        height: 100%;
         display: flex;
       }
 
@@ -884,6 +881,8 @@
       let cellStorage = {};
       let turnX;
 
+      let writing = false;
+
       //key control
       document.addEventListener("keydown", function (event) {
         if (document.activeElement.classList.contains("textCell")) {
@@ -913,9 +912,9 @@
             event.preventDefault();
             if (document.activeElement.classList.contains("noCursor")) {
               document.activeElement.classList.add("yesCursor");
-              // document.activeElement.style.caretColor = "auto";
               let lastLength = document.activeElement.value.length;
               document.activeElement.setSelectionRange(lastLength, lastLength);
+              writing = true;
             }
           }
         }
@@ -924,6 +923,7 @@
       //click control
       document.addEventListener("click", function () {
         findThisPage();
+        writing = false;
         if (document.querySelectorAll(".namingInput").length > 0) {
           for (let i = 0; i < document.querySelectorAll(".namingInput").length; i++) {
             let button = thisPageBtn;
@@ -958,6 +958,29 @@
         let downCell = cellRow < 25 ? currentRow.querySelectorAll(".textCell")[cellRow + 1] : null;
         let leftCell = cellCol > 0 ? currentTable.querySelectorAll(".teacherColumn")[cellCol - 1].querySelectorAll(".textCell")[cellRow] : null;
         let rightCell = cellCol < currentTable.children.length - 2 ? currentTable.querySelectorAll(".teacherColumn")[cellCol + 1].querySelectorAll(".textCell")[cellRow] : null;
+
+        //F2입력시, Alt+Enter는 줄바꿈, Enter or Tab은 다음셀로 이동
+        if (writing) {
+          if (event.altKey && event.key == "Enter") {
+            event.preventDefault();
+            currentCell.value += "\n";
+          } else if (event.key == "Enter" || event.key == "Tab") {
+            event.preventDefault();
+            if (cellRow < 25) {
+              cellRow++;
+              while (currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide")) {
+                cellRow++;
+                if (cellRow > 25) {
+                  cellRow--;
+                  break;
+                }
+              }
+            }
+            currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].focus();
+            writing = false;
+          }
+          return;
+        }
 
         if (event.ctrlKey && event.shiftKey) {
           if (event.key == "ArrowUp") {
@@ -1211,9 +1234,6 @@
               }
             }
           }
-          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          //////////////////////ctrl+shift를 ctrl을 이용해서 다시 만들기////////////////////////////////////////////////////////////////////////////
-          ////////////////////////////한번에 글자들 건너띄는거 필요하거든/////////////////////////////////////////////////////////////
           ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         } else if (event.ctrlKey) {
           if (event.key == "ArrowUp") {
@@ -1582,6 +1602,7 @@
               }
             }
           } else if (event.key == "ArrowDown" || event.key == "Enter") {
+            event.preventDefault();
             if (cellRow < 25) {
               cellRow++;
               while (currentTable.querySelectorAll(".teacherColumn")[cellCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.contains("hide")) {
@@ -1624,7 +1645,6 @@
           cellRow = Array.prototype.indexOf.call(div.children, currentCell.parentNode) - 1;
           cellCol = Array.prototype.indexOf.call(div.parentNode.children, div) - 1;
 
-          console.log(thisPage.querySelector(".yesCursor"));
           if (thisPage.querySelector(".yesCursor")) {
             thisPage.querySelector(".yesCursor").classList.remove("yesCursor");
           }
@@ -1636,6 +1656,7 @@
         event.stopPropagation();
       }
 
+      //셀 내용 삭제 함수
       function deleteValue(textarea) {
         let allClickedCell = thisPage.querySelectorAll(".cellClicked");
         if (allClickedCell.length > 1) {
@@ -1646,6 +1667,18 @@
           textarea.value = "";
         }
       }
+
+      ////////////////////////텍스트 세로정렬///////////////////////////////////////
+      // function textVertical(textarea) {
+      //   let originValue = textarea.value;
+      //   let num = parseInt(textarea.parentNode.getAttribute('includingCell'));
+      //   textarea.value = "";
+      //   for (let i = 0; i < num; i++) {
+      //     textarea.value += "\n";
+      //   }
+      //   textarea.value += originValue;
+      // }
+
       //마우스클릭시
       function mouseClick(div) {
         currentCell = document.activeElement;
@@ -1808,6 +1841,7 @@
 
       function ctrlZ() {}
 
+      //복사, 잘라내기 스토리지 비우기
       function initCtrl() {
         cellStorage = {};
         ctrlStorage = [];
