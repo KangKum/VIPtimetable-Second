@@ -136,7 +136,8 @@
       .btnAddTeacher,
       .btnDeleteTeacher,
       .btnDeletePage,
-      .btnMerge {
+      .btnMerge,
+      .btnVertical {
         width: 10%;
         height: 100%;
       }
@@ -189,6 +190,7 @@
         <button class="btnAddTeacher" onclick="addTeacher()">선생님 추가</button>
         <button class="btnDeleteTeacher" onclick="deleteTeacher()">선생님 삭제</button>
         <button class="btnMerge" onclick="mergeCell()">병합/해제</button>
+        <button class="btnVertical" onclick="verticalText()">텍스트 정렬</button>
       </div>
       <div class="middle">
         <div class="middleDay">
@@ -964,6 +966,7 @@
           if (event.altKey && event.key == "Enter") {
             event.preventDefault();
             currentCell.value += "\n";
+            currentCell.classList.add("yesCursor");
           } else if (event.key == "Enter" || event.key == "Tab") {
             event.preventDefault();
             if (cellRow < 25) {
@@ -1593,6 +1596,10 @@
             }
           }
           //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        } else if (event.altKey && event.key == "Enter") {
+          event.preventDefault();
+          currentCell.value += "\n";
+          currentCell.classList.add("yesCursor");
         } else {
           if (event.key == "ArrowUp") {
             if (cellRow > 0) {
@@ -1668,16 +1675,20 @@
         }
       }
 
-      ////////////////////////텍스트 세로정렬///////////////////////////////////////
-      // function textVertical(textarea) {
-      //   let originValue = textarea.value;
-      //   let num = parseInt(textarea.parentNode.getAttribute('includingCell'));
-      //   textarea.value = "";
-      //   for (let i = 0; i < num; i++) {
-      //     textarea.value += "\n";
-      //   }
-      //   textarea.value += originValue;
-      // }
+      //////////////////////텍스트 세로정렬///////////////////////////////////////
+      /////////////여기에 \n 또는 글자수(가로) 계산해서 padding 조절하기
+      function verticalText() {
+        findThisPage();
+        let allCells = thisPage.querySelectorAll(".textCell");
+        for (let i = 0; i < allCells.length; i++) {
+          if (allCells[i].value != "" && allCells[i].style.paddingTop == 0) {
+            allCells[i].style.height = "auto";
+            allCells[i].style.paddingTop = (allCells[i].parentNode.scrollHeight - allCells[i].scrollHeight) / 2 + "px";
+            allCells[i].style.paddingBottom = allCells[i].parentNode.scrollHeight - allCells[i].scrollHeight + "px";
+            console.log(allCells[i].style.paddingTop);
+          }
+        }
+      }
 
       //마우스클릭시
       function mouseClick(div) {
