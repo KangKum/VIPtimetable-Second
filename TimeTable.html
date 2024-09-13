@@ -158,6 +158,9 @@
       .cellClicked {
         background-color: rgb(221, 228, 222);
       }
+      .mirrorDiv {
+        background-color: rgb(221, 228, 222);
+      }
 
       .namingInput {
         background-color: inherit;
@@ -995,10 +998,13 @@
                   } else {
                     currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
                     currentCell.classList.add("cellClicked");
+                    currentCell.parentNode.classList.add("mirrorDiv");
+                    //here//
                   }
                 } else {
                   shadowRow--;
                   currentRow.querySelectorAll(".textCell")[cellRow + shadowRow + 1].classList.remove("cellClicked");
+                  currentRow.querySelectorAll(".textCell")[cellRow + shadowRow + 1].parentNode.classList.remove("mirrorDiv");
                 }
                 if (currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].value != "") {
                   break;
@@ -1012,10 +1018,12 @@
                     if (shadowCol > 0) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                     } else {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                     }
                   }
@@ -1025,10 +1033,12 @@
                     if (shadowCol > 0) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i + 1].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i + 1].parentNode.classList.remove("mirrorDiv");
                       }
                     } else {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i + 1].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i + 1].parentNode.classList.remove("mirrorDiv");
                       }
                     }
                   }
@@ -1046,11 +1056,14 @@
                   if (currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.contains("hide")) {
                   } else {
                     currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                    currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.add("mirrorDiv");
                     currentCell.classList.add("cellClicked");
+                    currentCell.parentNode.classList.add("mirrorDiv");
                   }
                 } else {
                   shadowRow++;
                   currentRow.querySelectorAll(".textCell")[cellRow + shadowRow - 1].classList.remove("cellClicked");
+                  currentRow.querySelectorAll(".textCell")[cellRow + shadowRow - 1].parentNode.classList.remove("mirrorDiv");
                 }
                 if (currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].value != "") {
                   break;
@@ -1064,10 +1077,12 @@
                     if (shadowCol > 0) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].paerntNode.classList.add("mirrorDiv");
                       }
                     } else {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                     }
                   }
@@ -1077,10 +1092,12 @@
                     if (shadowCol > 0) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i - 1].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i - 1].parentNode.classList.remove("mirrorDiv");
                       }
                     } else {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i - 1].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i - 1].parentNode.classList.remove("mirrorDiv");
                       }
                     }
                   }
@@ -1103,10 +1120,16 @@
                     break;
                   }
                   currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                  currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.add("mirrorDiv");
                   currentCell.classList.add("cellClicked");
+                  currentCell.parentNode.classList.add("mirrorDiv");
                 } else {
                   shadowCol--;
                   currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol + 1].querySelectorAll(".textCell")[cellRow + shadowRow].classList.remove("cellClicked");
+                  currentTable
+                    .querySelectorAll(".teacherColumn")
+                    [cellCol + shadowCol + 1].querySelectorAll(".textCell")
+                    [cellRow + shadowRow].parentNode.classList.remove("mirrorDiv");
                 }
 
                 if (currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].value != "") {
@@ -1121,18 +1144,22 @@
                     for (let i = 0; i <= shadowRow; i++) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                     }
                   } else {
                     for (let i = 0; i >= shadowRow; i--) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                     }
                   }
@@ -1142,18 +1169,22 @@
                     for (let i = 0; i <= shadowRow; i++) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j + 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j + 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                       }
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j + 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j + 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                       }
                     }
                   } else {
                     for (let i = 0; i >= shadowRow; i--) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j + 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j + 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                       }
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j + 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j + 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                       }
                     }
                   }
@@ -1176,10 +1207,16 @@
                     break;
                   }
                   currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                  currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.add("mirrorDiv");
                   currentCell.classList.add("cellClicked");
+                  currentCell.parentNode.classList.add("mirrorDiv");
                 } else {
                   shadowCol++;
                   currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol - 1].querySelectorAll(".textCell")[cellRow + shadowRow].classList.remove("cellClicked");
+                  currentTable
+                    .querySelectorAll(".teacherColumn")
+                    [cellCol + shadowCol - 1].querySelectorAll(".textCell")
+                    [cellRow + shadowRow].parentNode.classList.remove("mirrorDiv");
                 }
 
                 if (currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + shadowRow].value != "") {
@@ -1194,18 +1231,22 @@
                     for (let i = 0; i <= shadowRow; i++) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                     }
                   } else {
                     for (let i = 0; i >= shadowRow; i--) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol + j].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                       }
                     }
                   }
@@ -1215,18 +1256,22 @@
                     for (let i = 0; i <= shadowRow; i++) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j - 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j - 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                       }
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j - 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j - 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                       }
                     }
                   } else {
                     for (let i = 0; i >= shadowRow; i--) {
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j - 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j - 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                       }
                       for (let j = 0; j <= Math.abs(shadowCol); j++) {
                         currentTable.querySelectorAll(".teacherColumn")[cellCol - j - 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                        currentTable.querySelectorAll(".teacherColumn")[cellCol - j - 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                       }
                     }
                   }
@@ -1410,7 +1455,9 @@
                     shadowRow++;
                   }
                   currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                  currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.add("mirrorDiv");
                   currentCell.classList.add("cellClicked");
+                  currentCell.parentNode.classList.add("mirrorDiv");
                 }
               } else {
                 shadowRow--;
@@ -1418,6 +1465,7 @@
                   shadowRow--;
                 }
                 currentRow.querySelectorAll(".textCell")[cellRow + shadowRow + 1].classList.remove("cellClicked");
+                currentRow.querySelectorAll(".textCell")[cellRow + shadowRow + 1].parentNode.classList.remove("mirrorDiv");
               }
             } else {
               if (shadowRow <= 0) {
@@ -1426,10 +1474,12 @@
                   if (shadowCol > 0) {
                     for (let i = 0; i <= shadowCol; i++) {
                       currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                      currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.add("mirrorDiv");
                     }
                   } else if (shadowCol < 0) {
                     for (let i = 0; i >= shadowCol; i--) {
                       currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                      currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.add("mirrorDiv");
                     }
                   }
                 }
@@ -1438,10 +1488,12 @@
                 if (shadowCol > 0) {
                   for (let i = 0; i <= shadowCol; i++) {
                     currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow + 1].classList.remove("cellClicked");
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow + 1].parentNode.classList.remove("mirrorDiv");
                   }
                 } else if (shadowCol < 0) {
                   for (let i = 0; i >= shadowCol; i--) {
                     currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow + 1].classList.remove("cellClicked");
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow + 1].parentNode.classList.remove("mirrorDiv");
                   }
                 }
               }
@@ -1462,7 +1514,9 @@
                     shadowRow--;
                   }
                   currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                  currentRow.querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.add("mirrorDiv");
                   currentCell.classList.add("cellClicked");
+                  currentCell.parentNode.classList.add("mirrorDiv");
                 }
               } else {
                 shadowRow++;
@@ -1470,6 +1524,7 @@
                   shadowRow++;
                 }
                 currentRow.querySelectorAll(".textCell")[cellRow + shadowRow - 1].classList.remove("cellClicked");
+                currentRow.querySelectorAll(".textCell")[cellRow + shadowRow - 1].parentNode.classList.remove("mirrorDiv");
               }
             } else {
               if (shadowRow >= 0) {
@@ -1478,10 +1533,12 @@
                   if (shadowCol > 0) {
                     for (let i = 0; i <= shadowCol; i++) {
                       currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                      currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.add("mirrorDiv");
                     }
                   } else if (shadowCol < 0) {
                     for (let i = 0; i >= shadowCol; i--) {
                       currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow].classList.add("cellClicked");
+                      currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow].parentNode.classList.add("mirrorDiv");
                     }
                   }
                 }
@@ -1490,10 +1547,12 @@
                 if (shadowCol > 0) {
                   for (let i = 0; i <= shadowCol; i++) {
                     currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow - 1].classList.remove("cellClicked");
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow - 1].parentNode.classList.remove("mirrorDiv");
                   }
                 } else if (shadowCol < 0) {
                   for (let i = 0; i >= shadowCol; i--) {
                     currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow - 1].classList.remove("cellClicked");
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + i].querySelectorAll(".textCell")[cellRow + shadowRow - 1].parentNode.classList.remove("mirrorDiv");
                   }
                 }
               }
@@ -1513,11 +1572,14 @@
                     shadowCol++;
                   }
                   currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].classList.add("cellClicked");
+                  currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.add("mirrorDiv");
                   currentCell.classList.add("cellClicked");
+                  currentCell.parentNode.classList.add("mirrorDiv");
                 }
               } else {
                 shadowCol--;
                 currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol + 1].querySelectorAll(".textCell")[cellRow].classList.remove("cellClicked");
+                currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol + 1].querySelectorAll(".textCell")[cellRow].parentNode.classList.remove("mirrorDiv");
               }
             } else {
               if (shadowCol <= 0) {
@@ -1526,10 +1588,12 @@
                   if (shadowRow > 0) {
                     for (let i = 0; i <= shadowRow; i++) {
                       currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                      currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                     }
                   } else if (shadowRow < 0) {
                     for (let i = 0; i >= shadowRow; i--) {
                       currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                      currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                     }
                   }
                 }
@@ -1538,10 +1602,12 @@
                 if (shadowRow > 0) {
                   for (let i = 0; i <= shadowRow; i++) {
                     currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol + 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol + 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                   }
                 } else if (shadowRow < 0) {
                   for (let i = 0; i >= shadowRow; i--) {
                     currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol + 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol + 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                   }
                 }
               }
@@ -1561,11 +1627,14 @@
                     shadowCol--;
                   }
                   currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].classList.add("cellClicked");
+                  currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow].parentNode.classList.add("mirrorDiv");
                   currentCell.classList.add("cellClicked");
+                  currentCell.parentNode.classList.add("mirrorDiv");
                 }
               } else {
                 shadowCol++;
                 currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol - 1].querySelectorAll(".textCell")[cellRow].classList.remove("cellClicked");
+                currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol - 1].querySelectorAll(".textCell")[cellRow].parentNode.classList.remove("mirrorDiv");
               }
             } else {
               if (shadowCol >= 0) {
@@ -1574,10 +1643,12 @@
                   if (shadowRow > 0) {
                     for (let i = 0; i <= shadowRow; i++) {
                       currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                      currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                     }
                   } else if (shadowRow < 0) {
                     for (let i = 0; i >= shadowRow; i--) {
                       currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + i].classList.add("cellClicked");
+                      currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.add("mirrorDiv");
                     }
                   }
                 }
@@ -1586,10 +1657,12 @@
                 if (shadowRow > 0) {
                   for (let i = 0; i <= shadowRow; i++) {
                     currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol - 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol - 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                   }
                 } else if (shadowRow < 0) {
                   for (let i = 0; i >= shadowRow; i--) {
                     currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol - 1].querySelectorAll(".textCell")[cellRow + i].classList.remove("cellClicked");
+                    currentTable.querySelectorAll(".teacherColumn")[cellCol + shadowCol - 1].querySelectorAll(".textCell")[cellRow + i].parentNode.classList.remove("mirrorDiv");
                   }
                 }
               }
@@ -1642,6 +1715,7 @@
           //클릭된셀 색 제거
           document.querySelectorAll(".cellClicked").forEach(function (element) {
             element.classList.remove("cellClicked");
+            element.parentNode.classList.remove("mirrorDiv");
           });
           shadowRow = 0;
           shadowCol = 0;
@@ -1676,16 +1750,15 @@
       }
 
       //////////////////////텍스트 세로정렬///////////////////////////////////////
-      /////////////여기에 \n 또는 글자수(가로) 계산해서 padding 조절하기
       function verticalText() {
         findThisPage();
         let allCells = thisPage.querySelectorAll(".textCell");
         for (let i = 0; i < allCells.length; i++) {
-          if (allCells[i].value != "" && allCells[i].style.paddingTop == 0) {
+          if (allCells[i].value != "") {
             allCells[i].style.height = "auto";
-            allCells[i].style.paddingTop = (allCells[i].parentNode.scrollHeight - allCells[i].scrollHeight) / 2 + "px";
-            allCells[i].style.paddingBottom = allCells[i].parentNode.scrollHeight - allCells[i].scrollHeight + "px";
-            console.log(allCells[i].style.paddingTop);
+            allCells[i].parentNode.style.display = "flex";
+            allCells[i].parentNode.style.justifyContent = "center";
+            allCells[i].parentNode.style.alignItems = "center";
           }
         }
       }
