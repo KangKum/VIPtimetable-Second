@@ -1979,16 +1979,58 @@
       function merge() {
         //해제 만들기 >> ctrl이동만들기 >> 이동 오류 잡기
         allClickedCell = thisPage.querySelectorAll(".clickedCell");
-        if (allClickedCell[0].parentNode === allClickedCell[allClickedCell.length - 1].parentNode) {
-          console.log("Let's merge");
-          allClickedCell[0].style.height = 5 * allClickedCell.length + "%";
-          allClickedCell[0].classList.add("merged");
-          for (let i = 1; i < allClickedCell.length; i++) {
-            allClickedCell[i].classList.add("hide");
+        let checkMerged = false;
+        for (let i = 0; i < allClickedCell.length; i++) {
+          if (allClickedCell[i].classList.contains("merged")) {
+            checkMerged = true;
           }
-          currentCell = allClickedCell[0];
-          currentCell.focus();
-          cancelClickedCell();
+        }
+
+        if (allClickedCell.length > 0) {
+          if (checkMerged) {
+            for (let i = 0; i < allClickedCell.length; i++) {
+              if (allClickedCell[i].classList.contains("merged")) {
+                let tempCol = parseInt(allClickedCell[i].parentNode.getAttribute("cellCol"));
+                let tempRow = parseInt(allClickedCell[i].getAttribute("cellRow"));
+                for (let j = 1; j < allClickedCell[i].getAttribute("including"); j++) {
+                  thisTable
+                    .querySelector(`.textColumn[cellCol="${tempCol}"]`)
+                    .querySelector(`.textCell[cellRow="${tempRow + j}"]`)
+                    .classList.remove("hide");
+                }
+                allClickedCell[i].classList.remove("merged");
+                allClickedCell[i].style.height = "";
+                allClickedCell[i].removeAttribute("including");
+              }
+              allClickedCell[i].classList.remove("clickedCell");
+              //해제 후 셀의 포커스 지정하기
+            }
+            // checkmerged = false;
+          } else if (allClickedCell[0].parentNode === allClickedCell[allClickedCell.length - 1].parentNode) {
+            //병합
+            console.log("Let's merge");
+            allClickedCell[0].style.height = 5 * allClickedCell.length + "%";
+            allClickedCell[0].classList.add("merged");
+            allClickedCell[0].setAttribute("including", allClickedCell.length);
+            for (let i = 1; i < allClickedCell.length; i++) {
+              allClickedCell[i].classList.add("hide");
+            }
+            currentCell = allClickedCell[0];
+            currentCell.focus();
+            cancelClickedCell();
+          }
+        } else {
+          // 현재 셀 해제
+          for (let i = 1; i < parseInt(currentCell.getAttribute("including")); i++) {
+            thisTable
+              .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+              .querySelector(`.textCell[cellRow="${cellRow + i}"]`)
+              .classList.remove("hide");
+          }
+          currentCell.classList.remove("merged");
+          currentCell.style.height = "";
+          currentCell.removeAttribute("including");
+          //해제 후 셀의 포커스 지정하기
         }
       }
       function turnScreen() {
