@@ -1644,252 +1644,6 @@
       let botDiv = document.querySelector(".bot");
       let thisPageNum = botDiv.querySelector(".btnAddedPage.btnClicked").getAttribute("pageNum");
       let thisPage = document.querySelector(`.mid[midNum="${thisPageNum}"]`);
-      let oneTextColumn = `<div class="textColumn">
-              <div class="textCell firstCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-              <div class="textCell" contenteditable="true"></div>
-            </div>`;
-      let oneTeacherTable = `<div class="teacherTable" teacherTable="0">
-          <div class="timeColumn">
-            <div class="timeCell firstCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-            <div class="timeCell"></div>
-          </div>
-          <div class="textColumn">
-            <div class="textCell firstCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-          </div>
-          <div class="textColumn">
-            <div class="textCell firstCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-          </div>
-          <div class="textColumn">
-            <div class="textCell firstCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-          </div>
-          <div class="textColumn">
-            <div class="textCell firstCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-          </div>
-          <div class="textColumn">
-            <div class="textCell firstCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-          </div>
-          <div class="textColumn">
-            <div class="textCell firstCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-          </div>
-          <div class="textColumn">
-            <div class="textCell firstCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-            <div class="textCell" contenteditable="true"></div>
-          </div>
-        </div>`;
-
       let cellRow = 0;
       let cellCol = 0;
       let shadowRow = 0;
@@ -1906,67 +1660,9 @@
         thisTable = textCell.parentNode.parentNode;
         cellRow = parseInt(textCell.getAttribute("cellRow"));
         cellCol = parseInt(textCell.parentNode.getAttribute("cellCol"));
-
-        if (event.shiftKey) {
-          if (event.key === "ArrowUp") {
-            shadowRow--;
-            while (
-              thisTable
-                .querySelector(`.textColumn[cellCol="${cellCol}"]`)
-                .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
-                .classList.contains("hide")
-            ) {
-              shadowRow--;
-            }
-          } else if (event.key === "ArrowDown") {
-            shadowRow++;
-            while (
-              thisTable
-                .querySelector(`.textColumn[cellCol="${cellCol}"]`)
-                .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
-                .classList.contains("hide")
-            ) {
-              shadowRow++;
-            }
-          } else if (event.key === "ArrowLeft") {
-            shadowCol--;
-          } else if (event.key === "ArrowRight") {
-            shadowCol++;
-          }
-          thisTable
-            .querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`)
-            .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
-            .classList.add("clickedCell");
-        } else {
-          if (event.key === "ArrowUp") {
-            cellRow--;
-            while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-              cellRow--;
-            }
-          } else if (event.key === "ArrowDown") {
-            cellRow++;
-            while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-              cellRow++;
-            }
-          } else if (event.key === "ArrowLeft") {
-            cellCol--;
-            while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-              cellRow--;
-            }
-          } else if (event.key === "ArrowRight") {
-            cellCol++;
-            while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-              cellRow--;
-            }
-          }
-          console.log("cellRow: " + cellRow);
-          console.log("cellCol: " + cellCol);
-          // thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).focus();
-          currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
-          currentCell.focus();
-
-          cancelClickedCell();
-        }
+        ////////////////////////////////////////////////
+        //ctrl+shift이동, ctrl이동, shift이동, 일반이동///////
+        ////////////////////////////////////////////////
       }
       function cancelClickedCell() {
         shadowRow = 0;
@@ -1977,7 +1673,6 @@
         }
       }
       function merge() {
-        //해제 만들기 >> ctrl이동만들기 >> 이동 오류 잡기
         allClickedCell = thisPage.querySelectorAll(".clickedCell");
         let checkMerged = false;
         for (let i = 0; i < allClickedCell.length; i++) {
@@ -1986,6 +1681,7 @@
           }
         }
 
+        //해제
         if (allClickedCell.length > 0) {
           if (checkMerged) {
             for (let i = 0; i < allClickedCell.length; i++) {
@@ -2003,9 +1699,8 @@
                 allClickedCell[i].removeAttribute("including");
               }
               allClickedCell[i].classList.remove("clickedCell");
-              //해제 후 셀의 포커스 지정하기
             }
-            // checkmerged = false;
+            allClickedCell[0].focus();
           } else if (allClickedCell[0].parentNode === allClickedCell[allClickedCell.length - 1].parentNode) {
             //병합
             console.log("Let's merge");
@@ -2017,6 +1712,9 @@
             }
             currentCell = allClickedCell[0];
             currentCell.focus();
+            cancelClickedCell();
+          } else {
+            allClickedCell[0].focus();
             cancelClickedCell();
           }
         } else {
@@ -2030,7 +1728,7 @@
           currentCell.classList.remove("merged");
           currentCell.style.height = "";
           currentCell.removeAttribute("including");
-          //해제 후 셀의 포커스 지정하기
+          currentCell.focus();
         }
       }
       function turnScreen() {
@@ -2044,12 +1742,22 @@
       }
       function addTeacher() {
         //요일별테이블 추가
+        thisTable = thisPage.querySelector(".dayTable");
+        let numOfCols = thisTable.querySelectorAll(".textColumn").length;
         for (let i = 0; i < 7; i++) {
-          let newTextCol = document.createRange().createContextualFragment(oneTextColumn);
+          let newTextCol = thisPage.querySelector(".textColumn").cloneNode(true);
+          newTextCol.setAttribute("cellCol", numOfCols);
+          for (let j = 0; j < newTextCol.querySelectorAll(".textCell").length; j++) {
+            newTextCol.querySelectorAll(".textCell")[j].innerText = "";
+          }
           thisPage.querySelectorAll(".dayTable")[i].appendChild(newTextCol);
         }
         //선생님별테이블 추가
-        let newTeacherTable = document.createRange().createContextualFragment(oneTeacherTable);
+        let newTeacherTable = thisPage.querySelector(".teacherTable").cloneNode(true);
+        newTeacherTable.setAttribute("teacherTable", numOfCols);
+        for (let j = 0; j < newTeacherTable.querySelectorAll(".textCell").length; j++) {
+          newTeacherTable.querySelectorAll(".textCell")[j].innerText = "";
+        }
         thisPage.querySelector(".midByTeachers").appendChild(newTeacherTable);
       }
       function findThisPage() {
@@ -2104,7 +1812,6 @@
         document.querySelector(".timeModal").style.display = "";
         console.log(document.querySelector("select").value);
       }
-      ///셀이동은 좌표로
     </script>
   </body>
 </html>
