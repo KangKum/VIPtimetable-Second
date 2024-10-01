@@ -1644,6 +1644,7 @@
       let botDiv = document.querySelector(".bot");
       let thisPageNum = botDiv.querySelector(".btnAddedPage.btnClicked").getAttribute("pageNum");
       let thisPage = document.querySelector(`.mid[midNum="${thisPageNum}"]`);
+      let numOfTeachers;
       let cellRow = 0;
       let cellCol = 0;
       let shadowRow = 0;
@@ -1654,14 +1655,105 @@
 
       function clickCell(textCell) {
         currentCell = textCell;
+        cancelClickedCell();
       }
 
       function keyMove(textCell) {
         thisTable = textCell.parentNode.parentNode;
+        numOfTeachers = thisTable.querySelectorAll(".textColumn").length;
         cellRow = parseInt(textCell.getAttribute("cellRow"));
         cellCol = parseInt(textCell.parentNode.getAttribute("cellCol"));
+        currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+        let rowBack = 0;
+        let colBack = 0;
+        if (event.shiftKey && (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight")) {
+          if (cellRow + shadowRow > 0 && event.key === "ArrowUp") {
+            shadowRow--;
+            while (
+              thisTable
+                .querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`)
+                .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
+                .classList.contains("hide")
+            ) {
+              shadowRow--;
+            }
+            rowBack = 1;
+          } else if (cellRow + shadowRow < 23 && event.key === "ArrowDown") {
+            shadowRow++;
+            while (
+              thisTable
+                .querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`)
+                .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
+                .classList.contains("hide")
+            ) {
+              shadowRow++;
+            }
+            rowBack = -1;
+          } else if (cellCol + shadowCol > 0 && event.key === "ArrowLeft") {
+            shadowCol--;
+            while (
+              thisTable
+                .querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`)
+                .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
+                .classList.contains("hide")
+            ) {
+              shadowRow--;
+            }
+            colBack = 1;
+          } else if (cellCol + shadowCol < numOfTeachers - 1 && event.key === "ArrowRight") {
+            shadowCol++;
+            while (
+              thisTable
+                .querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`)
+                .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
+                .classList.contains("hide")
+            ) {
+              shadowRow--;
+            }
+            colBack = -1;
+          }
+          let shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
+          let backCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol + shadowCol + colBack}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow + rowBack}"]`);
+          console.log(backCell);
+          if (shadowCell.classList.contains("clickedCell")) {
+            //여기가 문제임 , 맨 위 맨 아래 왼쪽 오른쪽에서 쉬프트방향키가 잘 안됨 , 두개남았을 때 안됨
+            if (cellRow + shadowRow === 0 || cellRow + shadowRow === 23 || cellCol + shadowCol === 0 || cellCol + shadowCol === numOfTeachers - 1) {
+            } else {
+              backCell.classList.remove("clickedCell");
+            }
+          } else {
+            currentCell.classList.add("clickedCell");
+            shadowCell.classList.add("clickedCell");
+          }
+        } else {
+          if (cellRow > 0 && event.key === "ArrowUp") {
+            cellRow--;
+            while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+              cellRow--;
+            }
+          } else if (cellRow < 23 && event.key === "ArrowDown") {
+            cellRow++;
+            while (cellRow < 23 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+              cellRow++;
+            }
+          } else if (cellCol > 0 && event.key === "ArrowLeft") {
+            cellCol--;
+            while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+              cellRow--;
+            }
+          } else if (cellCol < numOfTeachers - 1 && event.key === "ArrowRight") {
+            cellCol++;
+            while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+              cellRow--;
+            }
+          }
+          currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+          currentCell.focus();
+          cancelClickedCell();
+        }
         ////////////////////////////////////////////////
         //ctrl+shift이동, ctrl이동, shift이동, 일반이동///////
+        //어떻게 이동하는게 효과적일까?////////////
         ////////////////////////////////////////////////
       }
       function cancelClickedCell() {
