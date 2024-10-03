@@ -1651,12 +1651,14 @@
       let shadowRow = 0;
       let shadowCol = 0;
       let shadowCell;
-      let tempMove = 0;
+      let originRow;
       let thisTable;
       let allClickedCell;
 
       function clickCell(textCell) {
         currentCell = textCell;
+        originRow = parseInt(currentCell.getAttribute("cellRow"));
+        console.log(originRow);
         cancelClickedCell();
         shadowRow = 0;
         shadowCol = 0;
@@ -1750,54 +1752,24 @@
             clickRight = true;
           }
 
-          // console.log("clickUp: " + clickUp);
-          // console.log("clickDown: " + clickDown);
-          // console.log("clickLeft: " + clickLeft);
-          // console.log("clickRight: " + clickRight);
           if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-            let i = 0;
             if (clickUp) {
-              while (
-                thisTable
-                  .querySelector(`.textColumn[cellCol="${cellCol}"]`)
-                  .querySelector(`.textCell[cellRow="${cellRow + i}"]`)
-                  .classList.contains("hide")
-              ) {
-                i--;
+              while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+                cellRow--;
               }
             } else if (clickDown) {
-              while (
-                thisTable
-                  .querySelector(`.textColumn[cellCol="${cellCol}"]`)
-                  .querySelector(`.textCell[cellRow="${cellRow + i}"]`)
-                  .classList.contains("hide")
-              ) {
-                i++;
+              while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+                cellRow++;
               }
-            } else if (clickLeft) {
-              while (
-                thisTable
-                  .querySelector(`.textColumn[cellCol="${cellCol}"]`)
-                  .querySelector(`.textCell[cellRow="${cellRow + i}"]`)
-                  .classList.contains("hide")
-              ) {
-                i--;
-              }
-            } else if (clickRight) {
-              while (
-                thisTable
-                  .querySelector(`.textColumn[cellCol="${cellCol}"]`)
-                  .querySelector(`.textCell[cellRow="${cellRow + i}"]`)
-                  .classList.contains("hide")
-              ) {
-                i--;
+            } else if (clickLeft || clickRight) {
+              while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+                cellRow--;
               }
             }
-            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + i}"]`);
-            //병합된 칸을 left,right로 옮겨다니기 원래 row값 유지하면서
           } else {
-            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
           }
+
+          currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
           currentCell.focus();
           cancelClickedCell();
           shadowRow = 0;
