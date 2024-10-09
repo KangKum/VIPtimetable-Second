@@ -1651,14 +1651,14 @@
       let shadowRow = 0;
       let shadowCol = 0;
       let shadowCell;
-      let originRow;
       let thisTable;
       let allClickedCell;
+      let originRow = 0;
+      let tempMove = 0;
 
       function clickCell(textCell) {
         currentCell = textCell;
         originRow = parseInt(currentCell.getAttribute("cellRow"));
-        console.log(originRow);
         cancelClickedCell();
         shadowRow = 0;
         shadowCol = 0;
@@ -1734,43 +1734,78 @@
             }
           }
         } else {
-          let clickUp;
-          let clickDown;
-          let clickLeft;
-          let clickRight;
+          let clickUp = false;
+          let clickDown = false;
+          let clickLeft = false;
+          let clickRight = false;
+          // if (cellRow > 0 && event.key === "ArrowUp") {
+          //   cellRow--;
+          //   clickUp = true;
+          // } else if (cellRow < 23 && event.key === "ArrowDown") {
+          //   cellRow++;
+          //   clickDown = true;
+          // } else if (cellCol > 0 && event.key === "ArrowLeft") {
+          //   cellCol--;
+          //   clickLeft = true;
+          // } else if (cellCol < numOfTeachers - 1 && event.key === "ArrowRight") {
+          //   cellCol++;
+          //   clickRight = true;
+          // }
+
           if (cellRow > 0 && event.key === "ArrowUp") {
             cellRow--;
-            clickUp = true;
-          } else if (cellRow < 23 && event.key === "ArrowDown") {
-            cellRow++;
-            clickDown = true;
-          } else if (cellCol > 0 && event.key === "ArrowLeft") {
-            cellCol--;
-            clickLeft = true;
-          } else if (cellCol < numOfTeachers - 1 && event.key === "ArrowRight") {
-            cellCol++;
-            clickRight = true;
-          }
-
-          if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-            if (clickUp) {
+            originRow = cellRow;
+            if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
               while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
                 cellRow--;
-              }
-            } else if (clickDown) {
-              while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-                cellRow++;
-              }
-            } else if (clickLeft || clickRight) {
-              while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-                cellRow--;
+                originRow--;
               }
             }
-          } else {
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+          } else if (cellRow < 23 && event.key === "ArrowDown") {
+            cellRow++;
+            originRow = cellRow;
+            if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+              while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+                cellRow++;
+                originRow++;
+              }
+            }
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+          } else if (cellCol > 0 && event.key === "ArrowLeft") {
+            cellCol--;
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow}"]`);
+            if (currentCell.classList.contains("hide")) {
+              let i = 0;
+              while (
+                thisTable
+                  .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+                  .querySelector(`.textCell[cellRow="${originRow - i}"]`)
+                  .classList.contains("hide")
+              ) {
+                i++;
+              }
+              currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow - i}"]`);
+            }
+          } else if (cellCol < numOfTeachers - 1 && event.key === "ArrowRight") {
+            cellCol++;
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow}"]`);
+            if (currentCell.classList.contains("hide")) {
+              let i = 0;
+              while (
+                thisTable
+                  .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+                  .querySelector(`.textCell[cellRow="${originRow - i}"]`)
+                  .classList.contains("hide")
+              ) {
+                i++;
+              }
+              currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow - i}"]`);
+            }
           }
 
-          currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
           currentCell.focus();
+
           cancelClickedCell();
           shadowRow = 0;
           shadowCol = 0;
@@ -1816,7 +1851,6 @@
             allClickedCell[0].focus();
           } else if (allClickedCell[0].parentNode === allClickedCell[allClickedCell.length - 1].parentNode) {
             //병합
-            console.log("Let's merge");
             allClickedCell[0].style.height = 5 * allClickedCell.length + "%";
             allClickedCell[0].classList.add("merged");
             allClickedCell[0].setAttribute("including", allClickedCell.length);
