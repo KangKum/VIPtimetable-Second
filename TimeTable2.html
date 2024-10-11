@@ -1714,44 +1714,50 @@
               shadowRow--;
             }
           }
-          // shadowCell.style.background = "";
+          shadowCell.style.backgroundColor = "";
           shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
-          // shadowCell.style.background = "red";
+          shadowCell.style.backgroundColor = "red";
 
-          let startRow = cellRow > parseInt(shadowCell.getAttribute("cellRow")) ? parseInt(shadowCell.getAttribute("cellRow")) : cellRow;
-          let endRow = cellRow > parseInt(shadowCell.getAttribute("cellRow")) ? cellRow : parseInt(shadowCell.getAttribute("cellRow"));
-          if (shadowCell.classList.contains("merged")) {
-            endRow = startRow + parseInt(shadowCell.getAttribute("including")) - 1;
-          }
-          let startCol = cellCol > parseInt(shadowCell.parentNode.getAttribute("cellCol")) ? parseInt(shadowCell.parentNode.getAttribute("cellCol")) : cellCol;
-          let endCol = cellCol > parseInt(shadowCell.parentNode.getAttribute("cellCol")) ? cellCol : parseInt(shadowCell.parentNode.getAttribute("cellCol"));
-          // console.log("startRow: " + startRow);
-          // console.log("endRow: " + endRow);
+          let startRow = parseInt(currentCell.getAttribute("cellRow"));
+          let startCol = parseInt(currentCell.parentNode.getAttribute("cellCol"));
+          let endRow = parseInt(shadowCell.getAttribute("cellRow"));
+          let endCol = parseInt(shadowCell.parentNode.getAttribute("cellCol"));
+
           cancelClickedCell();
-          for (let i = startRow; i <= endRow; i++) {
-            for (let j = startCol; j <= endCol; j++) {
-              thisTable.querySelector(`.textColumn[cellCol="${j}"]`).querySelector(`.textCell[cellRow="${i}"]`).classList.add("clickedCell");
+          console.log(endRow);
+
+          if (startRow > endRow) {
+            if (startCol > endCol) {
+              for (let j = endCol; j <= startCol; j++) {
+                for (let i = endRow; i <= startRow; i++) {
+                  thisTable.querySelector(`.textColumn[cellCol="${j}"]`).querySelector(`.textCell[cellRow="${i}"]`).classList.add("clickedCell");
+                }
+              }
+            } else {
+              for (let j = startCol; j <= endCol; j++) {
+                for (let i = endRow; i <= startRow; i++) {
+                  thisTable.querySelector(`.textColumn[cellCol="${j}"]`).querySelector(`.textCell[cellRow="${i}"]`).classList.add("clickedCell");
+                }
+              }
+            }
+          } else {
+            if (startCol > endCol) {
+              for (let j = endCol; j <= startCol; j++) {
+                for (let i = startRow; i <= endRow; i++) {
+                  thisTable.querySelector(`.textColumn[cellCol="${j}"]`).querySelector(`.textCell[cellRow="${i}"]`).classList.add("clickedCell");
+                }
+              }
+            } else {
+              for (let j = startCol; j <= endCol; j++) {
+                for (let i = startRow; i <= endRow; i++) {
+                  thisTable.querySelector(`.textColumn[cellCol="${j}"]`).querySelector(`.textCell[cellRow="${i}"]`).classList.add("clickedCell");
+                }
+              }
             }
           }
-        } else {
-          let clickUp = false;
-          let clickDown = false;
-          let clickLeft = false;
-          let clickRight = false;
-          // if (cellRow > 0 && event.key === "ArrowUp") {
-          //   cellRow--;
-          //   clickUp = true;
-          // } else if (cellRow < 23 && event.key === "ArrowDown") {
-          //   cellRow++;
-          //   clickDown = true;
-          // } else if (cellCol > 0 && event.key === "ArrowLeft") {
-          //   cellCol--;
-          //   clickLeft = true;
-          // } else if (cellCol < numOfTeachers - 1 && event.key === "ArrowRight") {
-          //   cellCol++;
-          //   clickRight = true;
-          // }
 
+          //시작점, 끝점 잡아서 전체 칠하기
+        } else {
           if (cellRow > 0 && event.key === "ArrowUp") {
             cellRow--;
             originRow = cellRow;
