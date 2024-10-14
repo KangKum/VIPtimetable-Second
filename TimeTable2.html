@@ -1672,6 +1672,7 @@
         currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
         shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
 
+        //쉬프트이동
         if (event.shiftKey && (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight")) {
           if (cellRow + shadowRow > 0 && event.key === "ArrowUp") {
             shadowRow--;
@@ -1714,50 +1715,34 @@
               shadowRow--;
             }
           }
-          shadowCell.style.backgroundColor = "";
+          // shadowCell.style.backgroundColor = "";
           shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
-          shadowCell.style.backgroundColor = "red";
+          // shadowCell.style.backgroundColor = "red";
 
-          let startRow = parseInt(currentCell.getAttribute("cellRow"));
-          let startCol = parseInt(currentCell.parentNode.getAttribute("cellCol"));
-          let endRow = parseInt(shadowCell.getAttribute("cellRow"));
-          let endCol = parseInt(shadowCell.parentNode.getAttribute("cellCol"));
-
+          let minRow;
+          let maxRow;
+          let minCol;
+          let maxCol;
           cancelClickedCell();
-          console.log(endRow);
 
-          if (startRow > endRow) {
-            if (startCol > endCol) {
-              for (let j = endCol; j <= startCol; j++) {
-                for (let i = endRow; i <= startRow; i++) {
-                  thisTable.querySelector(`.textColumn[cellCol="${j}"]`).querySelector(`.textCell[cellRow="${i}"]`).classList.add("clickedCell");
-                }
-              }
-            } else {
-              for (let j = startCol; j <= endCol; j++) {
-                for (let i = endRow; i <= startRow; i++) {
-                  thisTable.querySelector(`.textColumn[cellCol="${j}"]`).querySelector(`.textCell[cellRow="${i}"]`).classList.add("clickedCell");
-                }
-              }
-            }
+          if (shadowCell.classList.contains("merged")) {
+            minRow = parseInt(shadowCell.getAttribute("cellRow"));
+            maxRow = minRow + parseInt(shadowCell.getAttribute("including")) - 1;
           } else {
-            if (startCol > endCol) {
-              for (let j = endCol; j <= startCol; j++) {
-                for (let i = startRow; i <= endRow; i++) {
-                  thisTable.querySelector(`.textColumn[cellCol="${j}"]`).querySelector(`.textCell[cellRow="${i}"]`).classList.add("clickedCell");
-                }
-              }
-            } else {
-              for (let j = startCol; j <= endCol; j++) {
-                for (let i = startRow; i <= endRow; i++) {
-                  thisTable.querySelector(`.textColumn[cellCol="${j}"]`).querySelector(`.textCell[cellRow="${i}"]`).classList.add("clickedCell");
-                }
-              }
+            minRow = parseInt(currentCell.getAttribute("cellRow")) > parseInt(shadowCell.getAttribute("cellRow")) ? parseInt(shadowCell.getAttribute("cellRow")) : parseInt(currentCell.getAttribute("cellRow"));
+            maxRow = parseInt(currentCell.getAttribute("cellRow")) > parseInt(shadowCell.getAttribute("cellRow")) ? parseInt(currentCell.getAttribute("cellRow")) : parseInt(shadowCell.getAttribute("cellRow"));
+          }
+          minCol = parseInt(currentCell.parentNode.getAttribute("cellCol")) > parseInt(shadowCell.parentNode.getAttribute("cellCol")) ? parseInt(shadowCell.parentNode.getAttribute("cellCol")) : parseInt(currentCell.parentNode.getAttribute("cellCol"));
+          maxCol = parseInt(currentCell.parentNode.getAttribute("cellCol")) > parseInt(shadowCell.parentNode.getAttribute("cellCol")) ? parseInt(currentCell.parentNode.getAttribute("cellCol")) : parseInt(shadowCell.parentNode.getAttribute("cellCol"));
+          for (let i = minCol; i <= maxCol; i++) {
+            for (let j = minRow; j <= maxRow; j++) {
+              thisTable.querySelector(`.textColumn[cellCol="${i}"]`).querySelector(`.textCell[cellRow="${j}"]`).classList.add("clickedCell");
             }
           }
-
-          //시작점, 끝점 잡아서 전체 칠하기
+          // console.log("Row: " + minRow, maxRow);
+          // console.log("Col: " + minCol, maxCol);
         } else {
+          //////////////////////일반이동
           if (cellRow > 0 && event.key === "ArrowUp") {
             cellRow--;
             originRow = cellRow;
