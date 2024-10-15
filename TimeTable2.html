@@ -1654,7 +1654,10 @@
       let thisTable;
       let allClickedCell;
       let originRow = 0;
-      let tempMove = 0;
+      let minRow = 0;
+      let maxRow = 0;
+      let minCol = 0;
+      let maxCol = 0;
 
       function clickCell(textCell) {
         currentCell = textCell;
@@ -1667,9 +1670,9 @@
       function keyMove(textCell) {
         thisTable = textCell.parentNode.parentNode;
         numOfTeachers = thisTable.querySelectorAll(".textColumn").length;
-        cellRow = parseInt(textCell.getAttribute("cellRow"));
-        cellCol = parseInt(textCell.parentNode.getAttribute("cellCol"));
-        currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+        currentCell = textCell;
+        cellRow = parseInt(currentCell.getAttribute("cellRow"));
+        cellCol = parseInt(currentCell.parentNode.getAttribute("cellCol"));
         shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
 
         //쉬프트이동
@@ -1715,34 +1718,25 @@
               shadowRow--;
             }
           }
-          // shadowCell.style.backgroundColor = "";
+          shadowCell.style.backgroundColor = "";
           shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
-          // shadowCell.style.backgroundColor = "red";
+          shadowCell.style.backgroundColor = "red";
 
-          let minRow;
-          let maxRow;
-          let minCol;
-          let maxCol;
           cancelClickedCell();
 
-          if (shadowCell.classList.contains("merged")) {
-            minRow = parseInt(shadowCell.getAttribute("cellRow"));
-            maxRow = minRow + parseInt(shadowCell.getAttribute("including")) - 1;
-          } else {
-            minRow = parseInt(currentCell.getAttribute("cellRow")) > parseInt(shadowCell.getAttribute("cellRow")) ? parseInt(shadowCell.getAttribute("cellRow")) : parseInt(currentCell.getAttribute("cellRow"));
-            maxRow = parseInt(currentCell.getAttribute("cellRow")) > parseInt(shadowCell.getAttribute("cellRow")) ? parseInt(currentCell.getAttribute("cellRow")) : parseInt(shadowCell.getAttribute("cellRow"));
-          }
+          minRow = parseInt(currentCell.getAttribute("cellRow")) > parseInt(shadowCell.getAttribute("cellRow")) ? parseInt(shadowCell.getAttribute("cellRow")) : parseInt(currentCell.getAttribute("cellRow"));
+          maxRow = parseInt(currentCell.getAttribute("cellRow")) > parseInt(shadowCell.getAttribute("cellRow")) ? parseInt(currentCell.getAttribute("cellRow")) : parseInt(shadowCell.getAttribute("cellRow"));
           minCol = parseInt(currentCell.parentNode.getAttribute("cellCol")) > parseInt(shadowCell.parentNode.getAttribute("cellCol")) ? parseInt(shadowCell.parentNode.getAttribute("cellCol")) : parseInt(currentCell.parentNode.getAttribute("cellCol"));
           maxCol = parseInt(currentCell.parentNode.getAttribute("cellCol")) > parseInt(shadowCell.parentNode.getAttribute("cellCol")) ? parseInt(currentCell.parentNode.getAttribute("cellCol")) : parseInt(shadowCell.parentNode.getAttribute("cellCol"));
+          //옆에서 뿐만 아니라 아래서 올라갈때도 잡아야하기 때문에 다른 방법을 찾아야함
+          console.log("(" + minRow + "," + maxRow + ")");
           for (let i = minCol; i <= maxCol; i++) {
             for (let j = minRow; j <= maxRow; j++) {
               thisTable.querySelector(`.textColumn[cellCol="${i}"]`).querySelector(`.textCell[cellRow="${j}"]`).classList.add("clickedCell");
             }
           }
-          // console.log("Row: " + minRow, maxRow);
-          // console.log("Col: " + minCol, maxCol);
         } else {
-          //////////////////////일반이동
+          //////////////////////일반이동///////////////////////////
           if (cellRow > 0 && event.key === "ArrowUp") {
             cellRow--;
             originRow = cellRow;
@@ -1800,6 +1794,10 @@
           cancelClickedCell();
           shadowRow = 0;
           shadowCol = 0;
+          minRow = 0;
+          maxRow = 0;
+          minCol = 0;
+          maxCol = 0;
         }
       }
       function cancelClickedCell() {
