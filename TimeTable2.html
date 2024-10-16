@@ -104,6 +104,7 @@
         /* 오목한 효과를 위한 box-shadow */
         box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(255, 255, 255, 0.5);
       }
+
       .clickedCell {
         background-color: rgb(204, 222, 204);
       }
@@ -161,20 +162,18 @@
   <body>
     <div class="container">
       <div class="top">
-        <button class="btnAddTeacher" onclick="addTeacher()">선생님 추가</button>
-        <button class="btnTurnScreen" onclick="turnScreen()">요일별/선생님별</button>
-        <button class="btnMerge" onclick="merge()">병합/해제</button>
+        <button class="btnInputDate" onclick="openDateModal()">Date</button>
+        <button class="btnInputTime" onclick="openTimeModal()">Time</button>
+        <button class="btnAddTeacher" onclick="addTeacher()">AddTeacher</button>
+        <button class="btnTurnScreen" onclick="turnScreen()">Turn</button>
+        <button class="btnMerge" onclick="merge()">[ | ]</button>
       </div>
       <div class="mid" midNum="0">
         <div class="midByDays">
           <div class="dayTable" dayTable="0">
             <div class="timeColumn">
-              <div class="timeCell firstCell">
-                <button onclick="openDateModal()">날짜 입력</button>
-              </div>
-              <div class="timeCell">
-                <button onclick="openTimeModal()">시작시간 입력</button>
-              </div>
+              <div class="timeCell firstCell"></div>
+              <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -1649,7 +1648,6 @@
       let cellCol = 0;
       let currentCell;
       let shadowRow = 0;
-      let shadowCol = 0;
       let shadowCell;
       let thisTable;
       let allClickedCell;
@@ -1664,7 +1662,6 @@
         originRow = parseInt(currentCell.getAttribute("cellRow"));
         cancelClickedCell();
         shadowRow = 0;
-        shadowCol = 0;
       }
 
       function keyMove(textCell) {
@@ -1673,7 +1670,6 @@
         currentCell = textCell;
         cellRow = parseInt(currentCell.getAttribute("cellRow"));
         cellCol = parseInt(currentCell.parentNode.getAttribute("cellCol"));
-        shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
 
         //쉬프트이동
         if (event.shiftKey && (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight")) {
@@ -1681,7 +1677,7 @@
             shadowRow--;
             while (
               thisTable
-                .querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`)
+                .querySelector(`.textColumn[cellCol="${cellCol}"]`)
                 .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
                 .classList.contains("hide")
             ) {
@@ -1691,49 +1687,20 @@
             shadowRow++;
             while (
               thisTable
-                .querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`)
+                .querySelector(`.textColumn[cellCol="${cellCol}"]`)
                 .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
                 .classList.contains("hide")
             ) {
               shadowRow++;
             }
-          } else if (cellCol + shadowCol > 0 && event.key === "ArrowLeft") {
-            shadowCol--;
-            while (
-              thisTable
-                .querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`)
-                .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
-                .classList.contains("hide")
-            ) {
-              shadowRow--;
-            }
-          } else if (cellCol + shadowCol < numOfTeachers - 1 && event.key === "ArrowRight") {
-            shadowCol++;
-            while (
-              thisTable
-                .querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`)
-                .querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`)
-                .classList.contains("hide")
-            ) {
-              shadowRow--;
-            }
           }
-          shadowCell.style.backgroundColor = "";
-          shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol + shadowCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
-          shadowCell.style.backgroundColor = "red";
-
+          shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
           cancelClickedCell();
+          minRow = shadowRow >= 0 ? cellRow : cellRow + shadowRow;
+          maxRow = shadowRow >= 0 ? cellRow + shadowRow : cellRow;
 
-          minRow = parseInt(currentCell.getAttribute("cellRow")) > parseInt(shadowCell.getAttribute("cellRow")) ? parseInt(shadowCell.getAttribute("cellRow")) : parseInt(currentCell.getAttribute("cellRow"));
-          maxRow = parseInt(currentCell.getAttribute("cellRow")) > parseInt(shadowCell.getAttribute("cellRow")) ? parseInt(currentCell.getAttribute("cellRow")) : parseInt(shadowCell.getAttribute("cellRow"));
-          minCol = parseInt(currentCell.parentNode.getAttribute("cellCol")) > parseInt(shadowCell.parentNode.getAttribute("cellCol")) ? parseInt(shadowCell.parentNode.getAttribute("cellCol")) : parseInt(currentCell.parentNode.getAttribute("cellCol"));
-          maxCol = parseInt(currentCell.parentNode.getAttribute("cellCol")) > parseInt(shadowCell.parentNode.getAttribute("cellCol")) ? parseInt(currentCell.parentNode.getAttribute("cellCol")) : parseInt(shadowCell.parentNode.getAttribute("cellCol"));
-          //옆에서 뿐만 아니라 아래서 올라갈때도 잡아야하기 때문에 다른 방법을 찾아야함
-          console.log("(" + minRow + "," + maxRow + ")");
-          for (let i = minCol; i <= maxCol; i++) {
-            for (let j = minRow; j <= maxRow; j++) {
-              thisTable.querySelector(`.textColumn[cellCol="${i}"]`).querySelector(`.textCell[cellRow="${j}"]`).classList.add("clickedCell");
-            }
+          for (let j = minRow; j <= maxRow; j++) {
+            thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${j}"]`).classList.add("clickedCell");
           }
         } else {
           //////////////////////일반이동///////////////////////////
@@ -1790,21 +1757,14 @@
           }
 
           currentCell.focus();
-
           cancelClickedCell();
           shadowRow = 0;
-          shadowCol = 0;
           minRow = 0;
           maxRow = 0;
-          minCol = 0;
-          maxCol = 0;
         }
       }
       function cancelClickedCell() {
-        // shadowRow = 0;
-        // shadowCol = 0;
         allClickedCell = thisPage.querySelectorAll(".clickedCell");
-        // shadowCell.style.background = "";
         for (let i = 0; i < allClickedCell.length; i++) {
           allClickedCell[i].classList.remove("clickedCell");
         }
@@ -1878,6 +1838,7 @@
       }
       function addTeacher() {
         //요일별테이블 추가
+        //////////////////////////////////////병합 전부 해제하고 추가하기///////////////////////
         thisTable = thisPage.querySelector(".dayTable");
         let numOfCols = thisTable.querySelectorAll(".textColumn").length;
         for (let i = 0; i < 7; i++) {
