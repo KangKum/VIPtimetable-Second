@@ -28,7 +28,6 @@
       }
       .mid {
         width: 100%;
-        height: 92%;
         padding-top: 4vh;
       }
       .midByDays,
@@ -53,7 +52,7 @@
       }
       .timeCell {
         width: 100%;
-        height: 5%;
+        height: 3vh;
         background-color: #ded7d7;
       }
       .textColumn {
@@ -65,7 +64,7 @@
       }
       .textCell {
         width: 100%;
-        height: 5%;
+        height: 3vh;
 
         display: flex;
         flex-direction: row;
@@ -83,10 +82,14 @@
       .bot {
         width: 100%;
         height: 4vh;
+        /* padding-top: 40vh; */
         display: flex;
         position: fixed;
       }
 
+      .btnAddPage {
+        width: 2.5%;
+      }
       .btnAddedPage {
         height: 100%;
         width: 15%;
@@ -164,9 +167,16 @@
       <div class="top">
         <button class="btnInputDate" onclick="openDateModal()">Date</button>
         <button class="btnInputTime" onclick="openTimeModal()">Time</button>
-        <button class="btnAddTeacher" onclick="addTeacher()">AddTeacher</button>
-        <button class="btnTurnScreen" onclick="turnScreen()">Turn</button>
+        <div style="width: 1%"></div>
+        <button class="btnTurnScreen" onclick="turnScreen()">goTeachers</button>
+        <div style="width: 1%"></div>
         <button class="btnMerge" onclick="merge()">[ | ]</button>
+        <div style="width: 1%"></div>
+        <button class="btnAddTeacher" onclick="addTeacher()">Teacher +</button>
+        <button class="btnDeleteTeacher" onclick="deleteTeacher()">Teacher -</button>
+        <div style="width: 1%"></div>
+        <button class="btnAddRow" onclick="addRow()">Row +</button>
+        <button class="btnDeleteRow" onclick="deleteRow()">Row -</button>
       </div>
       <div class="mid" midNum="0">
         <div class="midByDays">
@@ -1644,6 +1654,7 @@
       let thisPageNum = botDiv.querySelector(".btnAddedPage.btnClicked").getAttribute("pageNum");
       let thisPage = document.querySelector(`.mid[midNum="${thisPageNum}"]`);
       let numOfTeachers;
+      let numOfRows;
       let cellRow = 0;
       let cellCol = 0;
       let currentCell;
@@ -1664,9 +1675,58 @@
         shadowRow = 0;
       }
 
+      function addRow() {
+        //요일별 테이블
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
+        for (let i = 0; i < 7; i++) {
+          let newTimeCell = thisPage.querySelectorAll(".timeCell")[numOfRows].cloneNode(false);
+          thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
+          for (let j = 0; j < numOfTeachers; j++) {
+            let newTextCell = thisPage.querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
+            newTextCell.setAttribute("cellRow", numOfRows - 1);
+            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+          }
+        }
+
+        //선생님별 테이블
+        for (let i = 0; i < numOfTeachers; i++) {
+          let newTimeCell = thisPage.querySelectorAll(".timeCell")[numOfRows].cloneNode(false);
+          thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
+          for (let j = 0; j < 7; j++) {
+            let newTextCell = thisPage.querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
+            newTextCell.setAttribute("cellRow", numOfRows - 1);
+            thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+          }
+        }
+      }
+
+      function deleteRow() {
+        //요일별
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
+        if (numOfRows > 2) {
+          for (let i = 0; i < 7; i++) {
+            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").querySelectorAll(".timeCell")[numOfRows - 1].remove();
+            for (let j = 0; j < numOfTeachers; j++) {
+              thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[numOfRows - 1].remove();
+            }
+          }
+
+          //선생님별
+          for (let i = 0; i < numOfTeachers; i++) {
+            thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelector(".timeColumn").querySelectorAll(".timeCell")[numOfRows - 1].remove();
+            for (let j = 0; j < 7; j++) {
+              thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[numOfRows - 1].remove();
+            }
+          }
+        }
+      }
+
       function keyMove(textCell) {
         thisTable = textCell.parentNode.parentNode;
         numOfTeachers = thisTable.querySelectorAll(".textColumn").length;
+        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length - 2;
         currentCell = textCell;
         cellRow = parseInt(currentCell.getAttribute("cellRow"));
         cellCol = parseInt(currentCell.parentNode.getAttribute("cellCol"));
@@ -1683,7 +1743,7 @@
             ) {
               shadowRow--;
             }
-          } else if (cellRow + shadowRow < 23 && event.key === "ArrowDown") {
+          } else if (cellRow + shadowRow < numOfRows && event.key === "ArrowDown") {
             shadowRow++;
             while (
               thisTable
@@ -1714,7 +1774,7 @@
               }
             }
             currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
-          } else if (cellRow < 23 && event.key === "ArrowDown") {
+          } else if (cellRow < numOfRows && event.key === "ArrowDown") {
             cellRow++;
             originRow = cellRow;
             if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
@@ -1800,7 +1860,7 @@
             allClickedCell[0].focus();
           } else if (allClickedCell[0].parentNode === allClickedCell[allClickedCell.length - 1].parentNode) {
             //병합
-            allClickedCell[0].style.height = 5 * allClickedCell.length + "%";
+            allClickedCell[0].style.height = 3 * allClickedCell.length + "vh";
             allClickedCell[0].classList.add("merged");
             allClickedCell[0].setAttribute("including", allClickedCell.length);
             for (let i = 1; i < allClickedCell.length; i++) {
@@ -1831,19 +1891,36 @@
         if (thisPage.querySelector(".midByDays").classList.contains("hide")) {
           thisPage.querySelector(".midByDays").classList.remove("hide");
           thisPage.querySelector(".midByTeachers").classList.add("hide");
+          document.querySelector(".btnTurnScreen").innerText = "goTeachers";
         } else {
           thisPage.querySelector(".midByDays").classList.add("hide");
           thisPage.querySelector(".midByTeachers").classList.remove("hide");
+          document.querySelector(".btnTurnScreen").innerText = "goDays";
         }
       }
       function addTeacher() {
         //요일별테이블 추가
-        //////////////////////////////////////병합 전부 해제하고 추가하기///////////////////////
         thisTable = thisPage.querySelector(".dayTable");
-        let numOfCols = thisTable.querySelectorAll(".textColumn").length;
+        // let numOfCols = thisTable.querySelectorAll(".textColumn").length;
+        numOfTeachers = thisTable.querySelectorAll(".textColumn").length;
+
+        cancelClickedCell();
         for (let i = 0; i < 7; i++) {
           let newTextCol = thisPage.querySelector(".textColumn").cloneNode(true);
-          newTextCol.setAttribute("cellCol", numOfCols);
+          newTextCol.setAttribute("cellCol", numOfTeachers);
+
+          //병합 제거
+          for (let p = 0; p < newTextCol.querySelectorAll(".textCell").length; p++) {
+            if (newTextCol.querySelectorAll(".textCell")[p].classList.contains("merged")) {
+              for (let q = 1; q < parseInt(newTextCol.querySelectorAll(".textCell")[p].getAttribute("including")); q++) {
+                newTextCol.querySelector(`.textCell[cellRow="${cellRow + q}"]`).classList.remove("hide");
+              }
+              newTextCol.querySelectorAll(".textCell")[p].classList.remove("merged");
+              newTextCol.querySelectorAll(".textCell")[p].style.height = "";
+              newTextCol.querySelectorAll(".textCell")[p].removeAttribute("including");
+            }
+          }
+          //텍스트 제거
           for (let j = 0; j < newTextCol.querySelectorAll(".textCell").length; j++) {
             newTextCol.querySelectorAll(".textCell")[j].innerText = "";
           }
@@ -1851,11 +1928,42 @@
         }
         //선생님별테이블 추가
         let newTeacherTable = thisPage.querySelector(".teacherTable").cloneNode(true);
-        newTeacherTable.setAttribute("teacherTable", numOfCols);
+        newTeacherTable.setAttribute("teacherTable", numOfTeachers);
+
+        //병합 제거
+        for (let i = 0; i < numOfTeachers; i++) {
+          for (let j = 0; j < numOfRows; j++) {
+            if (newTeacherTable.querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].classList.contains("merged")) {
+              for (let q = 1; q < parseInt(newTeacherTable.querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].getAttribute("including")); q++) {
+                newTeacherTable.querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j + q].classList.remove("hide");
+              }
+              newTeacherTable.querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].classList.remove("merged");
+              newTeacherTable.querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].style.height = "";
+              newTeacherTable.querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].removeAttribute("including");
+            }
+          }
+        }
+
+        //텍스트 제거
         for (let j = 0; j < newTeacherTable.querySelectorAll(".textCell").length; j++) {
           newTeacherTable.querySelectorAll(".textCell")[j].innerText = "";
         }
         thisPage.querySelector(".midByTeachers").appendChild(newTeacherTable);
+      }
+
+      function deleteTeacher() {
+        //요일별
+        numOfTeachers = thisPage.querySelector(".midByDays").querySelector(".dayTable").querySelectorAll(".textColumn").length;
+        if (numOfTeachers > 1) {
+          for (let i = 0; i < 7; i++) {
+            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[numOfTeachers - 1].remove();
+          }
+
+          //선생님별
+          for (let i = 0; i < numOfTeachers; i++) {
+            thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[numOfTeachers - 1].remove();
+          }
+        }
       }
       function findThisPage() {
         thisPageNum = botDiv.querySelector(".btnAddedPage.btnClicked").getAttribute("pageNum");
