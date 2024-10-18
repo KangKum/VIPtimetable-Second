@@ -54,6 +54,12 @@
         width: 100%;
         height: 3vh;
         background-color: #ded7d7;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
       }
       .textColumn {
         min-width: 14vh;
@@ -1625,6 +1631,8 @@
     <div class="timeModal hide">
       <div class="timeModal-content">
         <select>
+          <option>09:00 -</option>
+          <option>09:30 -</option>
           <option>10:00 -</option>
           <option>10:30 -</option>
           <option>11:00 -</option>
@@ -1644,6 +1652,8 @@
           <option>6:00 -</option>
           <option>6:30 -</option>
           <option>7:00 -</option>
+          <option>7:30 -</option>
+          <option>8:00 -</option>
         </select>
         <button class="close" onclick="closeTimeModal()">OK</button>
       </div>
@@ -1667,6 +1677,8 @@
       let maxRow = 0;
       let minCol = 0;
       let maxCol = 0;
+      let timeArray = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "1:00", "1:30", "2:00", "2:30", "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00"];
+      let dayArray = ["월", "화", "수", "목", "금", "토", "일"];
 
       function clickCell(textCell) {
         currentCell = textCell;
@@ -1679,24 +1691,34 @@
         //요일별 테이블
         numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
         numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
-        for (let i = 0; i < 7; i++) {
-          let newTimeCell = thisPage.querySelectorAll(".timeCell")[numOfRows].cloneNode(false);
-          thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
-          for (let j = 0; j < numOfTeachers; j++) {
-            let newTextCell = thisPage.querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
-            newTextCell.setAttribute("cellRow", numOfRows - 1);
-            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+        if (thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[0].querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4) === "11:3") {
+          //12시 이후로는 행 추가 불가
+        } else {
+          for (let i = 0; i < 7; i++) {
+            let newTimeCell = thisPage.querySelectorAll(".timeCell")[numOfRows].cloneNode(false);
+            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
+            let upCellTime = thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4);
+            for (let p = 0; p < timeArray.length; p++) {
+              if (upCellTime === timeArray[p].substring(0, 4)) {
+                newTimeCell.innerText = timeArray[p + 1] + " - " + timeArray[p + 2];
+              }
+            }
+            for (let j = 0; j < numOfTeachers; j++) {
+              let newTextCell = thisPage.querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
+              newTextCell.setAttribute("cellRow", numOfRows - 1);
+              thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+            }
           }
-        }
 
-        //선생님별 테이블
-        for (let i = 0; i < numOfTeachers; i++) {
-          let newTimeCell = thisPage.querySelectorAll(".timeCell")[numOfRows].cloneNode(false);
-          thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
-          for (let j = 0; j < 7; j++) {
-            let newTextCell = thisPage.querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
-            newTextCell.setAttribute("cellRow", numOfRows - 1);
-            thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+          //선생님별 테이블
+          for (let i = 0; i < numOfTeachers; i++) {
+            let newTimeCell = thisPage.querySelectorAll(".timeCell")[numOfRows].cloneNode(false);
+            thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
+            for (let j = 0; j < 7; j++) {
+              let newTextCell = thisPage.querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
+              newTextCell.setAttribute("cellRow", numOfRows - 1);
+              thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+            }
           }
         }
       }
@@ -1888,6 +1910,7 @@
         }
       }
       function turnScreen() {
+        //값, 병합 복사
         if (thisPage.querySelector(".midByDays").classList.contains("hide")) {
           thisPage.querySelector(".midByDays").classList.remove("hide");
           thisPage.querySelector(".midByTeachers").classList.add("hide");
@@ -1960,9 +1983,7 @@
           }
 
           //선생님별
-          for (let i = 0; i < numOfTeachers; i++) {
-            thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[numOfTeachers - 1].remove();
-          }
+          thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[numOfTeachers - 1].remove();
         }
       }
       function findThisPage() {
@@ -2006,7 +2027,7 @@
       function closeDateModal() {
         document.querySelector(".dateModal").classList.add("hide");
         document.querySelector(".dateModal").style.display = "";
-        console.log(document.querySelector(".dateInput").value);
+        applyDate();
       }
       function openTimeModal() {
         document.querySelector(".timeModal").classList.remove("hide");
@@ -2015,7 +2036,45 @@
       function closeTimeModal() {
         document.querySelector(".timeModal").classList.add("hide");
         document.querySelector(".timeModal").style.display = "";
-        console.log(document.querySelector("select").value);
+        applyTime();
+      }
+      function applyDate() {
+        ////날짜만으로 요일 알 수 있는지???
+        if (document.querySelector(".dateInput").value === "") {
+          //   //날짜 미입력시 종료
+        } else {
+          for (let i = 0; i < 7; i++) {
+            let date = new Date(document.querySelector(".dateInput").value);
+            date.setDate(date.getDate() + i);
+            let realDate = date.toISOString().split("T")[0].slice(5);
+            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").querySelectorAll(".timeCell")[0].innerText = dayArray[i] + " " + "(" + realDate + ")";
+          }
+        }
+      }
+      function applyTime() {
+        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+
+        let selectedTime = document.querySelector(".timeModal-content").querySelector("select").value.length > 6 ? document.querySelector(".timeModal-content").querySelector("select").value.substring(0, 5) : document.querySelector(".timeModal-content").querySelector("select").value.substring(0, 4);
+        //첫 테이블에 시간배열
+        for (let i = 0; i < timeArray.length; i++) {
+          if (selectedTime === timeArray[i]) {
+            for (let j = 0; j < numOfRows - 1; j++) {
+              if (i + j > 29) {
+                thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[0].querySelectorAll(".timeCell")[j + 1].innerText = "";
+              } else {
+                thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[0].querySelectorAll(".timeCell")[j + 1].innerText = timeArray[i + j] + " - " + timeArray[i + j + 1];
+              }
+            }
+            break;
+          }
+        }
+        //나머지 테이블에 시간복사
+        for (let i = 0; i < 6; i++) {
+          for (let j = 0; j < numOfRows - 1; j++) {
+            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i + 1].querySelectorAll(".timeCell")[j + 1].innerText = thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[0].querySelectorAll(".timeCell")[j + 1].innerText;
+          }
+        }
       }
     </script>
   </body>
