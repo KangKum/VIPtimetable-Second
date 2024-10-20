@@ -183,6 +183,9 @@
         <div style="width: 1%"></div>
         <button class="btnAddRow" onclick="addRow()">Row +</button>
         <button class="btnDeleteRow" onclick="deleteRow()">Row -</button>
+        <button onclick="saveData()">저장</button>
+        <button onclick="pasteData()">붙여넣기</button>
+        <button>화면전환시 값/병합 전환</button>
       </div>
       <div class="mid" midNum="0">
         <div class="midByDays">
@@ -1678,7 +1681,10 @@
       let minCol = 0;
       let maxCol = 0;
       let timeArray = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "1:00", "1:30", "2:00", "2:30", "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00"];
-      let dayArray = ["월", "화", "수", "목", "금", "토", "일"];
+      let dayArray = ["일", "월", "화", "수", "목", "금", "토"];
+      // let cellData = {};
+      // let rowData = [];
+      let allData = [];
 
       function clickCell(textCell) {
         currentCell = textCell;
@@ -1686,7 +1692,6 @@
         cancelClickedCell();
         shadowRow = 0;
       }
-
       function addRow() {
         //요일별 테이블
         numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
@@ -1722,7 +1727,6 @@
           }
         }
       }
-
       function deleteRow() {
         //요일별
         numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
@@ -1744,7 +1748,6 @@
           }
         }
       }
-
       function keyMove(textCell) {
         thisTable = textCell.parentNode.parentNode;
         numOfTeachers = thisTable.querySelectorAll(".textColumn").length;
@@ -1910,7 +1913,7 @@
         }
       }
       function turnScreen() {
-        //값, 병합 복사
+        //값, 병합 복사 여기 here
         if (thisPage.querySelector(".midByDays").classList.contains("hide")) {
           thisPage.querySelector(".midByDays").classList.remove("hide");
           thisPage.querySelector(".midByTeachers").classList.add("hide");
@@ -1919,6 +1922,90 @@
           thisPage.querySelector(".midByDays").classList.add("hide");
           thisPage.querySelector(".midByTeachers").classList.remove("hide");
           document.querySelector(".btnTurnScreen").innerText = "goDays";
+        }
+      }
+      function saveData() {
+        allData = [];
+        //요일별 테이블일 때
+        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
+
+        if (thisPage.querySelector(".midByTeachers").classList.contains("hide")) {
+          let numOfTotalCols = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn").length;
+          for (let i = 0; i < numOfTotalCols; i++) {
+            let rowData = [];
+            for (let j = 1; j <= numOfRows - 1; j++) {
+              let cellData = {};
+              cellData.value = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].innerText;
+              cellData.height = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].style.height;
+              if (thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].classList.contains("merged")) {
+                cellData.classList = "merged";
+              } else if (thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].classList.contains("hide")) {
+                cellData.classList = "hide";
+              }
+              if (thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].getAttribute("including")) {
+                cellData.including = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].getAttribute("including");
+              }
+              rowData.push(cellData);
+            }
+            allData.push(rowData);
+          }
+        } else {
+          //선생님별 테이블일 때
+          let numOfTotalCols = thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn").length;
+          for (let i = 0; i < numOfTotalCols; i++) {
+            let rowData = [];
+            for (let j = 1; j <= numOfRows - 1; j++) {
+              let cellData = {};
+              cellData.value = thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].innerText;
+              cellData.height = thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].style.height;
+              if (thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].classList.contains("merged")) {
+                cellData.classList = "merged";
+              } else if (thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].classList.contains("hide")) {
+                cellData.classList = "hide";
+              }
+              if (thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].getAttribute("including")) {
+                cellData.including = thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].getAttribute("including");
+              }
+              rowData.push(cellData);
+            }
+            allData.push(rowData);
+          }
+        }
+        // console.log(allData);
+      }
+      function pasteData() {
+        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+        //요일별 화면으로 넘어갈 때
+        if (thisPage.querySelector(".midByTeachers").classList.contains("hide")) {
+          // let numOfTotalCols = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn").length;
+          // for (let i = 0; i < numOfTotalCols; i++) {
+          //   for (let j = 1; j <= numOfRows - 1; j++) {
+          //     thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].innerText = allData[i][j - 1].value;
+          //     thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].style.height = allData[i][j - 1].height;
+          //     thisPage
+          //       .querySelector(".midByDays")
+          //       .querySelectorAll(".textColumn")
+          //       [i].querySelectorAll(".textCell")
+          //       [j].classList.add(allData[i][j - 1].classList);
+          //     thisPage
+          //       .querySelector(".midByDays")
+          //       .querySelectorAll(".textColumn")
+          //       [i].querySelectorAll(".textCell")
+          //       [j].setAttribute("including", allData[i][j - 1].including);
+          //   }
+          // }
+          console.log(allData);
+          let numOfTotalCols = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn").length;
+          for (let i = 0; i < 7; i++) {
+            for (let j = 0; j < numOfTeachers; j++) {
+              for (let k = 1; k <= numOfRows - 1; k++) {
+                thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].innerText = allData[i * j * 3][k - 1].value;
+              }
+            }
+          }
+        } else {
+          //선생님별 화면으로 넘어갈 때
         }
       }
       function addTeacher() {
@@ -1973,7 +2060,6 @@
         }
         thisPage.querySelector(".midByTeachers").appendChild(newTeacherTable);
       }
-
       function deleteTeacher() {
         //요일별
         numOfTeachers = thisPage.querySelector(".midByDays").querySelector(".dayTable").querySelectorAll(".textColumn").length;
@@ -2039,15 +2125,15 @@
         applyTime();
       }
       function applyDate() {
-        ////날짜만으로 요일 알 수 있는지???
         if (document.querySelector(".dateInput").value === "") {
-          //   //날짜 미입력시 종료
+          //날짜 미입력시 종료
         } else {
           for (let i = 0; i < 7; i++) {
             let date = new Date(document.querySelector(".dateInput").value);
             date.setDate(date.getDate() + i);
             let realDate = date.toISOString().split("T")[0].slice(5);
-            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").querySelectorAll(".timeCell")[0].innerText = dayArray[i] + " " + "(" + realDate + ")";
+            let realDay = date.getDay();
+            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").querySelectorAll(".timeCell")[0].innerText = dayArray[realDay] + " " + "(" + realDate + ")";
           }
         }
       }
