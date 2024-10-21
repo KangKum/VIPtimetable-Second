@@ -185,7 +185,10 @@
         <button class="btnDeleteRow" onclick="deleteRow()">Row -</button>
         <button onclick="saveData()">저장</button>
         <button onclick="pasteData()">붙여넣기</button>
-        <button>화면전환시 값/병합 전환</button>
+        <button>bot에 페이지전환</button>
+        <button>선생님이름입력 및 복사</button>
+        <button>주말 시간대 분리?</button>
+        <button>파이어베이스</button>
       </div>
       <div class="mid" midNum="0">
         <div class="midByDays">
@@ -1684,6 +1687,7 @@
       let dayArray = ["일", "월", "화", "수", "목", "금", "토"];
       // let cellData = {};
       // let rowData = [];
+      // let tableData = [];
       let allData = [];
 
       function clickCell(textCell) {
@@ -1914,6 +1918,7 @@
       }
       function turnScreen() {
         //값, 병합 복사 여기 here
+        saveData();
         if (thisPage.querySelector(".midByDays").classList.contains("hide")) {
           thisPage.querySelector(".midByDays").classList.remove("hide");
           thisPage.querySelector(".midByTeachers").classList.add("hide");
@@ -1923,89 +1928,104 @@
           thisPage.querySelector(".midByTeachers").classList.remove("hide");
           document.querySelector(".btnTurnScreen").innerText = "goDays";
         }
+        pasteData();
       }
       function saveData() {
         allData = [];
         //요일별 테이블일 때
         numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
-
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
         if (thisPage.querySelector(".midByTeachers").classList.contains("hide")) {
-          let numOfTotalCols = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn").length;
-          for (let i = 0; i < numOfTotalCols; i++) {
-            let rowData = [];
-            for (let j = 1; j <= numOfRows - 1; j++) {
-              let cellData = {};
-              cellData.value = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].innerText;
-              cellData.height = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].style.height;
-              if (thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].classList.contains("merged")) {
-                cellData.classList = "merged";
-              } else if (thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].classList.contains("hide")) {
-                cellData.classList = "hide";
+          for (let j = 0; j < numOfTeachers; j++) {
+            let tableData = [];
+            for (let i = 0; i < 7; i++) {
+              let rowData = [];
+              for (let k = 1; k < numOfRows - 1; k++) {
+                let savingCell = thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k];
+                let cellData = {};
+                cellData.value = savingCell.innerText;
+                cellData.height = savingCell.style.height;
+                if (savingCell.classList.contains("merged")) {
+                  cellData.classList = "merged";
+                } else if (savingCell.classList.contains("hide")) {
+                  cellData.classList = "hide";
+                }
+                cellData.including = savingCell.getAttribute("including");
+                rowData.push(cellData);
               }
-              if (thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].getAttribute("including")) {
-                cellData.including = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].getAttribute("including");
-              }
-              rowData.push(cellData);
+              tableData.push(rowData);
             }
-            allData.push(rowData);
+            allData.push(tableData);
           }
         } else {
           //선생님별 테이블일 때
-          let numOfTotalCols = thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn").length;
-          for (let i = 0; i < numOfTotalCols; i++) {
-            let rowData = [];
-            for (let j = 1; j <= numOfRows - 1; j++) {
-              let cellData = {};
-              cellData.value = thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].innerText;
-              cellData.height = thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].style.height;
-              if (thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].classList.contains("merged")) {
-                cellData.classList = "merged";
-              } else if (thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].classList.contains("hide")) {
-                cellData.classList = "hide";
+          for (let i = 0; i < numOfTeachers; i++) {
+            let tableData = [];
+            for (let j = 0; j < 7; j++) {
+              let rowData = [];
+              for (let k = 1; k < numOfRows - 1; k++) {
+                let savingCell = thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k];
+                let cellData = {};
+                cellData.value = savingCell.innerText;
+                cellData.height = savingCell.style.height;
+                if (savingCell.classList.contains("merged")) {
+                  cellData.classList = "merged";
+                } else if (savingCell.classList.contains("hide")) {
+                  cellData.classList = "hide";
+                }
+                cellData.including = savingCell.getAttribute("including");
+                rowData.push(cellData);
               }
-              if (thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].getAttribute("including")) {
-                cellData.including = thisPage.querySelector(".midByTeachers").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].getAttribute("including");
-              }
-              rowData.push(cellData);
+              tableData.push(rowData);
             }
-            allData.push(rowData);
+            allData.push(tableData);
           }
         }
-        // console.log(allData);
+        console.log(allData);
       }
       function pasteData() {
         numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
         numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
         //요일별 화면으로 넘어갈 때
         if (thisPage.querySelector(".midByTeachers").classList.contains("hide")) {
-          // let numOfTotalCols = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn").length;
-          // for (let i = 0; i < numOfTotalCols; i++) {
-          //   for (let j = 1; j <= numOfRows - 1; j++) {
-          //     thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].innerText = allData[i][j - 1].value;
-          //     thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[i].querySelectorAll(".textCell")[j].style.height = allData[i][j - 1].height;
-          //     thisPage
-          //       .querySelector(".midByDays")
-          //       .querySelectorAll(".textColumn")
-          //       [i].querySelectorAll(".textCell")
-          //       [j].classList.add(allData[i][j - 1].classList);
-          //     thisPage
-          //       .querySelector(".midByDays")
-          //       .querySelectorAll(".textColumn")
-          //       [i].querySelectorAll(".textCell")
-          //       [j].setAttribute("including", allData[i][j - 1].including);
-          //   }
-          // }
-          console.log(allData);
-          let numOfTotalCols = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn").length;
           for (let i = 0; i < 7; i++) {
             for (let j = 0; j < numOfTeachers; j++) {
-              for (let k = 1; k <= numOfRows - 1; k++) {
-                thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].innerText = allData[i * j * 3][k - 1].value;
+              for (let k = 1; k < numOfRows - 1; k++) {
+                thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].innerText = allData[j][i][k - 1].value;
+                thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].style.height = allData[j][i][k - 1].height;
+                thisPage
+                  .querySelectorAll(".dayTable")
+                  [i].querySelectorAll(".textColumn")
+                  [j].querySelectorAll(".textCell")
+                  [k].classList.add(allData[j][i][k - 1].classList);
+                thisPage
+                  .querySelectorAll(".dayTable")
+                  [i].querySelectorAll(".textColumn")
+                  [j].querySelectorAll(".textCell")
+                  [k].setAttribute("including", allData[j][i][k - 1].getAttribute);
               }
             }
           }
         } else {
           //선생님별 화면으로 넘어갈 때
+          for (let i = 0; i < numOfTeachers; i++) {
+            for (let j = 0; j < 7; j++) {
+              for (let k = 1; k < numOfRows - 1; k++) {
+                thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].innerText = allData[i][j][k - 1].value;
+                thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].style.height = allData[i][j][k - 1].height;
+                thisPage
+                  .querySelectorAll(".teacherTable")
+                  [i].querySelectorAll(".textColumn")
+                  [j].querySelectorAll(".textCell")
+                  [k].classList.add(allData[i][j][k - 1].classList);
+                thisPage
+                  .querySelectorAll(".teacherTable")
+                  [i].querySelectorAll(".textColumn")
+                  [j].querySelectorAll(".textCell")
+                  [k].setAttribute("including", allData[i][j][k - 1].including);
+              }
+            }
+          }
         }
       }
       function addTeacher() {
