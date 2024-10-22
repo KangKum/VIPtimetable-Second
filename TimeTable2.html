@@ -113,6 +113,12 @@
         /* 오목한 효과를 위한 box-shadow */
         box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(255, 255, 255, 0.5);
       }
+      .tempInput {
+        width: 100%;
+        height: 100%;
+        background-color: #ddd;
+        border: 1px solid #ddd;
+      }
 
       .clickedCell {
         background-color: rgb(204, 222, 204);
@@ -183,11 +189,9 @@
         <div style="width: 1%"></div>
         <button class="btnAddRow" onclick="addRow()">Row +</button>
         <button class="btnDeleteRow" onclick="deleteRow()">Row -</button>
-        <button onclick="saveData()">저장</button>
-        <button onclick="pasteData()">붙여넣기</button>
-        <button>bot에 페이지전환</button>
-        <button>선생님이름입력 및 복사</button>
+        <button>셀에서 키입력 enter/tab/ctrl+enter 등</button>
         <button>주말 시간대 분리?</button>
+        <button>셀내용전체비우기, 시간과 선생님 내비두고</button>
         <button>파이어베이스</button>
       </div>
       <div class="mid" midNum="0">
@@ -221,7 +225,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn" cellCol="0">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -248,7 +252,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="1">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -275,7 +279,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="2">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -331,7 +335,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn" cellCol="0">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -358,7 +362,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="1">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -385,7 +389,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="2">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -441,7 +445,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn" cellCol="0">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -468,7 +472,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="1">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -495,7 +499,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="2">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -551,7 +555,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn" cellCol="0">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -578,7 +582,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="1">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -605,7 +609,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="2">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -661,7 +665,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn" cellCol="0">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -688,7 +692,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="1">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -715,7 +719,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="2">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -771,7 +775,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn" cellCol="0">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -798,7 +802,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="1">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -825,7 +829,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="2">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -881,7 +885,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn" cellCol="0">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -908,7 +912,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="1">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -935,7 +939,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="2">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell" contenteditable="true" onkeydown="cellNaming(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1624,7 +1628,7 @@
       </div>
       <div class="bot">
         <button class="btnAddPage" onclick="addPage()">+</button>
-        <button class="btnAddedPage btnClicked" pageNum="0" onclick="turnPage()"></button>
+        <button class="btnAddedPage btnClicked" pageNum="0" onclick="turnPage(this)" oncontextmenu="pagebtnNaming(this)"></button>
       </div>
     </div>
 
@@ -1685,16 +1689,60 @@
       let maxCol = 0;
       let timeArray = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "1:00", "1:30", "2:00", "2:30", "3:00", "3:30", "4:00", "4:30", "5:00", "5:30", "6:00", "6:30", "7:00", "7:30", "8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00"];
       let dayArray = ["일", "월", "화", "수", "목", "금", "토"];
-      // let cellData = {};
-      // let rowData = [];
-      // let tableData = [];
       let allData = [];
+      let teacherNameData = [];
+      // let timeData = [];
 
       function clickCell(textCell) {
         currentCell = textCell;
         originRow = parseInt(currentCell.getAttribute("cellRow"));
         cancelClickedCell();
         shadowRow = 0;
+        inputChecking2();
+      }
+      function pagebtnNaming(button) {
+        event.preventDefault();
+        inputChecking2();
+        button.innerText = "";
+        let newInput = document.createElement("input");
+        newInput.classList.add("tempInput");
+        newInput.addEventListener("keydown", inputChecking);
+        button.appendChild(newInput);
+        newInput.focus();
+      }
+
+      function inputChecking() {
+        let temporary = document.activeElement;
+        if (event.key === "Enter" || event.key === "Tab") {
+          temporary.parentNode.innerText = temporary.value;
+          temporary.remove();
+        }
+      }
+      function inputChecking2() {
+        if (document.querySelector(".tempInput")) {
+          document.querySelector(".tempInput").parentNode.innerText = document.querySelector(".tempInput").value;
+        }
+      }
+      function cellNaming(div) {
+        teacherNameData = [];
+        thisTable = div.parentNode.parentNode;
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+        let currentColNum = parseInt(div.parentNode.getAttribute("cellCol"));
+        if (event.key === "Enter" || event.key === "Tab") {
+          event.preventDefault();
+          for (let i = 0; i < 7; i++) {
+            thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textCell.firstCell")[currentColNum].innerText = div.innerText;
+          }
+          if (currentColNum < numOfTeachers - 1) {
+            thisTable.querySelectorAll(".textColumn")[currentColNum + 1].querySelector(".firstCell").focus();
+          } else {
+            div.parentNode.querySelectorAll(".textCell")[1].focus();
+          }
+          //데이터저장
+          for (let j = 0; j < numOfTeachers; j++) {
+            teacherNameData.push(thisPage.querySelector(".dayTable").querySelectorAll(".textCell.firstCell")[j].innerText);
+          }
+        }
       }
       function addRow() {
         //요일별 테이블
@@ -1917,7 +1965,6 @@
         }
       }
       function turnScreen() {
-        //값, 병합 복사 여기 here
         saveData();
         if (thisPage.querySelector(".midByDays").classList.contains("hide")) {
           thisPage.querySelector(".midByDays").classList.remove("hide");
@@ -2025,6 +2072,9 @@
                   [k].setAttribute("including", allData[i][j][k - 1].including);
               }
             }
+            if (teacherNameData[i]) {
+              thisPage.querySelectorAll(".teacherTable")[i].querySelector(".firstCell").innerText = teacherNameData[i];
+            }
           }
         }
       }
@@ -2096,14 +2146,15 @@
         thisPageNum = botDiv.querySelector(".btnAddedPage.btnClicked").getAttribute("pageNum");
         thisPage = document.querySelector(`.mid[midNum="${thisPageNum}"]`);
       }
-      function turnPage() {
+      function turnPage(button) {
         findThisPage();
+        inputChecking2();
         //버튼 전환
         for (let i = 0; i < botDiv.querySelectorAll(".btnAddedPage").length; i++) {
           botDiv.querySelectorAll(".btnAddedPage")[i].classList.remove("btnClicked");
         }
-        event.target.classList.add("btnClicked");
-        thisPageNum = event.target.getAttribute("pageNum");
+        button.classList.add("btnClicked");
+        thisPageNum = button.getAttribute("pageNum");
         //페이지 전환
         for (let i = 0; i < document.querySelectorAll(".mid").length; i++) {
           document.querySelectorAll(".mid")[i].classList.add("hide");
@@ -2114,11 +2165,9 @@
       function addPage() {
         let numOfpageBtns = botDiv.querySelectorAll(".btnAddedPage").length;
         let numOfpages = document.querySelectorAll(".mid").length;
-        //버튼추가
-        let newPageBtn = document.createElement("button");
-        newPageBtn.classList.add("btnAddedPage");
-        newPageBtn.addEventListener("click", turnPage);
+        let newPageBtn = document.querySelector(".btnAddedPage").cloneNode(true);
         newPageBtn.setAttribute("pageNum", parseInt(botDiv.querySelectorAll(".btnAddedPage")[numOfpageBtns - 1].getAttribute("pageNum")) + 1);
+        newPageBtn.classList.remove("btnClicked");
         botDiv.appendChild(newPageBtn);
         //페이지추가
         let cloneMid = document.querySelectorAll(".mid")[0].cloneNode(true);
