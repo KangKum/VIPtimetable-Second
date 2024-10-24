@@ -10,6 +10,7 @@
       }
       div:focus {
         outline: 2px solid rgb(225, 168, 153);
+        caret-color: transparent;
       }
       button {
         height: 100%;
@@ -207,7 +208,6 @@
         <button class="btnDeleteRow" onclick="deleteRow()">Row -</button>
         <button onclick="alignCenter()">CENTER</button>
         <button>ctrl+방향키</button>
-        <button>텍스트 입력중 방향키</button>
         <button>ctrl+c,x,z</button>
         <button>주말 시간대 분리?</button>
         <button>파이어베이스</button>
@@ -1710,6 +1710,7 @@
       let dayArray = ["일", "월", "화", "수", "목", "금", "토"];
       let allData = [];
       let teacherNameData = [];
+      let writing = false;
 
       function clickCell(textCell) {
         currentCell = textCell;
@@ -1859,8 +1860,8 @@
         cellRow = parseInt(currentCell.getAttribute("cellRow"));
         cellCol = parseInt(currentCell.parentNode.getAttribute("cellCol"));
 
-        //쉬프트이동
         if (event.shiftKey) {
+          ////쉬프트이동
           if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
             if (cellRow + shadowRow > 0 && event.key === "ArrowUp") {
               shadowRow--;
@@ -1893,6 +1894,7 @@
             }
           }
         } else if (event.ctrlKey) {
+          ////컨트롤이동
           if (event.key === "Enter") {
             merge();
           } else {
@@ -1903,8 +1905,9 @@
             } else if (event.key === "ArrowRight") {
             }
           }
-        } else if (event.key === "Enter" || event.key === "Tab") {
+        } else if (cellRow < numOfRows && (event.key === "Enter" || event.key === "Tab")) {
           event.preventDefault();
+          console.log(cellRow, numOfRows);
           cellRow++;
           originRow = cellRow;
           if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
@@ -1915,10 +1918,19 @@
           }
           currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
           currentCell.focus();
+          thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow - 1}"]`).style.caretColor = "transparent";
+          writing = false;
+        } else if (event.key === "Enter") {
+          event.preventDefault();
+          if (cellRow === numOfRows) {
+            currentCell.style.caretColor = "transParent";
+            writing = false;
+          }
+        } else if (event.key === "F2") {
+          writing = true;
+          currentCell.style.caretColor = "black";
         } else {
-          //////////////////////일반이동///////////////////////////
-          if (currentCell.innerText != "") {
-            //커서가 텍스트의 위치에 따라서 맨 왼쪽에 있는데 위쪽키 누르면 위로 올라가지고, 맨 오른쪽에 있는데 아래키 누르면 내려가지고 이런 방식으로
+          if (writing) {
           } else {
             if (cellRow > 0 && event.key === "ArrowUp") {
               cellRow--;
