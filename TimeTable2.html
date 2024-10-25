@@ -207,7 +207,6 @@
         <button class="btnAddRow" onclick="addRow()">Row +</button>
         <button class="btnDeleteRow" onclick="deleteRow()">Row -</button>
         <button onclick="alignCenter()">CENTER</button>
-        <button>ctrl+방향키</button>
         <button>ctrl+c,x,z</button>
         <button>주말 시간대 분리?</button>
         <button>파이어베이스</button>
@@ -1711,13 +1710,19 @@
       let allData = [];
       let teacherNameData = [];
       let writing = false;
+      let writingCell;
 
       function clickCell(textCell) {
         currentCell = textCell;
         originRow = parseInt(currentCell.getAttribute("cellRow"));
-        cancelClickedCell();
         shadowRow = 0;
+        ///여기부터는 top,bot에도 적용해야함
+        cancelClickedCell();
         inputChecking2();
+        writing = false;
+        if (writingCell) {
+          writingCell.style.caretColor = "transparent";
+        }
       }
       function pagebtnNaming(button) {
         event.preventDefault();
@@ -1860,7 +1865,29 @@
         cellRow = parseInt(currentCell.getAttribute("cellRow"));
         cellCol = parseInt(currentCell.parentNode.getAttribute("cellCol"));
 
-        if (event.shiftKey) {
+        if (event.ctrlKey && event.shiftKey) {
+          if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            if (cellRow + shadowRow > 0 && event.key === "ArrowUp") {
+              shadowRow--;
+              while (cellRow + shadowRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`).innerText === "") {
+                shadowRow--;
+              }
+            } else if (cellRow + shadowRow < numOfRows && event.key === "ArrowDown") {
+              shadowRow++;
+              while (cellRow + shadowRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`).innerText === "") {
+                shadowRow++;
+              }
+            }
+            shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
+            cancelClickedCell();
+            minRow = shadowRow >= 0 ? cellRow : cellRow + shadowRow;
+            maxRow = shadowRow >= 0 ? cellRow + shadowRow : cellRow;
+
+            for (let j = minRow; j <= maxRow; j++) {
+              thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${j}"]`).classList.add("clickedCell");
+            }
+          }
+        } else if (event.shiftKey) {
           ////쉬프트이동
           if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
             if (cellRow + shadowRow > 0 && event.key === "ArrowUp") {
@@ -1897,39 +1924,39 @@
           ////컨트롤이동
           if (event.key === "Enter") {
             merge();
-          } else {
-            //ctrl+이동 한번에 움직이기
-            if (event.key === "ArrowUp") {
-            } else if (event.key === "ArrowDown") {
-            } else if (event.key === "ArrowLeft") {
-            } else if (event.key === "ArrowRight") {
-            }
-          }
-        } else if (cellRow < numOfRows && (event.key === "Enter" || event.key === "Tab")) {
-          event.preventDefault();
-          console.log(cellRow, numOfRows);
-          cellRow++;
-          originRow = cellRow;
-          if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-            while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+          } else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            cancelClickedCell();
+            shadowRow = 0;
+            if (cellRow > 0 && event.key === "ArrowUp") {
+              cellRow--;
+              originRow = cellRow;
+              while (cellRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                cellRow--;
+                originRow--;
+              }
+            } else if (cellRow < numOfRows && event.key === "ArrowDown") {
               cellRow++;
-              originRow++;
+              originRow = cellRow;
+              while (cellRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                cellRow++;
+                originRow++;
+              }
+            } else if (cellCol > 0 && event.key === "ArrowLeft") {
+              cellCol--;
+              while (cellCol > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                cellCol--;
+              }
+            } else if (cellCol < numOfTeachers - 1 && event.key === "ArrowRight") {
+              cellCol++;
+              while (cellCol < numOfTeachers - 1 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                cellCol++;
+              }
             }
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+            currentCell.focus();
           }
-          currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
-          currentCell.focus();
-          thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow - 1}"]`).style.caretColor = "transparent";
-          writing = false;
-        } else if (event.key === "Enter") {
-          event.preventDefault();
-          if (cellRow === numOfRows) {
-            currentCell.style.caretColor = "transParent";
-            writing = false;
-          }
-        } else if (event.key === "F2") {
-          writing = true;
-          currentCell.style.caretColor = "black";
-        } else {
+        } else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+          //일반이동
           if (writing) {
           } else {
             if (cellRow > 0 && event.key === "ArrowUp") {
@@ -1990,6 +2017,34 @@
             minRow = 0;
             maxRow = 0;
           }
+        } else if (cellRow < numOfRows && (event.key === "Enter" || event.key === "Tab")) {
+          event.preventDefault();
+          cellRow++;
+          originRow = cellRow;
+          if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+            while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+              cellRow++;
+              originRow++;
+            }
+          }
+          currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+          currentCell.focus();
+          if (writingCell) {
+            writingCell.style.caretColor = "transparent";
+          }
+          writing = false;
+        } else if (event.key === "Enter" || event.key === "Tab") {
+          event.preventDefault();
+          if (cellRow === numOfRows) {
+            if (writingCell) {
+              writingCell.style.caretColor = "transparent";
+            }
+            writing = false;
+          }
+        } else if (event.key === "F2") {
+          writing = true;
+          currentCell.style.caretColor = "black";
+          writingCell = currentCell;
         }
       }
 
