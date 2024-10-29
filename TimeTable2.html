@@ -146,6 +146,25 @@
       .hide {
         display: none;
       }
+      .fontUpandDown {
+        display: flex;
+      }
+      .fontUp,
+      .fontDown {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 3vh;
+        font-size: 2vh;
+      }
+      .fontValue {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 4vh;
+        font-size: 2vh;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+      }
 
       .dateModal {
         position: fixed;
@@ -206,7 +225,20 @@
         <div style="width: 1%"></div>
         <button class="btnAddRow" onclick="addRow()">Row +</button>
         <button class="btnDeleteRow" onclick="deleteRow()">Row -</button>
+        <div style="width: 1%"></div>
         <button onclick="alignCenter()">CENTER</button>
+        <div style="width: 1%"></div>
+        <div class="fontUpandDown">
+          <button class="fontDown" onclick="fontDown()">-</button>
+          <div class="fontValue">16</div>
+          <button class="fontUp" onclick="fontUp()">+</button>
+        </div>
+        <button class="fontBold" style="font-weight: bold">B</button>
+        <button class="fontMiddleLine"><s>S</s></button>
+        <div style="width: 1%"></div>
+        <button>폰트관련</button>
+        <button>선생님/요일별모드</button>
+        <button>셀Delete키</button>
         <button>ctrl+c,x,z</button>
         <button>주말 시간대 분리?</button>
         <button>파이어베이스</button>
@@ -1711,18 +1743,38 @@
       let teacherNameData = [];
       let writing = false;
       let writingCell;
+      let currentFontSize;
+      let drag;
 
       function clickCell(textCell) {
         currentCell = textCell;
         originRow = parseInt(currentCell.getAttribute("cellRow"));
         shadowRow = 0;
-        ///여기부터는 top,bot에도 적용해야함
+        getFontSize();
+
+        ///여기부터는 top,bot범위 클릭에도 적용해야함
         cancelClickedCell();
         inputChecking2();
         writing = false;
         if (writingCell) {
           writingCell.style.caretColor = "transparent";
         }
+      }
+      function fontDown() {
+        currentCell.style.fontSize = parseInt(currentCell.style.fontSize) - 1 + "px";
+        document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
+        currentCell.focus();
+      }
+      function fontUp() {
+        currentCell.style.fontSize = parseInt(currentCell.style.fontSize) + 1 + "px";
+        document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
+        currentCell.focus();
+      }
+      function getFontSize() {
+        if (currentCell.style.fontSize === "") {
+          currentCell.style.fontSize = "16px";
+        }
+        document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
       }
       function pagebtnNaming(button) {
         event.preventDefault();
@@ -1953,6 +2005,7 @@
               }
             }
             currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+            getFontSize();
             currentCell.focus();
           }
         } else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
@@ -2011,6 +2064,7 @@
               }
             }
 
+            getFontSize();
             currentCell.focus();
             cancelClickedCell();
             shadowRow = 0;
