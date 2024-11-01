@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TimeTable2</title>
     <style>
-      div {
+      /* div {
         outline: 1px solid black;
-      }
+      } */
       div:focus {
         outline: 2px solid rgb(225, 168, 153);
         caret-color: transparent;
@@ -29,6 +29,7 @@
         display: flex;
         border: none;
         position: fixed;
+        outline: 1px solid black;
       }
       .mid {
         width: 100%;
@@ -46,6 +47,7 @@
       .teacherTable {
         height: 100%;
         display: flex;
+        outline: 1px solid black;
       }
       .timeColumn {
         min-width: 12vh;
@@ -64,6 +66,7 @@
         justify-content: center;
         align-items: center;
         font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+        outline: 1px solid black;
       }
       .textColumn {
         min-width: 14vh;
@@ -80,6 +83,7 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
+        outline: 1px solid black;
       }
       .firstCell {
         background-color: #ded7d7;
@@ -92,9 +96,9 @@
       .bot {
         width: 100%;
         height: 4vh;
-        /* padding-top: 40vh; */
         display: flex;
         position: fixed;
+        outline: 1px solid black;
       }
 
       .btnAddPage {
@@ -107,14 +111,17 @@
 
       .btnClicked {
         padding: 10px 20px;
-        font-size: 16px;
+        /* font-size: 16px; */
         color: #333;
         background-color: #ddd;
         border: 1px solid #999; /* 경계선 */
-        border-radius: 5px;
-        cursor: pointer;
+        /* cursor: pointer; */
         /* 오목한 효과를 위한 box-shadow */
         box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(255, 255, 255, 0.5);
+      }
+      .btnGoDays,
+      .btnGoTeachers {
+        width: 12vh;
       }
       .tempInput {
         width: 100%;
@@ -123,18 +130,10 @@
         border: 1px solid #ddd;
       }
       .btnClear {
-        background-color: rgb(204, 177, 177);
-        color: white;
-        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(255, 255, 255, 0.5);
-        font-size: 2vh;
         height: 4vh;
         width: 4vh;
-        border: 1px solid gray;
         position: fixed;
         margin-left: 177vh;
-      }
-      .btnClear:active {
-        background-color: rgb(206, 194, 194);
       }
 
       .clickedCell {
@@ -216,31 +215,30 @@
         <button class="btnInputDate" onclick="openDateModal()">Date</button>
         <button class="btnInputTime" onclick="openTimeModal()">Time</button>
         <div style="width: 1%"></div>
-        <button class="btnTurnScreen" onclick="turnScreen()">goTeachers</button>
+        <button class="btnGoDays btnClicked" onclick="goDays()">Days</button>
+        <button class="btnGoTeachers" onclick="goTeachers()">Teachers</button>
         <div style="width: 1%"></div>
         <button class="btnMerge" onclick="merge()">[ | ]</button>
         <div style="width: 1%"></div>
-        <button class="btnAddTeacher" onclick="addTeacher()">Teacher +</button>
-        <button class="btnDeleteTeacher" onclick="deleteTeacher()">Teacher -</button>
+        <button class="btnAddTeacher" onclick="addTeacher()">T +</button>
+        <button class="btnDeleteTeacher" onclick="deleteTeacher()">T -</button>
         <div style="width: 1%"></div>
-        <button class="btnAddRow" onclick="addRow()">Row +</button>
-        <button class="btnDeleteRow" onclick="deleteRow()">Row -</button>
-        <div style="width: 1%"></div>
-        <button onclick="alignCenter()">CENTER</button>
+        <button class="btnAddRow" onclick="addRow()">R +</button>
+        <button class="btnDeleteRow" onclick="deleteRow()">R -</button>
         <div style="width: 1%"></div>
         <div class="fontUpandDown">
           <button class="fontDown" onclick="fontDown()">-</button>
           <div class="fontValue">16</div>
           <button class="fontUp" onclick="fontUp()">+</button>
         </div>
-        <button class="fontBold" style="font-weight: bold">B</button>
-        <button class="fontMiddleLine"><s>S</s></button>
-        <div style="width: 1%"></div>
-        <button>폰트관련</button>
-        <button>선생님/요일별모드</button>
-        <button>셀Delete키</button>
+        <button class="fontBold" style="font-weight: bold" onclick="fontBold()">B</button>
+        <button class="fontCancel" onclick="fontCancel()"><s>S</s></button>
+        <button onclick="alignCenter()">C</button>
+
+        <div style="width: 4%"></div>
+        <button>F2와 일반키입력 등 구조 제대로</button>
         <button>ctrl+c,x,z</button>
-        <button>주말 시간대 분리?</button>
+        <button>주말 시간대 분리</button>
         <button>파이어베이스</button>
         <button class="btnClear" onclick="allClear()">X</button>
       </div>
@@ -1760,21 +1758,90 @@
           writingCell.style.caretColor = "transparent";
         }
       }
-      function fontDown() {
-        currentCell.style.fontSize = parseInt(currentCell.style.fontSize) - 1 + "px";
-        document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
+      function cellDelete() {
+        let allclickedCell = thisPage.querySelectorAll(".clickedCell");
+        if (allclickedCell.length > 1) {
+          for (let i = 0; i < allclickedCell.length; i++) {
+            allclickedCell[i].innerText = "";
+          }
+        } else {
+          currentCell.innerText = "";
+        }
         currentCell.focus();
       }
+      function fontDown() {
+        let allclickedCell = thisPage.querySelectorAll(".clickedCell");
+        let tempFontSize = currentCell.style.fontSize;
+        if (allclickedCell.length > 1) {
+          for (let i = 0; i < allclickedCell.length; i++) {
+            allclickedCell[i].style.fontSize = parseInt(tempFontSize) - 1 + "px";
+            document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
+            currentCell.focus();
+          }
+        } else {
+          currentCell.style.fontSize = parseInt(currentCell.style.fontSize) - 1 + "px";
+          document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
+          currentCell.focus();
+        }
+      }
       function fontUp() {
-        currentCell.style.fontSize = parseInt(currentCell.style.fontSize) + 1 + "px";
-        document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
-        currentCell.focus();
+        let allclickedCell = thisPage.querySelectorAll(".clickedCell");
+        let tempFontSize = currentCell.style.fontSize;
+        if (allclickedCell.length > 1) {
+          for (let i = 0; i < allclickedCell.length; i++) {
+            allclickedCell[i].style.fontSize = parseInt(tempFontSize) + 1 + "px";
+            document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
+            currentCell.focus();
+          }
+        } else {
+          currentCell.style.fontSize = parseInt(currentCell.style.fontSize) + 1 + "px";
+          document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
+          currentCell.focus();
+        }
       }
       function getFontSize() {
         if (currentCell.style.fontSize === "") {
           currentCell.style.fontSize = "16px";
         }
         document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
+      }
+      function fontBold() {
+        let allclickedCell = thisPage.querySelectorAll(".clickedCell");
+        if (allclickedCell.length > 1) {
+          for (let i = allclickedCell.length - 1; i >= 0; i--) {
+            if (currentCell.style.fontWeight === "bold") {
+              allclickedCell[i].style.fontWeight = "normal";
+            } else {
+              allclickedCell[i].style.fontWeight = "bold";
+            }
+          }
+        } else {
+          if (currentCell.style.fontWeight === "bold") {
+            currentCell.style.fontWeight = "normal";
+          } else {
+            currentCell.style.fontWeight = "bold";
+          }
+        }
+        currentCell.focus();
+      }
+      function fontCancel() {
+        let allclickedCell = thisPage.querySelectorAll(".clickedCell");
+        if (allclickedCell.length > 1) {
+          for (let i = allclickedCell.length - 1; i >= 0; i--) {
+            if (currentCell.style.textDecoration === "line-through") {
+              allclickedCell[i].style.textDecoration = "none";
+            } else {
+              allclickedCell[i].style.textDecoration = "line-through";
+            }
+          }
+        } else {
+          if (currentCell.style.textDecoration === "line-through") {
+            currentCell.style.textDecoration = "none";
+          } else {
+            currentCell.style.textDecoration = "line-through";
+          }
+        }
+        currentCell.focus();
       }
       function pagebtnNaming(button) {
         event.preventDefault();
@@ -1917,17 +1984,50 @@
         cellRow = parseInt(currentCell.getAttribute("cellRow"));
         cellCol = parseInt(currentCell.parentNode.getAttribute("cellCol"));
 
+        const key = event.key;
+        const isAlphabet = /^[a-z]$/.test(key);
+        const isNumber = /^[0-9]$/.test(key);
+        const isKorean = /^[ㄱ-ㅎㅏ-ㅣ]$/.test(key);
+
         if (event.ctrlKey && event.shiftKey) {
-          if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+          if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+            let upCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow - 1}"]`);
+            let downCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow + 1}"]`);
+            shadowCell = shadowRow === 0 ? currentCell : thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
+
             if (cellRow + shadowRow > 0 && event.key === "ArrowUp") {
-              shadowRow--;
-              while (cellRow + shadowRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`).innerText === "") {
-                shadowRow--;
+              if (shadowCell.innerText === "") {
+                while (cellRow + shadowRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`).innerText === "") {
+                  shadowRow--;
+                }
+              } else if (shadowCell.innerText != "") {
+                if (upCell.innerText === "") {
+                  shadowRow--;
+                  while (cellRow + shadowRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`).innerText === "") {
+                    shadowRow--;
+                  }
+                } else if (upCell.innerText != "") {
+                  while (cellRow + shadowRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow - 1}"]`).innerText != "") {
+                    shadowRow--;
+                  }
+                }
               }
             } else if (cellRow + shadowRow < numOfRows && event.key === "ArrowDown") {
-              shadowRow++;
-              while (cellRow + shadowRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`).innerText === "") {
-                shadowRow++;
+              if (shadowCell.innerText === "") {
+                while (cellRow + shadowRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`).innerText === "") {
+                  shadowRow++;
+                }
+              } else if (shadowCell.innerText != "") {
+                if (downCell.innerText === "") {
+                  shadowRow++;
+                  while (cellRow + shadowRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`).innerText === "") {
+                    shadowRow++;
+                  }
+                } else if (downCell.innerText != "") {
+                  while (cellRow + shadowRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow + 1}"]`).innerText != "") {
+                    shadowRow++;
+                  }
+                }
               }
             }
             shadowCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
@@ -1941,7 +2041,7 @@
           }
         } else if (event.shiftKey) {
           ////쉬프트이동
-          if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+          if (event.key === "ArrowUp" || event.key === "ArrowDown") {
             if (cellRow + shadowRow > 0 && event.key === "ArrowUp") {
               shadowRow--;
               while (
@@ -1977,31 +2077,81 @@
           if (event.key === "Enter") {
             merge();
           } else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+            let upCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow - 1}"]`);
+            let downCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + 1}"]`);
+            let leftCell = cellCol > 0 ? thisTable.querySelector(`.textColumn[cellCol="${cellCol - 1}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`) : null;
+            let rightCell = cellCol < numOfTeachers - 1 ? thisTable.querySelector(`.textColumn[cellCol="${cellCol + 1}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`) : null;
             cancelClickedCell();
             shadowRow = 0;
-            if (cellRow > 0 && event.key === "ArrowUp") {
-              cellRow--;
-              originRow = cellRow;
-              while (cellRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+            if (event.key === "ArrowUp") {
+              if (cellRow > 0 && currentCell.innerText === "" && upCell.innerText === "") {
+                while (cellRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                  cellRow--;
+                }
+              } else if (cellRow > 0 && currentCell.innerText === "" && upCell.innerText != "") {
                 cellRow--;
-                originRow--;
+              } else if (cellRow > 0 && currentCell.innerText != "" && upCell.innerText === "") {
+                cellRow--;
+                while (cellRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                  cellRow--;
+                }
+              } else if (cellRow > 0 && currentCell.innerText != "" && upCell.innerText != "") {
+                while (cellRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow - 1}"]`).innerText != "") {
+                  cellRow--;
+                }
               }
-            } else if (cellRow < numOfRows && event.key === "ArrowDown") {
-              cellRow++;
               originRow = cellRow;
-              while (cellRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+            } else if (event.key === "ArrowDown") {
+              if (cellRow < numOfRows && currentCell.innerText === "" && downCell.innerText === "") {
+                while (cellRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                  cellRow++;
+                }
+              } else if (cellRow < numOfRows && currentCell.innerText === "" && downCell.innerText != "") {
                 cellRow++;
-                originRow++;
+              } else if (cellRow < numOfRows && currentCell.innerText != "" && downCell.innerText === "") {
+                cellRow++;
+                while (cellRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                  cellRow++;
+                }
+              } else if (cellRow < numOfRows && currentCell.innerText != "" && downCell.innerText != "") {
+                while (cellRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + 1}"]`).innerText != "") {
+                  cellRow++;
+                }
               }
-            } else if (cellCol > 0 && event.key === "ArrowLeft") {
-              cellCol--;
-              while (cellCol > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+              originRow = cellRow;
+            } else if (event.key === "ArrowLeft") {
+              if (cellCol > 0 && currentCell.innerText === "" && leftCell.innerText === "") {
+                while (cellCol > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                  cellCol--;
+                }
+              } else if (cellCol > 0 && currentCell.innerText === "" && leftCell.innerText != "") {
                 cellCol--;
+              } else if (cellCol > 0 && currentCell.innerText != "" && leftCell.innerText === "") {
+                cellCol--;
+                while (cellCol > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                  cellCol--;
+                }
+              } else if (cellCol > 0 && currentCell.innerText != "" && leftCell.innerText != "") {
+                while (cellCol > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol - 1}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText != "") {
+                  cellCol--;
+                }
               }
-            } else if (cellCol < numOfTeachers - 1 && event.key === "ArrowRight") {
-              cellCol++;
-              while (cellCol < numOfTeachers - 1 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+            } else if (event.key === "ArrowRight") {
+              if (cellCol < numOfTeachers - 1 && currentCell.innerText === "" && rightCell.innerText === "") {
+                while (cellCol < numOfTeachers - 1 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                  cellCol++;
+                }
+              } else if (cellCol < numOfTeachers - 1 && currentCell.innerText === "" && rightCell.innerText != "") {
                 cellCol++;
+              } else if (cellCol < numOfTeachers - 1 && currentCell.innerText != "" && rightCell.innerText === "") {
+                cellCol++;
+                while (cellCol < numOfTeachers - 1 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
+                  cellCol++;
+                }
+              } else if (cellCol < numOfTeachers - 1 && currentCell.innerText != "" && rightCell.innerText != "") {
+                while (cellCol < numOfTeachers - 1 && thisTable.querySelector(`.textColumn[cellCol="${cellCol + 1}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText != "") {
+                  cellCol++;
+                }
               }
             }
             currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
@@ -2087,18 +2237,26 @@
             writingCell.style.caretColor = "transparent";
           }
           writing = false;
-        } else if (event.key === "Enter" || event.key === "Tab") {
-          event.preventDefault();
-          if (cellRow === numOfRows) {
-            if (writingCell) {
-              writingCell.style.caretColor = "transparent";
-            }
-            writing = false;
-          }
-        } else if (event.key === "F2") {
+        }
+        // else if (event.key === "Enter" || event.key === "Tab") {
+        //   event.preventDefault();
+        //   if (cellRow === numOfRows) {
+        //     if (writingCell) {
+        //       writingCell.style.caretColor = "transparent";
+        //     }
+        //     writing = false;
+        //   }
+        // }
+        else if (event.key === "F2") {
           writing = true;
           currentCell.style.caretColor = "black";
           writingCell = currentCell;
+        } else if (event.key === "Delete") {
+          cellDelete();
+        } else if (!writing && (isAlphabet || isNumber || !isKorean)) {
+          currentCell.innerText = "";
+          currentCell.style.caretColor = "black";
+          writing = true;
         }
       }
 
@@ -2143,6 +2301,7 @@
             allClickedCell[0].classList.add("merged");
             allClickedCell[0].setAttribute("including", allClickedCell.length);
             for (let i = 1; i < allClickedCell.length; i++) {
+              allClickedCell[i].innerText = "";
               allClickedCell[i].classList.add("hide");
             }
             currentCell = allClickedCell[0];
@@ -2150,8 +2309,9 @@
             cancelClickedCell();
           } else {
             allClickedCell[0].focus();
-            cancelClickedCell();
           }
+          cancelClickedCell();
+          cellRow = parseInt(currentCell.getAttribute("cellRow"));
         } else {
           // 현재 셀 해제
           for (let i = 1; i < parseInt(currentCell.getAttribute("including")); i++) {
@@ -2165,18 +2325,24 @@
           currentCell.removeAttribute("including");
           currentCell.focus();
         }
+        shadowRow = 0;
+        originRow = cellRow;
       }
-      function turnScreen() {
+      function goTeachers() {
         saveData();
-        if (thisPage.querySelector(".midByDays").classList.contains("hide")) {
-          thisPage.querySelector(".midByDays").classList.remove("hide");
-          thisPage.querySelector(".midByTeachers").classList.add("hide");
-          document.querySelector(".btnTurnScreen").innerText = "goTeachers";
-        } else {
-          thisPage.querySelector(".midByDays").classList.add("hide");
-          thisPage.querySelector(".midByTeachers").classList.remove("hide");
-          document.querySelector(".btnTurnScreen").innerText = "goDays";
-        }
+        thisPage.querySelector(".midByDays").classList.add("hide");
+        thisPage.querySelector(".midByTeachers").classList.remove("hide");
+        document.querySelector(".btnGoDays").classList.remove("btnClicked");
+        document.querySelector(".btnGoTeachers").classList.add("btnClicked");
+        pasteData();
+        alignCenter();
+      }
+      function goDays() {
+        saveData();
+        thisPage.querySelector(".midByTeachers").classList.add("hide");
+        thisPage.querySelector(".midByDays").classList.remove("hide");
+        document.querySelector(".btnGoTeachers").classList.remove("btnClicked");
+        document.querySelector(".btnGoDays").classList.add("btnClicked");
         pasteData();
         alignCenter();
       }
