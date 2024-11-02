@@ -241,7 +241,7 @@
         <button onclick="alignCenter()">C</button>
 
         <div style="width: 4%"></div>
-        <button>F2와 일반키입력 등 구조 제대로</button>
+        <button>화면전환시 시간/날짜복사</button>
         <button>ctrl+c,x,z</button>
         <button>파이어베이스</button>
         <button class="btnClear" onclick="allClear()">X</button>
@@ -1801,23 +1801,17 @@
       let allData = [];
       let teacherNameData = [];
       let writing = false;
-      let writingCell;
-      let currentFontSize;
-      let drag;
 
       function clickCell(textCell) {
         currentCell = textCell;
         originRow = parseInt(currentCell.getAttribute("cellRow"));
         shadowRow = 0;
         getFontSize();
-
+        writing = false;
+        currentCell.style.caretColor = "transparent";
         ///여기부터는 top,bot범위 클릭에도 적용해야함
         cancelClickedCell();
         inputChecking2();
-        writing = false;
-        if (writingCell) {
-          writingCell.style.caretColor = "transparent";
-        }
       }
       function cellDelete() {
         let allclickedCell = thisPage.querySelectorAll(".clickedCell");
@@ -1829,6 +1823,7 @@
           currentCell.innerText = "";
         }
         currentCell.focus();
+        currentCell.style.caretColor = "transParent";
       }
       function fontDown() {
         let allclickedCell = thisPage.querySelectorAll(".clickedCell");
@@ -1838,11 +1833,13 @@
             allclickedCell[i].style.fontSize = parseInt(tempFontSize) - 1 + "px";
             document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
             currentCell.focus();
+            currentCell.style.caretColor = "transParent";
           }
         } else {
           currentCell.style.fontSize = parseInt(currentCell.style.fontSize) - 1 + "px";
           document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
           currentCell.focus();
+          currentCell.style.caretColor = "transParent";
         }
       }
       function fontUp() {
@@ -1858,6 +1855,7 @@
           currentCell.style.fontSize = parseInt(currentCell.style.fontSize) + 1 + "px";
           document.querySelector(".fontValue").innerText = currentCell.style.fontSize.slice(0, -2);
           currentCell.focus();
+          currentCell.style.caretColor = "transParent";
         }
       }
       function getFontSize() {
@@ -1884,6 +1882,7 @@
           }
         }
         currentCell.focus();
+        currentCell.style.caretColor = "transParent";
       }
       function fontCancel() {
         let allclickedCell = thisPage.querySelectorAll(".clickedCell");
@@ -1903,6 +1902,7 @@
           }
         }
         currentCell.focus();
+        currentCell.style.caretColor = "transParent";
       }
       function pagebtnNaming(button) {
         event.preventDefault();
@@ -2051,6 +2051,9 @@
         const isKorean = /^[ㄱ-ㅎㅏ-ㅣ]$/.test(key);
 
         if (event.ctrlKey && event.shiftKey) {
+          if (writing) {
+            return;
+          }
           if (event.key === "ArrowUp" || event.key === "ArrowDown") {
             let upCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow - 1}"]`);
             let downCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow + 1}"]`);
@@ -2101,6 +2104,9 @@
             }
           }
         } else if (event.shiftKey) {
+          if (writing) {
+            return;
+          }
           ////쉬프트이동
           if (event.key === "ArrowUp" || event.key === "ArrowDown") {
             if (cellRow + shadowRow > 0 && event.key === "ArrowUp") {
@@ -2134,6 +2140,9 @@
             }
           }
         } else if (event.ctrlKey) {
+          if (writing) {
+            return;
+          }
           ////컨트롤이동
           if (event.key === "Enter") {
             merge();
@@ -2218,107 +2227,128 @@
             currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
             getFontSize();
             currentCell.focus();
+            currentCell.style.caretColor = "transParent";
           }
         } else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
-          //일반이동
           if (writing) {
-          } else {
-            if (cellRow > 0 && event.key === "ArrowUp") {
-              cellRow--;
-              originRow = cellRow;
-              if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-                while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-                  cellRow--;
-                  originRow--;
-                }
-              }
-              currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
-            } else if (cellRow < numOfRows && event.key === "ArrowDown") {
-              cellRow++;
-              originRow = cellRow;
-              if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-                while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-                  cellRow++;
-                  originRow++;
-                }
-              }
-              currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
-            } else if (cellCol > 0 && event.key === "ArrowLeft") {
-              cellCol--;
-              currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow}"]`);
-              if (currentCell.classList.contains("hide")) {
-                let i = 0;
-                while (
-                  thisTable
-                    .querySelector(`.textColumn[cellCol="${cellCol}"]`)
-                    .querySelector(`.textCell[cellRow="${originRow - i}"]`)
-                    .classList.contains("hide")
-                ) {
-                  i++;
-                }
-                currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow - i}"]`);
-              }
-            } else if (cellCol < numOfTeachers - 1 && event.key === "ArrowRight") {
-              cellCol++;
-              currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow}"]`);
-              if (currentCell.classList.contains("hide")) {
-                let i = 0;
-                while (
-                  thisTable
-                    .querySelector(`.textColumn[cellCol="${cellCol}"]`)
-                    .querySelector(`.textCell[cellRow="${originRow - i}"]`)
-                    .classList.contains("hide")
-                ) {
-                  i++;
-                }
-                currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow - i}"]`);
+            return;
+          }
+          //일반이동
+          if (cellRow > 0 && event.key === "ArrowUp") {
+            cellRow--;
+            originRow = cellRow;
+            if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+              while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+                cellRow--;
+                originRow--;
               }
             }
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+          } else if (cellRow < numOfRows && event.key === "ArrowDown") {
+            cellRow++;
+            originRow = cellRow;
+            if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+              while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+                cellRow++;
+                originRow++;
+              }
+            }
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+          } else if (cellCol > 0 && event.key === "ArrowLeft") {
+            cellCol--;
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow}"]`);
+            if (currentCell.classList.contains("hide")) {
+              let i = 0;
+              while (
+                thisTable
+                  .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+                  .querySelector(`.textCell[cellRow="${originRow - i}"]`)
+                  .classList.contains("hide")
+              ) {
+                i++;
+              }
+              currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow - i}"]`);
+            }
+          } else if (cellCol < numOfTeachers - 1 && event.key === "ArrowRight") {
+            cellCol++;
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow}"]`);
+            if (currentCell.classList.contains("hide")) {
+              let i = 0;
+              while (
+                thisTable
+                  .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+                  .querySelector(`.textCell[cellRow="${originRow - i}"]`)
+                  .classList.contains("hide")
+              ) {
+                i++;
+              }
+              currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${originRow - i}"]`);
+            }
+          }
 
-            getFontSize();
-            currentCell.focus();
-            cancelClickedCell();
-            shadowRow = 0;
-            minRow = 0;
-            maxRow = 0;
-          }
-        } else if (cellRow < numOfRows && (event.key === "Enter" || event.key === "Tab")) {
-          event.preventDefault();
-          cellRow++;
-          originRow = cellRow;
-          if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-            while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
-              cellRow++;
-              originRow++;
-            }
-          }
-          currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+          getFontSize();
           currentCell.focus();
-          if (writingCell) {
-            writingCell.style.caretColor = "transparent";
+          currentCell.style.caretColor = "transParent";
+
+          cancelClickedCell();
+          shadowRow = 0;
+          minRow = 0;
+          maxRow = 0;
+          currentCell.style.caretColor = "transParent";
+        } else if (event.key === "Enter") {
+          event.preventDefault();
+          if (cellRow < numOfRows) {
+            cellRow++;
+            originRow = cellRow;
+            if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+              while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+                cellRow++;
+                originRow++;
+              }
+            }
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
           }
+          currentCell.focus();
+          currentCell.style.caretColor = "transParent";
           writing = false;
-        }
-        // else if (event.key === "Enter" || event.key === "Tab") {
-        //   event.preventDefault();
-        //   if (cellRow === numOfRows) {
-        //     if (writingCell) {
-        //       writingCell.style.caretColor = "transparent";
-        //     }
-        //     writing = false;
-        //   }
-        // }
-        else if (event.key === "F2") {
-          writing = true;
-          currentCell.style.caretColor = "black";
-          writingCell = currentCell;
+        } else if (event.key === "Tab") {
+          event.preventDefault();
+          if (cellCol < numOfTeachers - 1) {
+            cellCol++;
+            if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+              while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+                cellRow++;
+                originRow++;
+              }
+            }
+            currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+          }
+          currentCell.focus();
+          currentCell.style.caretColor = "transParent";
+          writing = false;
         } else if (event.key === "Delete") {
           cellDelete();
-        } else if (!writing && (isAlphabet || isNumber || !isKorean)) {
-          currentCell.innerText = "";
+        } else if (event.key === "F2") {
           currentCell.style.caretColor = "black";
           writing = true;
+          moveCursorToEnd();
+        } else if (isAlphabet || isNumber || !isKorean) {
+          if (!writing) {
+            currentCell.innerText = "";
+            writing = true;
+            currentCell.style.caretColor = "black";
+          }
         }
+      }
+
+      function moveCursorToEnd() {
+        const range = document.createRange();
+        const selection = window.getSelection();
+        // 텍스트가 있을 때 커서를 마지막으로 이동
+        range.selectNodeContents(currentCell);
+        range.collapse(false); // collapse(false)는 range의 끝으로 커서를 이동시킴
+        selection.removeAllRanges();
+        selection.addRange(range);
       }
 
       function cancelClickedCell() {
@@ -2367,6 +2397,8 @@
             }
             currentCell = allClickedCell[0];
             currentCell.focus();
+            currentCell.style.caretColor = "transParent";
+
             cancelClickedCell();
           } else {
             allClickedCell[0].focus();
@@ -2385,6 +2417,7 @@
           currentCell.style.height = "";
           currentCell.removeAttribute("including");
           currentCell.focus();
+          currentCell.style.caretColor = "transParent";
         }
         shadowRow = 0;
         originRow = cellRow;
