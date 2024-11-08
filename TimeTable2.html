@@ -49,7 +49,9 @@
         display: flex;
         outline: 1px solid black;
       }
-      .timeColumn {
+      .timeColumn,
+      .satColumn,
+      .sunColumn {
         min-width: 12vh;
         height: 100%;
 
@@ -84,6 +86,8 @@
         justify-content: center;
         align-items: center;
         outline: 1px solid black;
+
+        white-space: nowrap;
       }
       .firstCell {
         background-color: #ded7d7;
@@ -239,9 +243,10 @@
         <button class="fontBold" style="font-weight: bold" onclick="fontBold()">B</button>
         <button class="fontCancel" onclick="fontCancel()"><s>S</s></button>
         <button onclick="alignCenter()">C</button>
-
+        <div style="width: 1%"></div>
+        <button class="btnClicked" onclick="checkSat(this)">토요일</button>
+        <button class="btnClicked" onclick="checkSun(this)">일요일</button>
         <div style="width: 4%"></div>
-        <button>화면전환시 시간/날짜복사</button>
         <button>ctrl+c,x,z</button>
         <button>파이어베이스</button>
         <button class="btnClear" onclick="allClear()">X</button>
@@ -1183,7 +1188,34 @@
               <div class="textCell" contenteditable="true" cellRow="22" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
-            <div class="textColumn" cellCol="5">
+            <div class="satColumn timeColumn">
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+            </div>
+            <div class="textColumn saturdays" cellCol="5">
               <div class="textCell firstCell" contenteditable="true"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1210,7 +1242,34 @@
               <div class="textCell" contenteditable="true" cellRow="22" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
-            <div class="textColumn" cellCol="6">
+            <div class="sunColumn timeColumn">
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+            </div>
+            <div class="textColumn sundays" cellCol="6">
               <div class="textCell firstCell" contenteditable="true"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1402,7 +1461,34 @@
               <div class="textCell" contenteditable="true" cellRow="22" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
-            <div class="textColumn" cellCol="5">
+            <div class="satColumn timeColumn">
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+            </div>
+            <div class="textColumn saturdays" cellCol="5">
               <div class="textCell firstCell" contenteditable="true"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1429,7 +1515,34 @@
               <div class="textCell" contenteditable="true" cellRow="22" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
-            <div class="textColumn" cellCol="6">
+            <div class="sunColumn timeColumn">
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+            </div>
+            <div class="textColumn sundays" cellCol="6">
               <div class="textCell firstCell" contenteditable="true"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1621,7 +1734,34 @@
               <div class="textCell" contenteditable="true" cellRow="22" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
-            <div class="textColumn" cellCol="5">
+            <div class="satColumn timeColumn">
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+            </div>
+            <div class="textColumn saturdays" cellCol="5">
               <div class="textCell firstCell" contenteditable="true"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1648,7 +1788,34 @@
               <div class="textCell" contenteditable="true" cellRow="22" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
-            <div class="textColumn" cellCol="6">
+            <div class="sunColumn timeColumn">
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+              <div class="timeCell"></div>
+            </div>
+            <div class="textColumn sundays" cellCol="6">
               <div class="textCell firstCell" contenteditable="true"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1746,7 +1913,7 @@
           <option>7:30 -</option>
           <option>8:00 -</option>
         </select>
-        <button class="close" onclick="closeTimeModal2()">OK</button>
+        <button class="close" onclick="closeTimeModal()">OK</button>
       </div>
       <div class="timeModal-content3">
         <span>일요일</span>
@@ -1800,6 +1967,7 @@
       let dayArray = ["일", "월", "화", "수", "목", "금", "토"];
       let allData = [];
       let teacherNameData = [];
+      let dateData = [];
       let writing = false;
 
       function clickCell(textCell) {
@@ -1971,58 +2139,192 @@
           }
         }
       }
-      function addRow() {
-        //요일별 테이블
-        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
-        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
-        if (thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[0].querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4) === "11:3") {
-          //12시 이후로는 행 추가 불가
-        } else {
-          for (let i = 0; i < 7; i++) {
-            let newTimeCell = thisPage.querySelectorAll(".timeCell")[numOfRows].cloneNode(false);
-            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
-            let upCellTime = thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4);
-            for (let p = 0; p < timeArray.length; p++) {
-              if (upCellTime === timeArray[p].substring(0, 4)) {
-                newTimeCell.innerText = timeArray[p + 1] + " - " + timeArray[p + 2];
-              }
-            }
-            for (let j = 0; j < numOfTeachers; j++) {
-              let newTextCell = thisPage.querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
-              newTextCell.setAttribute("cellRow", numOfRows - 1);
-              thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
-            }
-          }
+      // function addRow() {
+      //   //요일별 테이블
+      //   numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+      //   numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
+      //   //평일
+      //   if (thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[0].querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4) === "11:3") {
+      //     //12시 이후로는 행 추가 불가
+      //   } else {
+      //     for (let i = 0; i < 5; i++) {
+      //       let newTimeCell = thisPage.querySelectorAll(".timeCell")[numOfRows - 1].cloneNode(false);
+      //       thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
+      //       let upCellTime = thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4);
+      //       for (let p = 0; p < timeArray.length; p++) {
+      //         if (upCellTime === timeArray[p].substring(0, 4)) {
+      //           newTimeCell.innerText = timeArray[p + 1] + " - " + timeArray[p + 2];
+      //         }
+      //       }
+      //       for (let j = 0; j < numOfTeachers; j++) {
+      //         let newTextCell = thisPage.querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
+      //         newTextCell.setAttribute("cellRow", numOfRows - 1);
+      //         thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+      //       }
+      //     }
+      //   }
+      //   //토요일
+      //   numOfRows = thisPage.querySelectorAll(".dayTable")[5].querySelector(".textColumn").querySelectorAll(".textCell").length;
+      //   if (thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[5].querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4) === "11:3") {
+      //     //12시 이후로는 행 추가 불가
+      //   } else {
+      //     let newTimeCell = thisPage.querySelectorAll(".dayTable")[5].querySelectorAll(".timeCell")[numOfRows - 1].cloneNode(false);
+      //     thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[5].querySelector(".timeColumn").appendChild(newTimeCell);
+      //     let upCellTime = thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[5].querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4);
+      //     //시간연결하기
+      //     for (let p = 0; p < timeArray.length; p++) {
+      //       if (upCellTime === timeArray[p].substring(0, 4)) {
+      //         newTimeCell.innerText = timeArray[p + 1] + " - " + timeArray[p + 2];
+      //       }
+      //     }
+      //     //텍스트셀만들기
+      //     for (let j = 0; j < numOfTeachers; j++) {
+      //       let newTextCell = thisPage.querySelectorAll(".dayTable")[5].querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
+      //       newTextCell.setAttribute("cellRow", numOfRows - 1);
+      //       thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[5].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+      //     }
+      //   }
+      //   //일요일
+      //   numOfRows = thisPage.querySelectorAll(".dayTable")[6].querySelector(".textColumn").querySelectorAll(".textCell").length;
+      //   if (thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[6].querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4) === "11:3") {
+      //     //12시 이후로는 행 추가 불가
+      //   } else {
+      //     let newTimeCell = thisPage.querySelectorAll(".dayTable")[6].querySelectorAll(".timeCell")[numOfRows - 1].cloneNode(false);
+      //     thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[6].querySelector(".timeColumn").appendChild(newTimeCell);
+      //     let upCellTime = thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[6].querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4);
+      //     //시간연결하기
+      //     for (let p = 0; p < timeArray.length; p++) {
+      //       if (upCellTime === timeArray[p].substring(0, 4)) {
+      //         newTimeCell.innerText = timeArray[p + 1] + " - " + timeArray[p + 2];
+      //       }
+      //     }
+      //     //텍스트셀만들기
+      //     for (let j = 0; j < numOfTeachers; j++) {
+      //       let newTextCell = thisPage.querySelectorAll(".dayTable")[6].querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
+      //       newTextCell.setAttribute("cellRow", numOfRows - 1);
+      //       thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[6].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+      //     }
+      //   }
+      //   //선생님별 테이블
+      //   //평일
+      //   numOfRows = thisPage.querySelector(".teacherTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
+      //   if (thisPage.querySelector(".teacherTable").querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4) === "11:3") {
+      //     //12시 이후로는 행 추가 불가
+      //   } else {
+      //     for (let i = 0; i < numOfTeachers; i++) {
+      //       let newTimeCell = thisPage.querySelector(".teacherTable").querySelectorAll(".timeCell")[numOfRows - 1].cloneNode(false);
+      //       thisPage.querySelectorAll(".teacherTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
+      //       let upCellTime = thisPage.querySelector(".teacherTable").querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4);
+      //       //시간연결하기
+      //       for (let p = 0; p < timeArray.length; p++) {
+      //         if (upCellTime === timeArray[p].substring(0, 4)) {
+      //           newTimeCell.innerText = timeArray[p + 1] + " - " + timeArray[p + 2];
+      //         }
+      //       }
+      //       //텍스트셀만들기
+      //       for (let j = 0; j < 5; j++) {
+      //         let newTextCell = thisPage.querySelector(".teacherTable").querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
+      //         newTextCell.setAttribute("cellRow", numOfRows - 1);
+      //         thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+      //       }
+      //     }
+      //   }
+      //   //토요일
+      //   numOfRows = thisPage.querySelector(".teacherTable").querySelectorAll(".textColumn")[5].querySelectorAll(".textCell").length;
+      //   if (thisPage.querySelector(".satColumn").querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4) === "11:3") {
+      //     //12시 이후로는 행 추가 불가
+      //   } else {
+      //     for (let i = 0; i < numOfTeachers; i++) {
+      //       let newTimeCell = thisPage.querySelectorAll(".teacherTable")[i].querySelector(".satColumn").querySelectorAll(".timeCell")[numOfRows - 1].cloneNode(false);
+      //       thisPage.querySelectorAll(".teacherTable")[i].querySelector(".satColumn").appendChild(newTimeCell);
+      //       let upCellTime = thisPage.querySelectorAll(".teacherTable")[i].querySelector(".satColumn").querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4);
+      //       //시간연결하기
+      //       for (let p = 0; p < timeArray.length; p++) {
+      //         if (upCellTime === timeArray[p].substring(0, 4)) {
+      //           newTimeCell.innerText = timeArray[p + 1] + " - " + timeArray[p + 2];
+      //         }
+      //       }
+      //       //텍스트셀만들기
+      //       let newTextCell = thisPage.querySelectorAll(".teacherTable")[i].querySelector(".saturdays").querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
+      //       newTextCell.setAttribute("cellRow", numOfRows - 1);
+      //       thisPage.querySelectorAll(".teacherTable")[i].querySelector(".saturdays").appendChild(newTextCell);
+      //     }
+      //   }
+      //   //일요일
+      //   numOfRows = thisPage.querySelector(".teacherTable").querySelectorAll(".textColumn")[6].querySelectorAll(".textCell").length;
+      //   if (thisPage.querySelector(".sunColumn").querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4) === "11:3") {
+      //     //12시 이후로는 행 추가 불가
+      //   } else {
+      //     for (let i = 0; i < numOfTeachers; i++) {
+      //       let newTimeCell = thisPage.querySelectorAll(".teacherTable")[i].querySelector(".sunColumn").querySelectorAll(".timeCell")[numOfRows - 1].cloneNode(false);
+      //       thisPage.querySelectorAll(".teacherTable")[i].querySelector(".sunColumn").appendChild(newTimeCell);
+      //       let upCellTime = thisPage.querySelectorAll(".teacherTable")[i].querySelector(".sunColumn").querySelectorAll(".timeCell")[numOfRows - 1].innerText.substring(0, 4);
+      //       //시간연결하기
+      //       for (let p = 0; p < timeArray.length; p++) {
+      //         if (upCellTime === timeArray[p].substring(0, 4)) {
+      //           newTimeCell.innerText = timeArray[p + 1] + " - " + timeArray[p + 2];
+      //         }
+      //       }
+      //       //텍스트셀만들기
+      //       let newTextCell = thisPage.querySelectorAll(".teacherTable")[i].querySelector(".sundays").querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
+      //       newTextCell.setAttribute("cellRow", numOfRows - 1);
+      //       thisPage.querySelectorAll(".teacherTable")[i].querySelector(".sundays").appendChild(newTextCell);
+      //     }
+      //   }
+      // }
 
-          //선생님별 테이블
-          for (let i = 0; i < numOfTeachers; i++) {
-            let newTimeCell = thisPage.querySelectorAll(".timeCell")[numOfRows].cloneNode(false);
-            thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
-            for (let j = 0; j < 7; j++) {
-              let newTextCell = thisPage.querySelectorAll(".textCell")[numOfRows - 1].cloneNode(false);
-              newTextCell.setAttribute("cellRow", numOfRows - 1);
-              thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
-            }
+      function addRow() {
+        //간단하게 줄만 추가하기
+        //그리고 시간연결
+        numOfRows = thisPage.querySelector(".dayTable").querySelectorAll(".timeCell").length - 1;
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+        //요일별
+        for (let i = 0; i < 7; i++) {
+          let newTimeCell = thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".timeCell")[numOfRows].cloneNode(false);
+          thisPage.querySelectorAll(".dayTable")[i].querySelector(".timeColumn").appendChild(newTimeCell);
+          for (let j = 0; j < numOfTeachers; j++) {
+            let newTextCell = thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[numOfRows].cloneNode(false);
+            newTextCell.setAttribute("cellRow", numOfRows);
+            thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
+          }
+        }
+        //선생님별
+        for (let i = 0; i < numOfTeachers; i++) {
+          for (let j = 0; j < 3; j++) {
+            let newTimeCell = thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".timeColumn")[j].querySelectorAll(".timeCell")[numOfRows].cloneNode(false);
+            thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".timeColumn")[j].appendChild(newTimeCell);
+          }
+          for (let j = 0; j < 7; j++) {
+            let newTextCell = thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[numOfRows].cloneNode(false);
+            newTextCell.setAttribute("cellRow", numOfRows);
+            thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].appendChild(newTextCell);
           }
         }
       }
+
       function deleteRow() {
-        //요일별
         numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
-        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
-        if (numOfRows > 2) {
+        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length - 1;
+        if (numOfRows > 1) {
+          //요일별
           for (let i = 0; i < 7; i++) {
-            thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").querySelectorAll(".timeCell")[numOfRows - 1].remove();
+            numOfRows = thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".timeCell").length - 1;
+            thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".timeCell")[numOfRows].remove();
             for (let j = 0; j < numOfTeachers; j++) {
-              thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[numOfRows - 1].remove();
+              numOfRows = thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell").length - 1;
+              thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[numOfRows].remove();
             }
           }
 
           //선생님별
           for (let i = 0; i < numOfTeachers; i++) {
-            thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelector(".timeColumn").querySelectorAll(".timeCell")[numOfRows - 1].remove();
+            for (let j = 0; j < 3; j++) {
+              numOfRows = thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".timeColumn")[j].querySelectorAll(".timeCell").length - 1;
+              thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".timeColumn")[j].querySelectorAll(".timeCell")[numOfRows].remove();
+            }
             for (let j = 0; j < 7; j++) {
-              thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[numOfRows - 1].remove();
+              numOfRows = thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell").length - 1;
+              thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[numOfRows].remove();
             }
           }
         }
@@ -2289,12 +2591,17 @@
           getFontSize();
           currentCell.focus();
           currentCell.style.caretColor = "transParent";
-
           cancelClickedCell();
           shadowRow = 0;
           minRow = 0;
           maxRow = 0;
-          currentCell.style.caretColor = "transParent";
+        } else if (event.key === "Alt") {
+          event.preventDefault();
+        } else if (event.key === " ") {
+          if (writing) {
+          } else {
+            event.preventDefault();
+          }
         } else if (event.key === "Enter") {
           event.preventDefault();
           if (cellRow < numOfRows) {
@@ -2423,124 +2730,124 @@
         originRow = cellRow;
       }
       function goTeachers() {
-        saveData();
+        // saveData();
         thisPage.querySelector(".midByDays").classList.add("hide");
         thisPage.querySelector(".midByTeachers").classList.remove("hide");
         document.querySelector(".btnGoDays").classList.remove("btnClicked");
         document.querySelector(".btnGoTeachers").classList.add("btnClicked");
-        pasteData();
+        // pasteData();
         alignCenter();
       }
       function goDays() {
-        saveData();
+        // saveData();
         thisPage.querySelector(".midByTeachers").classList.add("hide");
         thisPage.querySelector(".midByDays").classList.remove("hide");
         document.querySelector(".btnGoTeachers").classList.remove("btnClicked");
         document.querySelector(".btnGoDays").classList.add("btnClicked");
-        pasteData();
+        // pasteData();
         alignCenter();
       }
-      function saveData() {
-        allData = [];
-        //요일별 테이블일 때
-        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
-        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
-        if (thisPage.querySelector(".midByTeachers").classList.contains("hide")) {
-          for (let j = 0; j < numOfTeachers; j++) {
-            let tableData = [];
-            for (let i = 0; i < 7; i++) {
-              let rowData = [];
-              for (let k = 1; k < numOfRows; k++) {
-                let savingCell = thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k];
-                let cellData = {};
-                cellData.value = savingCell.innerText;
-                cellData.height = savingCell.style.height;
-                if (savingCell.classList.contains("merged")) {
-                  cellData.classList = "merged";
-                } else if (savingCell.classList.contains("hide")) {
-                  cellData.classList = "hide";
-                }
-                cellData.including = savingCell.getAttribute("including");
-                rowData.push(cellData);
-              }
-              tableData.push(rowData);
-            }
-            allData.push(tableData);
-          }
-        } else {
-          //선생님별 테이블일 때
-          for (let i = 0; i < numOfTeachers; i++) {
-            let tableData = [];
-            for (let j = 0; j < 7; j++) {
-              let rowData = [];
-              for (let k = 1; k < numOfRows; k++) {
-                let savingCell = thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k];
-                let cellData = {};
-                cellData.value = savingCell.innerText;
-                cellData.height = savingCell.style.height;
-                if (savingCell.classList.contains("merged")) {
-                  cellData.classList = "merged";
-                } else if (savingCell.classList.contains("hide")) {
-                  cellData.classList = "hide";
-                }
-                cellData.including = savingCell.getAttribute("including");
-                rowData.push(cellData);
-              }
-              tableData.push(rowData);
-            }
-            allData.push(tableData);
-          }
-        }
-        console.log(allData);
-      }
-      function pasteData() {
-        numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
-        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
-        //요일별 화면으로 넘어갈 때
-        if (thisPage.querySelector(".midByTeachers").classList.contains("hide")) {
-          for (let i = 0; i < 7; i++) {
-            for (let j = 0; j < numOfTeachers; j++) {
-              for (let k = 1; k < numOfRows; k++) {
-                thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].innerText = allData[j][i][k - 1].value;
-                thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].style.height = allData[j][i][k - 1].height;
-                thisPage
-                  .querySelectorAll(".dayTable")
-                  [i].querySelectorAll(".textColumn")
-                  [j].querySelectorAll(".textCell")
-                  [k].classList.add(allData[j][i][k - 1].classList);
-                thisPage
-                  .querySelectorAll(".dayTable")
-                  [i].querySelectorAll(".textColumn")
-                  [j].querySelectorAll(".textCell")
-                  [k].setAttribute("including", allData[j][i][k - 1].including);
-              }
-            }
-          }
-        } else {
-          //선생님별 화면으로 넘어갈 때
-          for (let i = 0; i < numOfTeachers; i++) {
-            for (let j = 0; j < 7; j++) {
-              for (let k = 1; k < numOfRows; k++) {
-                thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].innerText = allData[i][j][k - 1].value;
-                thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].style.height = allData[i][j][k - 1].height;
-                thisPage
-                  .querySelectorAll(".teacherTable")
-                  [i].querySelectorAll(".textColumn")
-                  [j].querySelectorAll(".textCell")
-                  [k].classList.add(allData[i][j][k - 1].classList);
-                thisPage
-                  .querySelectorAll(".teacherTable")
-                  [i].querySelectorAll(".textColumn")
-                  [j].querySelectorAll(".textCell")
-                  [k].setAttribute("including", allData[i][j][k - 1].including);
-              }
-            }
-            if (teacherNameData[i]) {
-              thisPage.querySelectorAll(".teacherTable")[i].querySelector(".firstCell").innerText = teacherNameData[i];
-            }
-          }
-        }
-      }
+      // function saveData() {
+      //   allData = [];
+      //   //요일별 테이블일 때
+      //   numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
+      //   numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+      //   if (thisPage.querySelector(".midByTeachers").classList.contains("hide")) {
+      //     for (let j = 0; j < numOfTeachers; j++) {
+      //       let tableData = [];
+      //       for (let i = 0; i < 7; i++) {
+      //         let rowData = [];
+      //         for (let k = 1; k < numOfRows; k++) {
+      //           let savingCell = thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k];
+      //           let cellData = {};
+      //           cellData.value = savingCell.innerText;
+      //           cellData.height = savingCell.style.height;
+      //           if (savingCell.classList.contains("merged")) {
+      //             cellData.classList = "merged";
+      //           } else if (savingCell.classList.contains("hide")) {
+      //             cellData.classList = "hide";
+      //           }
+      //           cellData.including = savingCell.getAttribute("including");
+      //           rowData.push(cellData);
+      //         }
+      //         tableData.push(rowData);
+      //       }
+      //       allData.push(tableData);
+      //     }
+      //   } else {
+      //     //선생님별 테이블일 때
+      //     for (let i = 0; i < numOfTeachers; i++) {
+      //       let tableData = [];
+      //       for (let j = 0; j < 7; j++) {
+      //         let rowData = [];
+      //         for (let k = 1; k < numOfRows; k++) {
+      //           let savingCell = thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k];
+      //           let cellData = {};
+      //           cellData.value = savingCell.innerText;
+      //           cellData.height = savingCell.style.height;
+      //           if (savingCell.classList.contains("merged")) {
+      //             cellData.classList = "merged";
+      //           } else if (savingCell.classList.contains("hide")) {
+      //             cellData.classList = "hide";
+      //           }
+      //           cellData.including = savingCell.getAttribute("including");
+      //           rowData.push(cellData);
+      //         }
+      //         tableData.push(rowData);
+      //       }
+      //       allData.push(tableData);
+      //     }
+      //   }
+      //   console.log(allData);
+      // }
+      // function pasteData() {
+      //   numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length;
+      //   numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+      //   //요일별 화면으로 넘어갈 때
+      //   if (thisPage.querySelector(".midByTeachers").classList.contains("hide")) {
+      //     for (let i = 0; i < 7; i++) {
+      //       for (let j = 0; j < numOfTeachers; j++) {
+      //         for (let k = 1; k < numOfRows; k++) {
+      //           thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].innerText = allData[j][i][k - 1].value;
+      //           thisPage.querySelectorAll(".dayTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].style.height = allData[j][i][k - 1].height;
+      //           thisPage
+      //             .querySelectorAll(".dayTable")
+      //             [i].querySelectorAll(".textColumn")
+      //             [j].querySelectorAll(".textCell")
+      //             [k].classList.add(allData[j][i][k - 1].classList);
+      //           thisPage
+      //             .querySelectorAll(".dayTable")
+      //             [i].querySelectorAll(".textColumn")
+      //             [j].querySelectorAll(".textCell")
+      //             [k].setAttribute("including", allData[j][i][k - 1].including);
+      //         }
+      //       }
+      //     }
+      //   } else {
+      //     //선생님별 화면으로 넘어갈 때
+      //     for (let i = 0; i < numOfTeachers; i++) {
+      //       for (let j = 0; j < 7; j++) {
+      //         for (let k = 1; k < numOfRows; k++) {
+      //           thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].innerText = allData[i][j][k - 1].value;
+      //           thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[k].style.height = allData[i][j][k - 1].height;
+      //           thisPage
+      //             .querySelectorAll(".teacherTable")
+      //             [i].querySelectorAll(".textColumn")
+      //             [j].querySelectorAll(".textCell")
+      //             [k].classList.add(allData[i][j][k - 1].classList);
+      //           thisPage
+      //             .querySelectorAll(".teacherTable")
+      //             [i].querySelectorAll(".textColumn")
+      //             [j].querySelectorAll(".textCell")
+      //             [k].setAttribute("including", allData[i][j][k - 1].including);
+      //         }
+      //       }
+      //       if (teacherNameData[i]) {
+      //         thisPage.querySelectorAll(".teacherTable")[i].querySelector(".firstCell").innerText = teacherNameData[i];
+      //       }
+      //     }
+      //   }
+      // }
       function addTeacher() {
         //요일별테이블 추가
         thisTable = thisPage.querySelector(".dayTable");
@@ -2638,6 +2945,42 @@
         document.querySelector(".container").insertBefore(cloneMid, document.querySelector(".bot"));
         cloneMid.classList.add("hide");
       }
+      function checkSat(button) {
+        let allSat = document.querySelectorAll(".saturdays");
+        let allSatTime = document.querySelectorAll(".satColumn");
+
+        if (button.classList.contains("btnClicked")) {
+          button.classList.remove("btnClicked");
+          for (let i = 0; i < allSat.length; i++) {
+            allSat[i].classList.add("hide");
+            allSatTime[i].classList.add("hide");
+          }
+        } else {
+          button.classList.add("btnClicked");
+          for (let i = 0; i < allSat.length; i++) {
+            allSat[i].classList.remove("hide");
+            allSatTime[i].classList.remove("hide");
+          }
+        }
+      }
+      function checkSun(button) {
+        let allSun = document.querySelectorAll(".sundays");
+        let allSunTime = document.querySelectorAll(".sunColumn");
+
+        if (button.classList.contains("btnClicked")) {
+          button.classList.remove("btnClicked");
+          for (let i = 0; i < allSun.length; i++) {
+            allSun[i].classList.add("hide");
+            allSunTime[i].classList.add("hide");
+          }
+        } else {
+          button.classList.add("btnClicked");
+          for (let i = 0; i < allSun.length; i++) {
+            allSun[i].classList.remove("hide");
+            allSunTime[i].classList.remove("hide");
+          }
+        }
+      }
       function openDateModal() {
         document.querySelector(".dateModal").classList.remove("hide");
         document.querySelector(".dateModal").style.display = "flex";
@@ -2653,20 +2996,25 @@
         document.querySelector(".timeModal").style.display = "flex";
       }
 
-      // function closeTimeModal() {
-      //   document.querySelector(".timeModal").classList.add("hide");
-      //   document.querySelector(".timeModal").style.display = "";
-      // }
-      function closeTimeModal2() {
+      function closeTimeModal() {
         document.querySelector(".timeModal").classList.add("hide");
         document.querySelector(".timeModal").style.display = "";
         applyTime();
       }
-      // function closeTimeModal3() {
-      //   document.querySelector(".timeModal").classList.add("hide");
-      //   document.querySelector(".timeModal").style.display = "";
-      // }
+      function escModal() {
+        document.querySelector(".dateModal").classList.add("hide");
+        document.querySelector(".timeModal").classList.add("hide");
+        document.querySelector(".dateModal").style.display = "";
+        document.querySelector(".timeModal").style.display = "";
+      }
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          escModal();
+        }
+      });
       function applyDate() {
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+
         if (document.querySelector(".dateInput").value === "") {
           //날짜 미입력시 종료
         } else {
@@ -2676,6 +3024,12 @@
             let realDate = date.toISOString().split("T")[0].slice(5);
             let realDay = date.getDay();
             thisPage.querySelector(".midByDays").querySelectorAll(".dayTable")[i].querySelector(".timeColumn").querySelectorAll(".timeCell")[0].innerText = dayArray[realDay] + " " + "(" + realDate + ")";
+          }
+        }
+        //선생님별 테이블에 날짜배열
+        for (let i = 0; i < numOfTeachers; i++) {
+          for (let j = 0; j < 7; j++) {
+            thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".textColumn")[j].querySelector(".textCell").innerText = thisPage.querySelectorAll(".dayTable")[j].querySelector(".timeCell").innerText;
           }
         }
       }
@@ -2730,6 +3084,54 @@
               }
             }
             break;
+          }
+        }
+
+        //선생님별 테이블에 시간배열
+        for (let i = 0; i < numOfTeachers; i++) {
+          for (let j = 1; j < numOfRows; j++) {
+            thisPage.querySelectorAll(".teacherTable")[i].querySelectorAll(".timeCell")[j].innerText = thisPage.querySelectorAll(".dayTable")[0].querySelectorAll(".timeCell")[j].innerText;
+            thisPage.querySelectorAll(".teacherTable")[i].querySelector(".satColumn").querySelectorAll(".timeCell")[j].innerText = thisPage.querySelectorAll(".dayTable")[5].querySelectorAll(".timeCell")[j].innerText;
+            thisPage.querySelectorAll(".teacherTable")[i].querySelector(".sunColumn").querySelectorAll(".timeCell")[j].innerText = thisPage.querySelectorAll(".dayTable")[6].querySelectorAll(".timeCell")[j].innerText;
+          }
+        }
+        // organizeTable();
+      }
+
+      function organizeTable() {
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
+        //요일별테이블
+        for (let k = 0; k < 7; k++) {
+          for (let i = thisPage.querySelectorAll(".dayTable")[k].querySelectorAll(".timeCell").length - 1; i > 1; i--) {
+            if (thisPage.querySelectorAll(".dayTable")[k].querySelectorAll(".timeCell")[i].innerText === "") {
+              thisPage.querySelectorAll(".dayTable")[k].querySelectorAll(".timeCell")[i].remove();
+              for (let j = 0; j < thisPage.querySelectorAll(".dayTable")[k].querySelectorAll(".textColumn").length; j++) {
+                thisPage.querySelectorAll(".dayTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].remove();
+              }
+            }
+          }
+        }
+        //선생님별테이블
+        for (let k = 0; k < numOfTeachers; k++) {
+          for (let i = thisPage.querySelectorAll(".teacherTable")[k].querySelector(".timeColumn").querySelectorAll(".timeCell").length - 1; i > 1; i--) {
+            if (thisPage.querySelectorAll(".teacherTable")[k].querySelector(".timeColumn").querySelectorAll(".timeCell")[i].innerText === "") {
+              thisPage.querySelectorAll(".teacherTable")[k].querySelector(".timeColumn").querySelectorAll(".timeCell")[i].remove();
+              for (let j = 0; j < 5; j++) {
+                thisPage.querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].remove();
+              }
+            }
+          }
+          for (let p = thisPage.querySelectorAll(".teacherTable")[k].querySelector(".satColumn").querySelectorAll(".timeCell").length - 1; p > 1; p--) {
+            if (thisPage.querySelectorAll(".teacherTable")[k].querySelector(".satColumn").querySelectorAll(".timeCell")[p].innerText === "") {
+              thisPage.querySelectorAll(".teacherTable")[k].querySelector(".satColumn").querySelectorAll(".timeCell")[p].remove();
+              thisPage.querySelectorAll(".teacherTable")[k].querySelector(".saturdays").querySelectorAll(".textCell")[p].remove();
+            }
+          }
+          for (let q = thisPage.querySelectorAll(".teacherTable")[k].querySelector(".sunColumn").querySelectorAll(".timeCell").length - 1; q > 1; q--) {
+            if (thisPage.querySelectorAll(".teacherTable")[k].querySelector(".sunColumn").querySelectorAll(".timeCell")[q].innerText === "") {
+              thisPage.querySelectorAll(".teacherTable")[k].querySelector(".sunColumn").querySelectorAll(".timeCell")[q].remove();
+              thisPage.querySelectorAll(".teacherTable")[k].querySelector(".sundays").querySelectorAll(".textCell")[q].remove();
+            }
           }
         }
       }
