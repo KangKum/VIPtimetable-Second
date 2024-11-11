@@ -247,7 +247,9 @@
         <button class="btnClicked" onclick="checkSat(this)">토요일</button>
         <button class="btnClicked" onclick="checkSun(this)">일요일</button>
         <div style="width: 4%"></div>
-        <button>ctrl+c,x,z</button>
+        <button>ctrl이동과 ctrl+shift이동 최적화</button>
+        <button>ctrl+z</button>
+        <button>데이터저장양식</button>
         <button>파이어베이스</button>
         <button class="btnClear" onclick="allClear()">X</button>
       </div>
@@ -1969,6 +1971,10 @@
       let teacherNameData = [];
       let dateData = [];
       let writing = false;
+      let ctrlArrayData = [];
+      let ctrlData = {};
+      let tempctrlArrayData = [];
+      let checkCtrlX = false;
 
       function clickCell(textCell) {
         currentCell = textCell;
@@ -2339,6 +2345,99 @@
           }
         }
       }
+      function ctrlX() {
+        event.preventDefault();
+        ctrlArrayData = [];
+        tempCtrlArrayData = [];
+        if (allclickedCell.length > 1) {
+          for (let i = 0; i < allclickedCell.length; i++) {
+            ctrlData = {};
+            ctrlData.value = allclickedCell[i].innerText;
+            ctrlData.including = allclickedCell[i].getAttribute("including");
+            ctrlData.merged = allclickedCell[i].classList.contains("merged") ? "merged" : allclickedCell[i].classList.contains("hide") ? "hide" : "";
+            ctrlData.height = allclickedCell[i].style.height;
+            ctrlArrayData.push(ctrlData);
+          }
+          tempCtrlArrayData = allclickedCell;
+        } else {
+          ctrlData = {};
+          ctrlData.value = currentCell.innerText;
+          ctrlData.including = currentCell.getAttribute("including");
+          ctrlData.merged = currentCell.classList.contains("merged") ? "merged" : currentCell.classList.contains("hide") ? "hide" : "";
+          ctrlData.height = currentCell.style.height;
+          ctrlArrayData.push(ctrlData);
+          tempCtrlArrayData.push(currentCell);
+        }
+        console.log(ctrlArrayData);
+        checkCtrlX = true;
+      }
+      function ctrlC() {
+        event.preventDefault();
+        checkCtrlX = false;
+        ctrlArrayData = [];
+        if (allclickedCell.length > 1) {
+          for (let i = 0; i < allclickedCell.length; i++) {
+            ctrlData = {};
+            ctrlData.value = allclickedCell[i].innerText;
+            ctrlData.including = allclickedCell[i].getAttribute("including");
+            ctrlData.merged = allclickedCell[i].classList.contains("merged") ? "merged" : allclickedCell[i].classList.contains("hide") ? "hide" : "";
+            ctrlData.height = allclickedCell[i].style.height;
+            ctrlArrayData.push(ctrlData);
+          }
+        } else {
+          ctrlData = {};
+          ctrlData.value = currentCell.innerText;
+          ctrlData.including = currentCell.getAttribute("including");
+          ctrlData.merged = currentCell.classList.contains("merged") ? "merged" : currentCell.classList.contains("hide") ? "hide" : "";
+          ctrlData.height = currentCell.style.height;
+          ctrlArrayData.push(ctrlData);
+        }
+        console.log(ctrlArrayData);
+      }
+      function ctrlV() {
+        event.preventDefault();
+        if (checkCtrlX) {
+          //잘라내기 셀 원상복구
+          for (let i = 0; i < tempCtrlArrayData.length; i++) {
+            tempCtrlArrayData[i].innerText = "";
+            tempCtrlArrayData[i].removeAttribute("including");
+            if (tempCtrlArrayData[i].classList.contains("merged")) {
+              tempCtrlArrayData[i].classList.remove("merged");
+            } else if (tempCtrlArrayData[i].classList.contains("hide")) {
+              tempCtrlArrayData[i].classList.remove("hide");
+            }
+            tempCtrlArrayData[i].style.height = "3vh";
+          }
+        }
+        for (let i = 0; i < ctrlArrayData.length; i++) {
+          if (cellRow + i > numOfRows) {
+            alert("범위를 초과하였습니다");
+            return;
+          } else if (currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].classList.contains("merged")) {
+            alert("범위 내에 병합된 셀이 있습니다");
+            return;
+          }
+        }
+        if (ctrlArrayData.length > 0) {
+          for (let i = 0; i < ctrlArrayData.length; i++) {
+            currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].innerText = ctrlArrayData[i].value;
+            currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].setAttribute("including", ctrlArrayData[i].including);
+            if (ctrlArrayData[i].merged != "") {
+              currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].classList.add(ctrlArrayData[i].merged);
+            }
+            currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].style.height = ctrlArrayData[i].height;
+          }
+        }
+
+        if (checkCtrlX) {
+          ctrlArrayData = [];
+          checkCtrlX = false;
+        }
+      }
+
+      function ctrlZ() {
+        console.log("ctrlZ");
+      }
       function keyMove(textCell) {
         thisTable = textCell.parentNode.parentNode;
         numOfTeachers = thisTable.querySelectorAll(".textColumn").length;
@@ -2357,6 +2456,7 @@
             return;
           }
           if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+            event.preventDefault();
             let upCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow - 1}"]`);
             let downCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow + 1}"]`);
             shadowCell = shadowRow === 0 ? currentCell : thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow}"]`);
@@ -2373,7 +2473,13 @@
                     shadowRow--;
                   }
                 } else if (upCell.innerText != "") {
-                  while (cellRow + shadowRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow - 1}"]`).innerText != "") {
+                  while (
+                    (cellRow + shadowRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow - 1}"]`).innerText != "") ||
+                    thisTable
+                      .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+                      .querySelector(`.textCell[cellRow="${cellRow + shadowRow - 1}"]`)
+                      .classList.contains("hide")
+                  ) {
                     shadowRow--;
                   }
                 }
@@ -2390,7 +2496,13 @@
                     shadowRow++;
                   }
                 } else if (downCell.innerText != "") {
-                  while (cellRow + shadowRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow + 1}"]`).innerText != "") {
+                  while (
+                    (cellRow + shadowRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + shadowRow + 1}"]`).innerText != "") ||
+                    thisTable
+                      .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+                      .querySelector(`.textCell[cellRow="${cellRow + shadowRow + 1}"]`)
+                      .classList.contains("hide")
+                  ) {
                     shadowRow++;
                   }
                 }
@@ -2403,7 +2515,16 @@
 
             for (let j = minRow; j <= maxRow; j++) {
               thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${j}"]`).classList.add("clickedCell");
+              if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${j}"]`).classList.contains("merged")) {
+                for (let k = 1; k < parseInt(thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${j}"]`).getAttribute("including")); k++) {
+                  thisTable
+                    .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+                    .querySelector(`.textCell[cellRow="${j + k}"]`)
+                    .classList.add("clickedCell");
+                }
+              }
             }
+            allclickedCell = thisPage.querySelectorAll(".clickedCell");
           }
         } else if (event.shiftKey) {
           if (writing) {
@@ -2411,6 +2532,7 @@
           }
           ////쉬프트이동
           if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+            event.preventDefault();
             if (cellRow + shadowRow > 0 && event.key === "ArrowUp") {
               shadowRow--;
               while (
@@ -2439,7 +2561,16 @@
 
             for (let j = minRow; j <= maxRow; j++) {
               thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${j}"]`).classList.add("clickedCell");
+              if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${j}"]`).classList.contains("merged")) {
+                for (let k = 1; k < parseInt(thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${j}"]`).getAttribute("including")); k++) {
+                  thisTable
+                    .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+                    .querySelector(`.textCell[cellRow="${j + k}"]`)
+                    .classList.add("clickedCell");
+                }
+              }
             }
+            allclickedCell = thisPage.querySelectorAll(".clickedCell");
           }
         } else if (event.ctrlKey) {
           if (writing) {
@@ -2468,7 +2599,13 @@
                   cellRow--;
                 }
               } else if (cellRow > 0 && currentCell.innerText != "" && upCell.innerText != "") {
-                while (cellRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow - 1}"]`).innerText != "") {
+                while (
+                  (cellRow > 0 && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow - 1}"]`).innerText != "") ||
+                  thisTable
+                    .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+                    .querySelector(`.textCell[cellRow="${cellRow - 1}"]`)
+                    .classList.contains("hide")
+                ) {
                   cellRow--;
                 }
               }
@@ -2478,17 +2615,27 @@
                 while (cellRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
                   cellRow++;
                 }
+                console.log(1);
               } else if (cellRow < numOfRows && currentCell.innerText === "" && downCell.innerText != "") {
                 cellRow++;
+                console.log(2);
               } else if (cellRow < numOfRows && currentCell.innerText != "" && downCell.innerText === "") {
                 cellRow++;
                 while (cellRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).innerText === "") {
                   cellRow++;
                 }
+                console.log(3);
               } else if (cellRow < numOfRows && currentCell.innerText != "" && downCell.innerText != "") {
-                while (cellRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + 1}"]`).innerText != "") {
+                while (
+                  (cellRow < numOfRows && thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + 1}"]`).innerText != "") ||
+                  thisTable
+                    .querySelector(`.textColumn[cellCol="${cellCol}"]`)
+                    .querySelector(`.textCell[cellRow="${cellRow + 1}"]`)
+                    .classList.contains("hide")
+                ) {
                   cellRow++;
                 }
+                console.log(4);
               }
               originRow = cellRow;
             } else if (event.key === "ArrowLeft") {
@@ -2530,6 +2677,14 @@
             getFontSize();
             currentCell.focus();
             currentCell.style.caretColor = "transParent";
+          } else if (event.key === "x") {
+            ctrlX();
+          } else if (event.key === "c") {
+            ctrlC();
+          } else if (event.key === "v") {
+            ctrlV();
+          } else if (event.key === "z") {
+            ctrlZ();
           }
         } else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
           if (writing) {
@@ -2663,6 +2818,7 @@
         for (let i = 0; i < allClickedCell.length; i++) {
           allClickedCell[i].classList.remove("clickedCell");
         }
+        allclickedCell = thisPage.querySelectorAll(".clickedCell");
       }
       function merge() {
         allClickedCell = thisPage.querySelectorAll(".clickedCell");
