@@ -2331,26 +2331,6 @@
         }
 
         //ctrlZ
-        for (let i = 0; i < ctrlArrayData.length; i++) {
-          previousAction = {};
-          previousAction.cell = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1];
-          previousAction.content = "ctrlV";
-          previousAction.value = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].innerText;
-          if (currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].classList.contains("merged")) {
-            previousAction.merge = "merged";
-          } else if (currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].classList.contains("hide")) {
-            previousAction.merge = "hide";
-          } else {
-            previousAction.merge = "";
-          }
-          if (currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].getAttribute("including")) {
-            previousAction.including = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].getAttribute("including");
-          } else {
-            previousAction.including = "null";
-          }
-          previousAction.height = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].style.height;
-          previousActionArray.push(previousAction);
-        }
 
         //붙여넣기
         if (ctrlArrayData.length > 0) {
@@ -2387,31 +2367,18 @@
         }
         let lastNum = previousActionArray.length - 1;
         if (previousActionArray[lastNum].content === "textInput") {
-          console.log(1);
           previousActionArray[lastNum].cell.innerText = "";
           currentCell = previousActionArray[lastNum].cell;
           currentCell.focus();
           cellRow = parseInt(currentCell.getAttribute("cellRow"));
           previousActionArray.pop();
         } else if (previousActionArray[lastNum].content === "delete") {
-          console.log(2);
-          if (previousActionArray[lastNum].repeat) {
-            for (let i = 0; i < previousActionArray[lastNum].repeat; i++) {
-              previousActionArray[lastNum - i].cell.innerText = previousActionArray[lastNum - i].deletedText;
-              previousActionArray.pop();
-            }
-            currentCell = previousActionArray[lastNum].cell;
-            currentCell.focus();
-            cellRow = parseInt(currentCell.getAttribute("cellRow"));
-          } else {
-            previousActionArray[lastNum].cell.innerText = previousActionArray[lastNum].deletedText;
-            currentCell = previousActionArray[lastNum].cell;
-            currentCell.focus();
-            cellRow = parseInt(currentCell.getAttribute("cellRow"));
-            previousActionArray.pop();
-          }
+          previousActionArray[lastNum].cell.innerText = previousActionArray[lastNum].deletedText;
+          currentCell = previousActionArray[lastNum].cell;
+          currentCell.focus();
+          cellRow = parseInt(currentCell.getAttribute("cellRow"));
+          previousActionArray.pop();
         } else if (previousActionArray[lastNum].content === "merge") {
-          console.log(3);
           for (let i = 1; i <= parseInt(previousActionArray[lastNum].cell.getAttribute("including")); i++) {
             previousActionArray[lastNum].cell.parentNode.querySelectorAll(".textCell")[parseInt(previousActionArray[lastNum].cell.getAttribute("cellRow")) + i].classList.remove("hide");
           }
@@ -2423,7 +2390,6 @@
           cellRow = parseInt(currentCell.getAttribute("cellRow"));
           previousActionArray.pop();
         } else if (previousActionArray[lastNum].content === "separated") {
-          console.log(4);
           previousActionArray[lastNum].cell.classList.add("merged");
           previousActionArray[lastNum].cell.setAttribute("including", previousActionArray[lastNum].including);
           for (let i = 1; i < parseInt(previousActionArray[lastNum].including); i++) {
@@ -2435,26 +2401,8 @@
           cellRow = parseInt(currentCell.getAttribute("cellRow"));
           previousActionArray.pop();
         } else if (previousActionArray[lastNum].content === "ctrlV") {
-          //ctrlX도 추가해야함
-          for (let i = 0; i < ctrlArrayData.length; i++) {
-            previousActionArray[lastNum - i].cell.innerText = previousActionArray[lastNum - i].value;
-            if (previousActionArray[lastNum - i].merge === "merged") {
-              previousActionArray[lastNum - i].cell.classList.add("merged");
-            } else if (previousActionArray[lastNum - i].merge === "hide") {
-              previousActionArray[lastNum - i].cell.classList.add("hide");
-            } else {
-              previousActionArray[lastNum - i].cell.classList.remove("merged");
-              previousActionArray[lastNum - i].cell.classList.remove("hide");
-            }
-            previousActionArray[lastNum - i].cell.setAttribute("including", previousActionArray[lastNum - i].including);
-            previousActionArray[lastNum - i].cell.style.height = previousActionArray[lastNum - i].height;
-            currentCell = previousActionArray[lastNum - i].cell;
-            currentCell.focus();
-            cellRow = parseInt(currentCell.getAttribute("cellRow"));
-            previousActionArray.pop();
-          }
+          //here
         }
-        console.log(previousActionArray);
         originRow = cellRow;
       }
       function keyMove(textCell) {
