@@ -252,7 +252,6 @@
         <button class="btnClicked" onclick="checkSat(this)">토요일</button>
         <button class="btnClicked" onclick="checkSun(this)">일요일</button>
         <div style="width: 4%"></div>
-        <button>ctrl+z 마무리하기</button>
         <button>shift엔터 입력아닐때</button>
         <button>데이터저장양식</button>
         <button>파이어베이스</button>
@@ -1982,6 +1981,7 @@
       let checkCtrlX = false;
       let previousActionArray = [];
       let previousAction = {};
+      let tempCell;
 
       function clickCell(textCell) {
         currentCell = textCell;
@@ -1996,13 +1996,27 @@
       }
       function cellDelete() {
         let allclickedCell = thisPage.querySelectorAll(".clickedCell");
-        if (allclickedCell.length > 1) {
+        if (allclickedCell.length > 0) {
           for (let i = 0; i < allclickedCell.length; i++) {
+            previousAction = {};
+            previousAction.cell = allclickedCell[i];
+            previousAction.content = "delete";
+            previousAction.repeat = allclickedCell.length;
+            previousAction.deletedText = allclickedCell[i].innerText;
+            previousActionArray.push(previousAction);
+
             allclickedCell[i].innerText = "";
           }
         } else {
+          previousAction = {};
+          previousAction.cell = currentCell;
+          previousAction.content = "delete";
+          previousAction.deletedText = currentCell.innerText;
+          previousActionArray.push(previousAction);
+
           currentCell.innerText = "";
         }
+        console.log(previousActionArray);
         currentCell.focus();
         currentCell.style.caretColor = "transParent";
       }
@@ -2266,6 +2280,7 @@
         event.preventDefault();
         checkCtrlX = false;
         ctrlArrayData = [];
+        tempCtrlArrayData = [];
         cancelCtrl();
         if (allclickedCell.length > 1) {
           for (let i = 0; i < allclickedCell.length; i++) {
@@ -2331,7 +2346,23 @@
         }
 
         //ctrlZ
-
+        for (let i = 0; i < ctrlArrayData.length; i++) {
+          previousAction = {};
+          previousAction.cell = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1];
+          previousAction.content = "ctrlV";
+          previousAction.repeat = ctrlArrayData.length;
+          previousAction.value = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].innerText;
+          previousAction.including = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].getAttribute("including");
+          if (currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].classList.contains("merged")) {
+            previousAction.merge = "merged";
+          } else if (currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].classList.contains("hide")) {
+            previousAction.merge = "hide";
+          } else {
+            previousAction.merge = "";
+          }
+          previousAction.height = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].style.height;
+          previousActionArray.push(previousAction);
+        }
         //붙여넣기
         if (ctrlArrayData.length > 0) {
           for (let i = 0; i < ctrlArrayData.length; i++) {
@@ -2345,6 +2376,7 @@
             currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].style.height = ctrlArrayData[i].height;
           }
         }
+        tempCell = currentCell;
 
         if (checkCtrlX) {
           ctrlArrayData = [];
@@ -2373,11 +2405,19 @@
           cellRow = parseInt(currentCell.getAttribute("cellRow"));
           previousActionArray.pop();
         } else if (previousActionArray[lastNum].content === "delete") {
-          previousActionArray[lastNum].cell.innerText = previousActionArray[lastNum].deletedText;
-          currentCell = previousActionArray[lastNum].cell;
+          if (previousActionArray[lastNum].repeat) {
+            for (let i = 0; i < previousActionArray[lastNum - i].repeat; i++) {
+              previousActionArray[lastNum - i].cell.innerText = previousActionArray[lastNum - i].deletedText;
+              currentCell = previousActionArray[lastNum - i].cell;
+              previousActionArray.pop();
+            }
+          } else {
+            previousActionArray[lastNum].cell.innerText = previousActionArray[lastNum].deletedText;
+            currentCell = previousActionArray[lastNum].cell;
+            previousActionArray.pop();
+          }
           currentCell.focus();
           cellRow = parseInt(currentCell.getAttribute("cellRow"));
-          previousActionArray.pop();
         } else if (previousActionArray[lastNum].content === "merge") {
           for (let i = 1; i <= parseInt(previousActionArray[lastNum].cell.getAttribute("including")); i++) {
             previousActionArray[lastNum].cell.parentNode.querySelectorAll(".textCell")[parseInt(previousActionArray[lastNum].cell.getAttribute("cellRow")) + i].classList.remove("hide");
@@ -2401,13 +2441,46 @@
           cellRow = parseInt(currentCell.getAttribute("cellRow"));
           previousActionArray.pop();
         } else if (previousActionArray[lastNum].content === "ctrlV") {
-          //here
+          if (tempCtrlArrayData.length > 0) {
+            // 잘라진 셀 살리기
+            for (let i = 0; i < tempCtrlArrayData.length; i++) {
+              let tempCell2 = tempCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1];
+              tempCtrlArrayData[i].innerText = tempCell2.innerText;
+              tempCtrlArrayData[i].setAttribute("including", parseInt(tempCell2.getAttribute("including")));
+              console.log(tempCtrlArrayData[i].including);
+              if (tempCell2.classList.contains("merged")) {
+                tempCtrlArrayData[i].classList.add("merged");
+              } else if (tempCell2.classList.contains("hide")) {
+                tempCtrlArrayData[i].classList.add("hide");
+              } else {
+                tempCtrlArrayData[i].classList.remove("merged");
+                tempCtrlArrayData[i].classList.remove("hide");
+              }
+              tempCtrlArrayData[i].style.height = tempCell2.style.height;
+            }
+            tempCtrlArrayData = [];
+          }
+          for (let i = 0; i < previousActionArray[lastNum - i].repeat; i++) {
+            previousActionArray[lastNum - i].cell.innerText = previousActionArray[lastNum - i].value;
+            previousActionArray[lastNum - i].cell.setAttribute("including", previousActionArray[lastNum - i].including);
+            if (previousActionArray[lastNum - i].merge) {
+              previousActionArray[lastNum - i].cell.classList.add(previousActionArray[lastNum - i].merge);
+            } else {
+              previousActionArray[lastNum - i].cell.classList.remove("hide");
+            }
+            previousActionArray[lastNum - i].cell.style.height = previousActionArray[lastNum - i].height;
+            currentCell = previousActionArray[lastNum - i].cell;
+            previousActionArray.pop();
+            currentCell.focus();
+            cellRow = parseInt(currentCell.getAttribute("cellRow"));
+          }
         }
         originRow = cellRow;
+        currentCell.style.caretColor = "transParent";
       }
       function keyMove(textCell) {
         thisTable = textCell.parentNode.parentNode;
-        numOfTeachers = thisTable.querySelectorAll(".textColumn").length;
+        numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
         numOfRows = thisPage.querySelector(".dayTable").querySelector(".textColumn").querySelectorAll(".textCell").length - 2;
         currentCell = textCell;
         cellRow = parseInt(currentCell.getAttribute("cellRow"));
@@ -2526,6 +2599,45 @@
               }
             }
             allclickedCell = thisPage.querySelectorAll(".clickedCell");
+          } else if (event.key === "Enter") {
+            event.preventDefault();
+          } else if (event.key === "Tab") {
+            event.preventDefault();
+            if (cellCol > 0) {
+              cellCol--;
+              if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+                while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
+                  cellRow++;
+                  originRow++;
+                }
+              }
+              currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+            } else if (cellCol === 0) {
+              if (thisTable.classList.contains("dayTable")) {
+                let tableNum = parseInt(thisTable.getAttribute("dayTable"));
+                if (tableNum < 1) {
+                  return;
+                }
+                currentCell = thisPage.querySelectorAll(".dayTable")[tableNum - 1].querySelectorAll(".textColumn")[numOfTeachers - 1].querySelectorAll(".textCell")[cellRow + 1];
+              } else {
+                let tableNum = parseInt(thisTable.getAttribute("teacherTable"));
+                if (tableNum < 1) {
+                  return;
+                }
+                if (thisPage.querySelectorAll(".teacherTable")[tableNum - 1].querySelectorAll(".textColumn")[thisTable.querySelectorAll(".textColumn").length - 1].classList.contains("hide")) {
+                  //이부분 토/일 없을 때 넘어가야함 (오른쪽으로 가는 곳도 해야함)
+                  let i = 1;
+                  while (thisPage.querySelectorAll(".teacherTable")[tableNum - 1].querySelectorAll(".textColumn")[thisTable.querySelectorAll(".textColumn").length - 1].classList.contains("hide")) {
+                    currentCell = thisPage.querySelectorAll(".teacherTable")[tableNum - 1].querySelectorAll(".textColumn")[thisTable.querySelectorAll(".textColumn").length - 1 - i].querySelectorAll(".textCell")[cellRow + 1];
+                  }
+                } else {
+                  currentCell = thisPage.querySelectorAll(".teacherTable")[tableNum - 1].querySelectorAll(".textColumn")[thisTable.querySelectorAll(".textColumn").length - 1].querySelectorAll(".textCell")[cellRow + 1];
+                }
+              }
+            }
+            currentCell.focus();
+            currentCell.style.caretColor = "transParent";
+            writing = false;
           }
         } else if (event.ctrlKey) {
           if (writing) {
@@ -2717,7 +2829,7 @@
           writing = false;
         } else if (event.key === "Tab") {
           event.preventDefault();
-          if (cellCol < numOfTeachers - 1) {
+          if (cellCol < thisTable.querySelectorAll(".textColumn").length - 1) {
             cellCol++;
             if (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
               while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
@@ -2726,31 +2838,25 @@
               }
             }
             currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
+          } else if (cellCol === thisTable.querySelectorAll(".textColumn").length - 1) {
+            if (thisTable.classList.contains("dayTable")) {
+              let tableNum = parseInt(currentCell.parentNode.parentNode.getAttribute("dayTable"));
+              if (tableNum + 1 > 6) {
+                return;
+              }
+              currentCell = thisPage.querySelectorAll(".dayTable")[tableNum + 1].querySelector(".textColumn").querySelectorAll(".textCell")[cellRow + 1];
+            } else {
+              let tableNum = parseInt(currentCell.parentNode.parentNode.getAttribute("teacherTable"));
+              if (tableNum + 1 > numOfTeachers - 1) {
+                return;
+              }
+              currentCell = thisPage.querySelectorAll(".teacherTable")[tableNum + 1].querySelector(".textColumn").querySelectorAll(".textCell")[cellRow + 1];
+            }
           }
           currentCell.focus();
           currentCell.style.caretColor = "transParent";
           writing = false;
         } else if (event.key === "Delete") {
-          //ctrlZ
-          if (previousActionArray.length > 0 && previousActionArray[previousActionArray.length - 1].cell === currentCell && previousActionArray[previousActionArray.length - 1].content === "delete") {
-          } else {
-            if (allclickedCell.length > 1) {
-              for (let i = 0; i < allclickedCell.length; i++) {
-                previousAction = {};
-                previousAction.cell = allclickedCell[i];
-                previousAction.content = "delete";
-                previousAction.repeat = allclickedCell.length;
-                previousAction.deletedText = allclickedCell[i].innerText;
-                previousActionArray.push(previousAction);
-              }
-            } else {
-              previousAction = {};
-              previousAction.cell = currentCell;
-              previousAction.content = "delete";
-              previousAction.deletedText = currentCell.innerText;
-              previousActionArray.push(previousAction);
-            }
-          }
           cellDelete();
         } else if (event.key === "F2") {
           currentCell.style.caretColor = "black";
