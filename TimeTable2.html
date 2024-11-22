@@ -85,16 +85,20 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        outline: 1px solid black;
+        outline: 1px solid rgb(194, 192, 192);
 
         white-space: nowrap;
       }
       .firstCell {
         background-color: #ded7d7;
+        outline: 1px solid black;
       }
       .teacherTable {
         width: 100%;
         height: 100%;
+      }
+      .textingCell {
+        outline: 1px solid black;
       }
 
       .bot {
@@ -253,6 +257,7 @@
         <button class="btnSun btnClicked" onclick="checkSun(this)">일요일</button>
         <div style="width: 4%"></div>
         <button>모의실험</button>
+        <button>페이지 업다운</button>
         <button>데이터저장양식</button>
         <button>파이어베이스</button>
         <button class="btnClear" onclick="allClear()">X</button>
@@ -2165,6 +2170,7 @@
             alltextCells[i].innerText = "";
           }
         }
+        borderTextCell();
       }
       function addRow() {
         //간단하게 줄만 추가하기
@@ -2383,6 +2389,7 @@
           checkCtrlX = false;
         }
         cancelCtrl();
+        borderTextCell();
       }
       function cancelCtrl() {
         for (let i = thisPage.querySelectorAll(".doingX").length - 1; i >= 0; i--) {
@@ -2398,6 +2405,16 @@
           return;
         }
         let lastNum = previousActionArray.length - 1;
+        //화면전환
+        for (let i = 0; i < document.querySelectorAll(".mid").length; i++) {
+          document.querySelectorAll(".mid")[i].classList.add("hide");
+          console.log();
+          document.querySelector(".bot").querySelectorAll(".btnAddedPage")[i].classList.remove("btnClicked");
+        }
+        previousActionArray[lastNum].cell.parentNode.parentNode.parentNode.parentNode.classList.remove("hide");
+        let midNum = parseInt(previousActionArray[lastNum].cell.parentNode.parentNode.parentNode.parentNode.getAttribute("midNum"));
+        document.querySelector(".bot").querySelector(`.btnAddedPage[pageNum="${midNum}"]`).classList.add("btnClicked");
+
         if (previousActionArray[lastNum].content === "textInput") {
           previousActionArray[lastNum].cell.innerText = "";
           currentCell = previousActionArray[lastNum].cell;
@@ -2461,7 +2478,6 @@
             tempCtrlArrayData = [];
           }
           for (let i = 0; i < previousActionArray[lastNum - i].repeat; i++) {
-            //here
             previousActionArray[lastNum - i].cell.innerText = previousActionArray[lastNum - i].value;
             previousActionArray[lastNum - i].cell.setAttribute("including", previousActionArray[lastNum - i].including);
             if (previousActionArray[lastNum - i].merge) {
@@ -2479,6 +2495,7 @@
         }
         originRow = cellRow;
         currentCell.style.caretColor = "transParent";
+        borderTextCell();
       }
       function keyMove(textCell) {
         thisTable = textCell.parentNode.parentNode;
@@ -2557,6 +2574,41 @@
             allclickedCell = thisPage.querySelectorAll(".clickedCell");
           }
         } else if (event.shiftKey) {
+          if (event.key === "Tab") {
+            event.preventDefault();
+            if (thisTable.classList.contains("dayTable")) {
+              let tableNum = parseInt(thisTable.getAttribute("dayTable"));
+              if (cellCol > 0) {
+                cellCol--;
+              } else {
+                tableNum--;
+                if (tableNum < 0) {
+                  return;
+                }
+                cellCol = thisTable.querySelectorAll(".textColumn").length - 1;
+              }
+              currentCell = thisTable.parentNode.querySelectorAll(".dayTable")[tableNum].querySelectorAll(".textColumn")[cellCol].querySelectorAll(".textCell")[cellRow + 1];
+            } else {
+              let tableNum = parseInt(thisTable.getAttribute("teacherTable"));
+              if (cellCol > 0) {
+                cellCol--;
+              } else {
+                tableNum--;
+                if (tableNum < 0) {
+                  return;
+                }
+                cellCol = thisTable.querySelectorAll(".textColumn").length - 1;
+              }
+              while (thisTable.parentNode.querySelectorAll(".teacherTable")[tableNum].querySelectorAll(".textColumn")[cellCol].classList.contains("hide")) {
+                cellCol--;
+              }
+              currentCell = thisTable.parentNode.querySelectorAll(".teacherTable")[tableNum].querySelectorAll(".textColumn")[cellCol].querySelectorAll(".textCell")[cellRow + 1];
+            }
+            currentCell.focus();
+            currentCell.style.caretColor = "transParent";
+            writing = false;
+            borderTextCell();
+          }
           if (writing) {
             return;
           }
@@ -2603,40 +2655,6 @@
             allclickedCell = thisPage.querySelectorAll(".clickedCell");
           } else if (event.key === "Enter") {
             event.preventDefault();
-          } else if (event.key === "Tab") {
-            event.preventDefault();
-            if (thisTable.classList.contains("dayTable")) {
-              let tableNum = parseInt(thisTable.getAttribute("dayTable"));
-              if (cellCol > 0) {
-                cellCol--;
-              } else {
-                tableNum--;
-                if (tableNum < 0) {
-                  return;
-                }
-                cellCol = thisTable.querySelectorAll(".textColumn").length - 1;
-              }
-              currentCell = thisTable.parentNode.querySelectorAll(".dayTable")[tableNum].querySelectorAll(".textColumn")[cellCol].querySelectorAll(".textCell")[cellRow + 1];
-            } else {
-              let tableNum = parseInt(thisTable.getAttribute("teacherTable"));
-              if (cellCol > 0) {
-                cellCol--;
-              } else {
-                tableNum--;
-                if (tableNum < 0) {
-                  return;
-                }
-                cellCol = thisTable.querySelectorAll(".textColumn").length - 1;
-              }
-              while (thisTable.parentNode.querySelectorAll(".teacherTable")[tableNum].querySelectorAll(".textColumn")[cellCol].classList.contains("hide")) {
-                cellCol--;
-              }
-              currentCell = thisTable.parentNode.querySelectorAll(".teacherTable")[tableNum].querySelectorAll(".textColumn")[cellCol].querySelectorAll(".textCell")[cellRow + 1];
-            }
-            //here
-            currentCell.focus();
-            currentCell.style.caretColor = "transParent";
-            writing = false;
           }
         } else if (event.ctrlKey) {
           if (writing) {
@@ -2739,6 +2757,13 @@
           } else if (event.key === "z") {
             ctrlZ();
           }
+        } else if (event.altKey) {
+          event.preventDefault();
+          if (event.key === "ArrowUp") {
+            pageUp();
+          } else if (event.key === "ArrowDown") {
+            pageDown();
+          }
         } else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
           if (writing) {
             return;
@@ -2803,8 +2828,6 @@
           shadowRow = 0;
           minRow = 0;
           maxRow = 0;
-        } else if (event.key === "Alt") {
-          event.preventDefault();
         } else if (event.key === " ") {
           if (writing) {
           } else {
@@ -2819,6 +2842,10 @@
               while (thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`).classList.contains("hide")) {
                 cellRow++;
                 originRow++;
+                if (cellRow >= numOfRows) {
+                  console.log(cellRow);
+                  return;
+                }
               }
             }
             currentCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`);
@@ -2826,6 +2853,7 @@
           currentCell.focus();
           currentCell.style.caretColor = "transParent";
           writing = false;
+          borderTextCell();
         } else if (event.key === "Tab") {
           event.preventDefault();
           if (thisTable.classList.contains("dayTable")) {
@@ -2860,12 +2888,13 @@
             }
             currentCell = thisTable.parentNode.querySelectorAll(".teacherTable")[tableNum].querySelectorAll(".textColumn")[cellCol].querySelectorAll(".textCell")[cellRow + 1];
           }
-
           currentCell.focus();
           currentCell.style.caretColor = "transParent";
           writing = false;
+          borderTextCell();
         } else if (event.key === "Delete") {
           cellDelete();
+          borderTextCell();
         } else if (event.key === "F2") {
           currentCell.style.caretColor = "black";
           writing = true;
@@ -2884,6 +2913,43 @@
             previousAction.content = "textInput";
             previousActionArray.push(previousAction);
           }
+        }
+      }
+
+      function borderTextCell() {
+        // thisTable = currentCell.parentNode.parentNode;
+        for (let i = 0; i < thisTable.querySelectorAll(".textCell").length; i++) {
+          if (thisTable.querySelectorAll(".textCell")[i].innerText != "") {
+            thisTable.querySelectorAll(".textCell")[i].classList.add("textingCell");
+          } else {
+            thisTable.querySelectorAll(".textCell")[i].classList.remove("textingCell");
+          }
+        }
+      }
+      //here 이부분
+      function pageUp() {
+        if (thisPageNum > 0) {
+          thisPageNum--;
+          thisPage = document.querySelector(`.mid[midNum="${thisPageNum}"]`);
+          for (let i = 0; i < document.querySelectorAll(".mid").length; i++) {
+            document.querySelectorAll(".mid")[i].classList.add("hide");
+            botDiv.querySelectorAll(".btnAddedPage")[i].classList.remove("btnClicked");
+          }
+          thisPage.classList.remove("hide");
+          botDiv.querySelector(`.btnAddedPage[pageNum="${thisPageNum}"]`).classList.add("btnClicked");
+        }
+      }
+
+      function pageDown() {
+        let numOfPages = botDiv.querySelectorAll(".btnAddedPage").length - 1;
+        if (numOfPages > thisPageNum) {
+          thisPageNum++;
+          thisPage = document.querySelector(`.mid[midNum="${thisPageNum}"]`);
+          for (let i = 0; i < document.querySelectorAll(".mid").length; i++) {
+            document.querySelectorAll(".mid")[i].classList.remove("btnClicked");
+          }
+          thisPage.classList.remove("hide");
+          botDiv.querySelector(`.btnAddedPage[pageNum="${thisPageNum}"]`).classList.add("btnClicked");
         }
       }
 
