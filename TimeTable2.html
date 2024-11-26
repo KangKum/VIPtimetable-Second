@@ -2357,23 +2357,23 @@
         }
 
         //ctrlZ
-        for (let i = 0; i < ctrlArrayData.length; i++) {
-          previousAction = {};
-          previousAction.cell = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1];
-          previousAction.content = "ctrlV";
-          previousAction.repeat = ctrlArrayData.length;
-          previousAction.value = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].innerText;
-          previousAction.including = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].getAttribute("including");
-          if (currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].classList.contains("merged")) {
-            previousAction.merge = "merged";
-          } else if (currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].classList.contains("hide")) {
-            previousAction.merge = "hide";
-          } else {
-            previousAction.merge = "";
-          }
-          previousAction.height = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].style.height;
-          previousActionArray.push(previousAction);
-        }
+        // for (let i = 0; i < ctrlArrayData.length; i++) {
+        //   previousAction = {};
+        //   previousAction.cell = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1];
+        //   previousAction.content = "ctrlV";
+        //   previousAction.repeat = ctrlArrayData.length;
+        //   previousAction.value = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].innerText;
+        //   previousAction.including = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].getAttribute("including");
+        //   if (currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].classList.contains("merged")) {
+        //     previousAction.merge = "merged";
+        //   } else if (currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].classList.contains("hide")) {
+        //     previousAction.merge = "hide";
+        //   } else {
+        //     previousAction.merge = "";
+        //   }
+        //   previousAction.height = currentCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1].style.height;
+        //   previousActionArray.push(previousAction);
+        // }
         //붙여넣기
         if (ctrlArrayData.length > 0) {
           for (let i = 0; i < ctrlArrayData.length; i++) {
@@ -2407,102 +2407,108 @@
         }
       }
       function ctrlZ() {
-        //hide가 되었어야 하는데 되지 않는 경우가 발생 here
-        event.preventDefault();
-        if (!previousActionArray.length > 0) {
-          return;
-        }
-        let lastNum = previousActionArray.length - 1;
-        //화면전환
-        for (let i = 0; i < document.querySelectorAll(".mid").length; i++) {
-          document.querySelectorAll(".mid")[i].classList.add("hide");
-          document.querySelector(".bot").querySelectorAll(".btnAddedPage")[i].classList.remove("btnClicked");
-        }
-        previousActionArray[lastNum].cell.parentNode.parentNode.parentNode.parentNode.classList.remove("hide");
-        let midNum = parseInt(previousActionArray[lastNum].cell.parentNode.parentNode.parentNode.parentNode.getAttribute("midNum"));
-        document.querySelector(".bot").querySelector(`.btnAddedPage[pageNum="${midNum}"]`).classList.add("btnClicked");
-
-        if (previousActionArray[lastNum].content === "textInput") {
-          previousActionArray[lastNum].cell.innerText = "";
-          currentCell = previousActionArray[lastNum].cell;
-          currentCell.focus();
-          cellRow = parseInt(currentCell.getAttribute("cellRow"));
-          previousActionArray.pop();
-        } else if (previousActionArray[lastNum].content === "delete") {
-          if (previousActionArray[lastNum].repeat) {
-            for (let i = 0; i < previousActionArray[lastNum - i].repeat; i++) {
-              previousActionArray[lastNum - i].cell.innerText = previousActionArray[lastNum - i].deletedText;
-              currentCell = previousActionArray[lastNum - i].cell;
-              previousActionArray.pop();
-            }
-          } else {
-            previousActionArray[lastNum].cell.innerText = previousActionArray[lastNum].deletedText;
-            currentCell = previousActionArray[lastNum].cell;
-            previousActionArray.pop();
-          }
-          currentCell.focus();
-          cellRow = parseInt(currentCell.getAttribute("cellRow"));
-        } else if (previousActionArray[lastNum].content === "merge") {
-          for (let i = 1; i <= parseInt(previousActionArray[lastNum].cell.getAttribute("including")); i++) {
-            previousActionArray[lastNum].cell.parentNode.querySelectorAll(".textCell")[parseInt(previousActionArray[lastNum].cell.getAttribute("cellRow")) + i].classList.remove("hide");
-          }
-          previousActionArray[lastNum].cell.classList.remove("merged");
-          previousActionArray[lastNum].cell.removeAttribute("including");
-          previousActionArray[lastNum].cell.style.height = "3vh";
-          currentCell = previousActionArray[lastNum].cell;
-          currentCell.focus();
-          cellRow = parseInt(currentCell.getAttribute("cellRow"));
-          previousActionArray.pop();
-        } else if (previousActionArray[lastNum].content === "separated") {
-          previousActionArray[lastNum].cell.classList.add("merged");
-          previousActionArray[lastNum].cell.setAttribute("including", previousActionArray[lastNum].including);
-          for (let i = 1; i < parseInt(previousActionArray[lastNum].including); i++) {
-            previousActionArray[lastNum].cell.parentNode.querySelectorAll(".textCell")[parseInt(previousActionArray[lastNum].cell.getAttribute("cellRow")) + i + 1].classList.add("hide");
-          }
-          previousActionArray[lastNum].cell.style.height = previousActionArray[lastNum].height;
-          currentCell = previousActionArray[lastNum].cell;
-          currentCell.focus();
-          cellRow = parseInt(currentCell.getAttribute("cellRow"));
-          previousActionArray.pop();
-        } else if (previousActionArray[lastNum].content === "ctrlV") {
-          if (tempCtrlArrayData.length > 0) {
-            // 잘라진 셀 살리기
-            for (let i = 0; i < tempCtrlArrayData.length; i++) {
-              let tempCell2 = tempCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1];
-              tempCtrlArrayData[i].innerText = tempCell2.innerText;
-              tempCtrlArrayData[i].setAttribute("including", parseInt(tempCell2.getAttribute("including")));
-              if (tempCell2.classList.contains("merged")) {
-                tempCtrlArrayData[i].classList.add("merged");
-              } else if (tempCell2.classList.contains("hide")) {
-                tempCtrlArrayData[i].classList.add("hide");
-              } else {
-                tempCtrlArrayData[i].classList.remove("merged");
-                tempCtrlArrayData[i].classList.remove("hide");
-              }
-              tempCtrlArrayData[i].style.height = tempCell2.style.height;
-            }
-            tempCtrlArrayData = [];
-          }
-          for (let i = 0; i < previousActionArray[lastNum - i].repeat; i++) {
-            previousActionArray[lastNum - i].cell.innerText = previousActionArray[lastNum - i].value;
-            previousActionArray[lastNum - i].cell.setAttribute("including", previousActionArray[lastNum - i].including);
-            if (previousActionArray[lastNum - i].merge) {
-              previousActionArray[lastNum - i].cell.classList.add(previousActionArray[lastNum - i].merge);
-            } else {
-              previousActionArray[lastNum - i].cell.classList.remove("merged");
-              previousActionArray[lastNum - i].cell.classList.remove("hide");
-            }
-            previousActionArray[lastNum - i].cell.style.height = previousActionArray[lastNum - i].height;
-            currentCell = previousActionArray[lastNum - i].cell;
-            previousActionArray.pop();
-            currentCell.focus();
-            cellRow = parseInt(currentCell.getAttribute("cellRow"));
-          }
-        }
-        originRow = cellRow;
-        currentCell.style.caretColor = "transParent";
-        borderTextCell();
+        console.log("fighting!!");
       }
+      // function ctrlZ() {
+      //   //hide가 되었어야 하는데 되지 않는 경우가 발생 here
+      //   //우선 정확히 어딘지 찾기 web으로
+      //   event.preventDefault();
+      //   if (!previousActionArray.length > 0) {
+      //     return;
+      //   }
+      //   console.log(previousActionArray);
+      //   let lastNum = previousActionArray.length - 1;
+      //   //화면전환
+      //   for (let i = 0; i < document.querySelectorAll(".mid").length; i++) {
+      //     document.querySelectorAll(".mid")[i].classList.add("hide");
+      //     document.querySelector(".bot").querySelectorAll(".btnAddedPage")[i].classList.remove("btnClicked");
+      //   }
+      //   previousActionArray[lastNum].cell.parentNode.parentNode.parentNode.parentNode.classList.remove("hide");
+      //   let midNum = parseInt(previousActionArray[lastNum].cell.parentNode.parentNode.parentNode.parentNode.getAttribute("midNum"));
+      //   document.querySelector(".bot").querySelector(`.btnAddedPage[pageNum="${midNum}"]`).classList.add("btnClicked");
+
+      //   if (previousActionArray[lastNum].content === "textInput") {
+      //     previousActionArray[lastNum].cell.innerText = "";
+      //     currentCell = previousActionArray[lastNum].cell;
+      //     currentCell.focus();
+      //     cellRow = parseInt(currentCell.getAttribute("cellRow"));
+      //     previousActionArray.pop();
+      //   } else if (previousActionArray[lastNum].content === "delete") {
+      //     if (previousActionArray[lastNum].repeat) {
+      //       for (let i = 0; i < previousActionArray[lastNum - i].repeat; i++) {
+      //         previousActionArray[lastNum - i].cell.innerText = previousActionArray[lastNum - i].deletedText;
+      //         currentCell = previousActionArray[lastNum - i].cell;
+      //         previousActionArray.pop();
+      //       }
+      //     } else {
+      //       previousActionArray[lastNum].cell.innerText = previousActionArray[lastNum].deletedText;
+      //       currentCell = previousActionArray[lastNum].cell;
+      //       previousActionArray.pop();
+      //     }
+      //     currentCell.focus();
+      //     cellRow = parseInt(currentCell.getAttribute("cellRow"));
+      //   } else if (previousActionArray[lastNum].content === "merge") {
+      //     for (let i = 1; i <= parseInt(previousActionArray[lastNum].cell.getAttribute("including")); i++) {
+      //       previousActionArray[lastNum].cell.parentNode.querySelectorAll(".textCell")[parseInt(previousActionArray[lastNum].cell.getAttribute("cellRow")) + i].classList.remove("hide");
+      //     }
+      //     previousActionArray[lastNum].cell.classList.remove("merged");
+      //     previousActionArray[lastNum].cell.removeAttribute("including");
+      //     previousActionArray[lastNum].cell.style.height = "3vh";
+      //     currentCell = previousActionArray[lastNum].cell;
+      //     currentCell.focus();
+      //     cellRow = parseInt(currentCell.getAttribute("cellRow"));
+      //     previousActionArray.pop();
+      //   } else if (previousActionArray[lastNum].content === "separated") {
+      //     previousActionArray[lastNum].cell.classList.add("merged");
+      //     previousActionArray[lastNum].cell.setAttribute("including", previousActionArray[lastNum].including);
+      //     for (let i = 1; i < parseInt(previousActionArray[lastNum].including); i++) {
+      //       previousActionArray[lastNum].cell.parentNode.querySelectorAll(".textCell")[parseInt(previousActionArray[lastNum].cell.getAttribute("cellRow")) + i + 1].classList.add("hide");
+      //     }
+      //     previousActionArray[lastNum].cell.style.height = previousActionArray[lastNum].height;
+      //     currentCell = previousActionArray[lastNum].cell;
+      //     currentCell.focus();
+      //     cellRow = parseInt(currentCell.getAttribute("cellRow"));
+      //     previousActionArray.pop();
+      //   } else if (previousActionArray[lastNum].content === "ctrlV") {
+      //     if (tempCtrlArrayData.length > 0) {
+      //       // 잘라진 셀 살리기
+      //       for (let i = 0; i < tempCtrlArrayData.length; i++) {
+      //         let tempCell2 = tempCell.parentNode.querySelectorAll(".textCell")[cellRow + i + 1];
+      //         tempCtrlArrayData[i].innerText = tempCell2.innerText;
+      //         tempCtrlArrayData[i].setAttribute("including", parseInt(tempCell2.getAttribute("including")));
+      //         if (tempCell2.classList.contains("merged")) {
+      //           tempCtrlArrayData[i].classList.add("merged");
+      //         } else if (tempCell2.classList.contains("hide")) {
+      //           tempCtrlArrayData[i].classList.add("hide");
+      //         } else {
+      //           tempCtrlArrayData[i].classList.remove("merged");
+      //           tempCtrlArrayData[i].classList.remove("hide");
+      //         }
+      //         tempCtrlArrayData[i].style.height = tempCell2.style.height;
+      //       }
+      //       tempCtrlArrayData = [];
+      //     }
+      //     //here
+      //     for (let i = 0; i < previousActionArray[lastNum - i].repeat; i++) {
+      //       previousActionArray[lastNum - i].cell.innerText = previousActionArray[lastNum - i].value;
+      //       previousActionArray[lastNum - i].cell.setAttribute("including", previousActionArray[lastNum - i].including);
+      //       if (previousActionArray[lastNum - i].merge) {
+      //         previousActionArray[lastNum - i].cell.classList.add(previousActionArray[lastNum - i].merge);
+      //       } else {
+      //         previousActionArray[lastNum - i].cell.classList.remove("merged");
+      //         previousActionArray[lastNum - i].cell.classList.remove("hide");
+      //       }
+      //       previousActionArray[lastNum - i].cell.style.height = previousActionArray[lastNum - i].height;
+      //       currentCell = previousActionArray[lastNum - i].cell;
+      //       previousActionArray.pop();
+      //       currentCell.focus();
+      //       cellRow = parseInt(currentCell.getAttribute("cellRow"));
+      //     }
+      //   }
+      //   originRow = cellRow;
+      //   currentCell.style.caretColor = "transParent";
+      //   borderTextCell();
+      // }
       function keyMove(textCell) {
         thisTable = textCell.parentNode.parentNode;
         numOfTeachers = thisTable.querySelectorAll(".textColumn").length;
@@ -2517,7 +2523,6 @@
         const isKorean = /^[ㄱ-ㅎㅏ-ㅣ]$/.test(key);
 
         if (event.key === " ") {
-          console.log(previousActionArray);
         }
         if (event.ctrlKey && event.shiftKey) {
           if (writing) {
@@ -2913,13 +2918,13 @@
             currentCell.style.caretColor = "black";
           }
           //ctrlZ
-          if (previousActionArray.length > 0 && previousActionArray[previousActionArray.length - 1].cell === currentCell && previousActionArray[previousActionArray.length - 1].content === "textInput") {
-          } else {
-            previousAction = {};
-            previousAction.cell = currentCell;
-            previousAction.content = "textInput";
-            previousActionArray.push(previousAction);
-          }
+          // if (previousActionArray.length > 0 && previousActionArray[previousActionArray.length - 1].cell === currentCell && previousActionArray[previousActionArray.length - 1].content === "textInput") {
+          // } else {
+          //   previousAction = {};
+          //   previousAction.cell = currentCell;
+          //   previousAction.content = "textInput";
+          //   previousActionArray.push(previousAction);
+          // }
         }
       }
 
@@ -2998,12 +3003,12 @@
         if (allClickedCell.length > 0) {
           if (checkMerged) {
             //ctrlZ
-            previousAction = {};
-            previousAction.cell = allClickedCell[0];
-            previousAction.content = "separated";
-            previousAction.including = parseInt(allclickedCell[0].getAttribute("including"));
-            previousAction.height = allclickedCell[0].style.height;
-            previousActionArray.push(previousAction);
+            // previousAction = {};
+            // previousAction.cell = allClickedCell[0];
+            // previousAction.content = "separated";
+            // previousAction.including = parseInt(allclickedCell[0].getAttribute("including"));
+            // previousAction.height = allclickedCell[0].style.height;
+            // previousActionArray.push(previousAction);
 
             for (let i = 0; i < allClickedCell.length; i++) {
               if (allClickedCell[i].classList.contains("merged")) {
@@ -3041,10 +3046,10 @@
 
             cancelClickedCell();
             //ctrlZ
-            previousAction = {};
-            previousAction.cell = currentCell;
-            previousAction.content = "merge";
-            previousActionArray.push(previousAction);
+            // previousAction = {};
+            // previousAction.cell = currentCell;
+            // previousAction.content = "merge";
+            // previousActionArray.push(previousAction);
           } else {
             allClickedCell[0].focus();
           }
@@ -3053,12 +3058,12 @@
         } else {
           // 현재 셀 해제
           //ctrlZ
-          previousAction = {};
-          previousAction.cell = currentCell;
-          previousAction.content = "separated";
-          previousAction.including = parseInt(currentCell.getAttribute("including"));
-          previousAction.height = currentCell.style.height;
-          previousActionArray.push(previousAction);
+          // previousAction = {};
+          // previousAction.cell = currentCell;
+          // previousAction.content = "separated";
+          // previousAction.including = parseInt(currentCell.getAttribute("including"));
+          // previousAction.height = currentCell.style.height;
+          // previousActionArray.push(previousAction);
           for (let i = 1; i < parseInt(currentCell.getAttribute("including")); i++) {
             thisTable
               .querySelector(`.textColumn[cellCol="${cellCol}"]`)
