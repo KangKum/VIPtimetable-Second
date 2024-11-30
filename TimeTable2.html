@@ -16,10 +16,10 @@
         text-align: center;
       }
 
-      /* .container {
+      .container {
         height: 95vh;
         border: none;
-      } */
+      }
       .top {
         width: 100%;
         height: 4vh;
@@ -106,15 +106,19 @@
         outline: 1px solid black;
       }
 
-      .btnAddPage {
+      .btnAddPage,
+      .btnDeletePage {
         width: 2.5%;
       }
       .btnAddedPage {
         height: 100%;
-        width: 15%;
+        /* width: 15%; */
       }
 
       .btnClicked {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         padding: 10px 20px;
         /* font-size: 16px; */
         color: #333;
@@ -123,9 +127,14 @@
         /* cursor: pointer; */
         /* 오목한 효과를 위한 box-shadow */
         box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(255, 255, 255, 0.5);
+        
       }
       .btnGoDays,
       .btnGoTeachers {
+        width: 12vh;
+      }
+      .btnSat,
+      .btnSun{
         width: 12vh;
       }
       .tempInput {
@@ -136,9 +145,10 @@
       }
       .btnClear {
         height: 4vh;
-        width: 4vh;
+        width: 12vh;
         position: fixed;
-        margin-left: 177vh;
+        right : 0;
+        /* margin-left: 177vh; */
       }
 
       .clickedCell {
@@ -207,7 +217,7 @@
       .timeModal-content2,
       .timeModal-content3 {
         background-color: white;
-        height: 7vh;
+        height: 12vh;
         width: 10vh;
         padding: 20px;
         text-align: center;
@@ -248,16 +258,15 @@
         </div>
         <button class="fontBold" style="font-weight: bold" onclick="fontBold()">B</button>
         <button class="fontCancel" onclick="fontCancel()"><s>S</s></button>
-        <button onclick="alignCenter()">C</button>
+        <!-- <button onclick="alignCenter()">C</button> -->
         <div style="width: 1%"></div>
         <button class="btnSat btnClicked" onclick="checkSat(this)">토요일</button>
         <button class="btnSun btnClicked" onclick="checkSun(this)">일요일</button>
         <div style="width: 4%"></div>
-        <button>페이지제거</button>
         <button>시수확인</button>
         <button>파이어베이스</button>
         <button>데이터 뿌리기</button>
-        <button class="btnClear" onclick="allClear()">X</button>
+        <button class="btnClear" onclick="allClear()">비우기</button>
       </div>
       <div class="mid" midNum="0">
         <div class="midByDays">
@@ -1856,6 +1865,7 @@
       <div class="bot">
         <button class="btnAddPage" onclick="addPage()">+</button>
         <button class="btnAddedPage btnClicked" pageNum="0" onclick="turnPage(this)" oncontextmenu="pagebtnNaming(this)"></button>
+        <button class="btnDeletePage" onclick="deletePage()">-</button>
       </div>
     </div>
 
@@ -2038,6 +2048,7 @@
                     cellData.merge = pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("merged") ? "merged" : pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("hide") ? "hide" : null;
                     cellData.including = pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") ? pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") : null;
                     cellData.texting = pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("textingCell") ? "textingCell" : null;
+                    cellData.height = cellData.including ? 3 * parseInt(cellData.including) + 'vh' : '3vh';
                     columnData.push(cellData);
                   }
                   textData.push(columnData);
@@ -2057,6 +2068,7 @@
                       cellData.merge = pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("merged") ? "merged" : pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("hide") ? "hide" : null;
                       cellData.including = pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") ? pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") : null;
                       cellData.texting = pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("textingCell") ? "textingCell" : null;
+                      cellData.height = cellData.including ? 3 * parseInt(cellData.including) + 'vh' : '3vh';
                       columnData.push(cellData);
                     }
                     textData.push(columnData);
@@ -2084,13 +2096,6 @@
               for (let t = 1; t < pages.querySelectorAll(".timeColumn")[6].querySelectorAll(".timeCell").length; t++) {
                 sunTimeData.push(pages.querySelectorAll(".timeColumn")[6].querySelectorAll(".timeCell")[t].innerText);
               }
-              // console.log(textData);
-              // console.log(teacherNameData);
-              // console.log(dateData);
-              // console.log(weekTimeData);
-              // console.log(satTimeData);
-              // console.log(sunTimeData);
-              // console.log(pageName);
               //here 여기에서 페이지별로 담기
               allData.textData = textData;
               allData.teacherNameData = teacherNameData;
@@ -2102,94 +2107,74 @@
               pageData.push(allData);
             }
             console.log(pageData);
+            pasteData();
           }
         }
       }
 
-      // function saveData() {
-      //   if (event.ctrlKey) {
-      //     if (event.key === "s" || event.key === "S") {
-      //       event.preventDefault();
-      //       let numOfPages = botDiv.querySelectorAll(".btnAddedPage").length;
-      //       allData = [];
-      //       teacherNameData = [];
-      //       dateData = [];
-      //       weekTimeData = [];
-      //       satTimeData = [];
-      //       sunTimeData = [];
-      //       pageName = botDiv.querySelector(".btnAddedPage").innerText;
+      function pasteData(){
+        //7개 중에 textData만 담았다. 나머지 6개 해야돼 here
+        //페이지별로 돌리기
+        for(let i=0; i<botDiv.querySelectorAll('.btnAddedPage').length; i++){
+          botDiv.querySelectorAll('.btnAddedPage')[i].innerText = pageData[i].pageName; //페이지버튼에 이름넣기
+          //요일별
+          let pages = document.querySelectorAll('.mid')[i].querySelector('.midByDays');
+            for(let k=0; k<pages.querySelectorAll('.textColumn').length; k++){
+              for(let l=1; l<=numOfRows+1; l++){
+                pages.querySelectorAll('.textColumn')[k].querySelectorAll('.textCell')[l].innerText = pageData[i].textData[k][l-1].value;
+                pages.querySelectorAll('.textColumn')[k].querySelectorAll('.textCell')[l].style.fontWeight = pageData[i].textData[k][l-1].fontWeight;
+                pages.querySelectorAll('.textColumn')[k].querySelectorAll('.textCell')[l].style.fontSize = pageData[i].textData[k][l-1].fontSize;
+                pages.querySelectorAll('.textColumn')[k].querySelectorAll('.textCell')[l].style.textDecoration = pageData[i].textData[k][l-1].fontDeco;
 
-      //       if (thisPage.querySelector(".midByTeachers").classList.contains("hide")) {
-      //         //요일별 화면인 경우
-      //         for (let j = 0; j < thisPage.querySelector(".midByDays").querySelectorAll(".textColumn").length; j++) {
-      //           let columnData = [];
-      //           for (let i = 1; i <= numOfRows + 1; i++) {
-      //             let cellData = {};
-      //             cellData.value = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].innerText;
-      //             cellData.fontWeight = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.fontWeight;
-      //             cellData.fontSize = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.fontSize;
-      //             cellData.fontDeco = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.textDecoration;
+                if(pageData[i].textData[k][l-1].merge !== null){
+                  if(pageData[i].textData[k][l-1].merge === 'merged'){  
+                    pages.querySelectorAll('.textColumn')[k].querySelectorAll('.textCell')[l].classList.add('merged');
+                  }else{ 
+                    pages.querySelectorAll('.textColumn')[k].querySelectorAll('.textCell')[l].classList.add('hide');
+                  }
+                }
+                if(pageData[i].textData[k][l-1].including !== null){
+                  pages.querySelectorAll('.textColumn')[k].querySelectorAll('.textCell')[l].setAttribute('including', pageData[i].textData[k][l-1].including);
+                }
+                if(pageData[i].textData[k][l-1].texting !== null){
+                  pages.querySelectorAll('.textColumn')[k].querySelectorAll('.textCell')[l].classList.add(`${pageData[i].textData[k][l-1].texting}`);
+                }
+                pages.querySelectorAll('.textColumn')[k].querySelectorAll('.textCell')[l].style.height = pageData[i].textData[k][l-1].height;
+              }
+            }
 
-      //             cellData.merge = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("merged") ? "merged" : thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("hide") ? "hide" : null;
-      //             cellData.including = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") ? thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") : null;
-      //             cellData.texting = thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("textingCell") ? "textingCell" : null;
-      //             columnData.push(cellData);
-      //           }
-      //           allData.push(columnData);
-      //         }
-      //       } else {
-      //         //선생님별 화면인 경우
-      //         for (let j = 0; j < thisPage.querySelector(".midByTeachers").querySelector(".teacherTable").querySelectorAll(".textColumn").length; j++) {
-      //           for (let k = 0; k < thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable").length; k++) {
-      //             let columnData = [];
-      //             for (let i = 1; i <= numOfRows + 1; i++) {
-      //               let cellData = {};
-      //               cellData.value = thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].innerText;
-      //               cellData.fontWeight = thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.fontWeight;
-      //               cellData.fontSize = thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.fontWSize;
-      //               cellData.fontDeco = thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.textDecoration;
+            pages = document.querySelectorAll('.mid')[i].querySelector('.midByTeachers');
+            for(let b=0; b<pages.querySelectorAll('.teacherTable').length; b++){
+              for(let t=0; t<7; t++){
+                for(let l=1; l<=numOfRows+1; l++){
+                  pages.querySelectorAll('.teacherTable')[b].querySelectorAll('.textColumn')[t].querySelectorAll('.textCell')[l].innerText = pageData[i].textData[t*3+b][l-1].value;
+                  pages.querySelectorAll('.teacherTable')[b].querySelectorAll('.textColumn')[t].querySelectorAll('.textCell')[l].style.fontWeight = pageData[i].textData[t*3+b][l-1].fontWeight;
+                  pages.querySelectorAll('.teacherTable')[b].querySelectorAll('.textColumn')[t].querySelectorAll('.textCell')[l].style.fontSize = pageData[i].textData[t*3+b][l-1].fontSize;
+                  pages.querySelectorAll('.teacherTable')[b].querySelectorAll('.textColumn')[t].querySelectorAll('.textCell')[l].style.textDecoration = pageData[i].textData[t*3+b][l-1].fontDeco;
+                
+                  if(pageData[i].textData[t*3+b][l-1].merge !== null){
+                    if(pageData[i].textData[t*3+b][l-1].merge === 'merged'){  
+                      pages.querySelectorAll('.teacherTable')[b].querySelectorAll('.textColumn')[t].querySelectorAll('.textCell')[l].classList.add('merged');
+                    }else{ 
+                      pages.querySelectorAll('.teacherTable')[b].querySelectorAll('.textColumn')[t].querySelectorAll('.textCell')[l].classList.add('hide');
+                    }
+                  }
+                  if(pageData[i].textData[t*3+b][l-1].including !== null){
+                    pages.querySelectorAll('.teacherTable')[b].querySelectorAll('.textColumn')[t].querySelectorAll('.textCell')[l].setAttribute('including', pageData[i].textData[t*3+b][l-1].including);
+                  }
+                  if(pageData[i].textData[t*3+b][l-1].texting !== null){
+                    pages.querySelectorAll('.teacherTable')[b].querySelectorAll('.textColumn')[t].querySelectorAll('.textCell')[l].classList.add(`${pageData[i].textData[t*3+b][l-1].texting}`);
+                  }
+                  pages.querySelectorAll('.teacherTable')[b].querySelectorAll('.textColumn')[t].querySelectorAll('.textCell')[l].style.height = pageData[i].textData[t*3+b][l-1].height;
+                }
+              }
+            }
 
-      //               cellData.merge = thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("merged") ? "merged" : thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("hide") ? "hide" : null;
-      //               cellData.including = thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") ? thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") : null;
-      //               cellData.texting = thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("textingCell") ? "textingCell" : null;
-      //               columnData.push(cellData);
-      //             }
-      //             allData.push(columnData);
-      //           }
-      //         }
-      //       }
-      //       //선생님 이름 저장
-      //       for (let t = 0; t < thisPage.querySelector(".midByDays").querySelector(".dayTable").querySelectorAll(".textColumn").length; t++) {
-      //         teacherNameData.push(thisPage.querySelector(".midByDays").querySelectorAll(".textColumn")[t].querySelector(".firstCell").innerText);
-      //       }
-      //       //날짜 저장
-      //       for (let t = 0; t < 7; t++) {
-      //         dateData.push(thisPage.querySelectorAll(".timeCell.firstCell")[t].innerText);
-      //       }
-      //       //시간 저장
-      //       //평일
-      //       for (let t = 1; t < thisPage.querySelector(".timeColumn").querySelectorAll(".timeCell").length; t++) {
-      //         weekTimeData.push(thisPage.querySelector(".timeColumn").querySelectorAll(".timeCell")[t].innerText);
-      //       }
-      //       //토
-      //       for (let t = 1; t < thisPage.querySelectorAll(".timeColumn")[5].querySelectorAll(".timeCell").length; t++) {
-      //         satTimeData.push(thisPage.querySelectorAll(".timeColumn")[5].querySelectorAll(".timeCell")[t].innerText);
-      //       }
-      //       //일
-      //       for (let t = 1; t < thisPage.querySelectorAll(".timeColumn")[6].querySelectorAll(".timeCell").length; t++) {
-      //         sunTimeData.push(thisPage.querySelectorAll(".timeColumn")[6].querySelectorAll(".timeCell")[t].innerText);
-      //       }
-      //       // console.log(allData);
-      //       // console.log(teacherNameData);
-      //       // console.log(dateData);
-      //       // console.log(weekTimeData);
-      //       // console.log(satTimeData);
-      //       // console.log(sunTimeData);
-      //       // console.log(pageName);
-      //       // >> 이 모든걸 페이지별로 here
-      //     }
-      //   }
-      // }
+        //선생님별
+
+        }
+      }
+
 
       function cellDelete() {
         let allclickedCell = thisPage.querySelectorAll(".clickedCell");
@@ -3006,11 +2991,21 @@
       }
 
       function borderTextCell() {
-        for (let i = 0; i < thisTable.querySelectorAll(".textCell").length; i++) {
-          if (thisTable.querySelectorAll(".textCell")[i].innerText != "") {
-            thisTable.querySelectorAll(".textCell")[i].classList.add("textingCell");
-          } else {
-            thisTable.querySelectorAll(".textCell")[i].classList.remove("textingCell");
+        if(thisTable){
+          for (let i = 0; i < thisTable.querySelectorAll(".textCell").length; i++) {
+            if (thisTable.querySelectorAll(".textCell")[i].innerText != "") {
+              thisTable.querySelectorAll(".textCell")[i].classList.add("textingCell");
+            } else {
+              thisTable.querySelectorAll(".textCell")[i].classList.remove("textingCell");
+            }
+          }
+        }else{
+          for(let i=0; i<thisPage.querySelectorAll('.textCell').length; i++){
+            if(thisPage.querySelectorAll('.textCell')[i].innerText != ''){
+              thisPage.querySelectorAll('.textCell')[i].classList.add('textingCell');
+            }else{
+              thisPage.querySelectorAll('.textCell')[i].classList.remove('textingCell');
+            }
           }
         }
       }
@@ -3237,18 +3232,37 @@
         thisPage = document.querySelector(`.mid[midNum="${thisPageNum}"]`);
       }
       function addPage() {
+        //버튼추가
         let numOfpageBtns = botDiv.querySelectorAll(".btnAddedPage").length;
         let numOfpages = document.querySelectorAll(".mid").length;
         let newPageBtn = document.querySelector(".btnAddedPage").cloneNode(true);
         newPageBtn.setAttribute("pageNum", parseInt(botDiv.querySelectorAll(".btnAddedPage")[numOfpageBtns - 1].getAttribute("pageNum")) + 1);
+        newPageBtn.innerText += `(${newPageBtn.getAttribute('pageNum')})`;
         newPageBtn.classList.remove("btnClicked");
-        botDiv.appendChild(newPageBtn);
+        botDiv.insertBefore(newPageBtn, botDiv.querySelector('.btnDeletePage'));
         //페이지추가
         let cloneMid = document.querySelectorAll(".mid")[0].cloneNode(true);
         cloneMid.setAttribute("midNum", parseInt(document.querySelectorAll(".mid")[numOfpages - 1].getAttribute("midNum")) + 1);
         document.querySelector(".container").insertBefore(cloneMid, document.querySelector(".bot"));
         cloneMid.classList.add("hide");
       }
+
+      function deletePage(){
+        if(botDiv.querySelectorAll('.btnAddedPage').length>1){
+          //삭제
+          //페이지
+          thisPage.remove();
+          //버튼
+          botDiv.querySelector(`.btnAddedPage[pageNum="${thisPageNum}"]`).remove();
+  
+          //이동
+          thisPage = document.querySelector('.mid');
+          thisPageNum = thisPage.getAttribute('midNum');
+          thisPage.classList.remove('hide');
+          botDiv.querySelector(`.btnAddedPage[pageNum="${thisPageNum}"]`).classList.add('btnClicked');
+        }
+      }
+
 
       function checkSat(button) {
         let allSat = document.querySelectorAll(".saturdays");
