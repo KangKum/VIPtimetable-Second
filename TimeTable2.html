@@ -142,12 +142,14 @@
         background-color: #ddd;
         border: 1px solid #ddd;
       }
-      .btnClear {
+      .btnFixedTwo {
         height: 4vh;
-        width: 12vh;
         position: fixed;
         right: 0;
-        /* margin-left: 177vh; */
+      }
+      .btnClear .btnClassTime {
+        height: 100%;
+        width: 12vh;
       }
 
       .clickedCell {
@@ -262,10 +264,11 @@
         <button class="btnSat btnClicked" onclick="checkSat(this)">토요일</button>
         <button class="btnSun btnClicked" onclick="checkSun(this)">일요일</button>
         <div style="width: 4%"></div>
-        <button>시수확인</button>
         <button>파이어베이스</button>
-        <button>데이터 뿌리기</button>
-        <button class="btnClear" onclick="allClear()">비우기</button>
+        <div class="btnFixedTwo">
+          <button class="btnClassTime" onclick="calClassTime()">시수확인</button>
+          <button class="btnClear" onclick="allClear()">비우기</button>
+        </div>
       </div>
       <div class="mid" midNum="0">
         <div class="midByDays">
@@ -1070,7 +1073,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn" cellCol="0">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1097,7 +1100,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="1">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1124,7 +1127,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="2">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1151,7 +1154,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="3">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1178,7 +1181,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="4">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1232,7 +1235,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn saturdays" cellCol="5">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1286,7 +1289,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn sundays" cellCol="6">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1343,7 +1346,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn" cellCol="0">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1370,7 +1373,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="1">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1397,7 +1400,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="2">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1424,7 +1427,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="3">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1451,7 +1454,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="4">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1505,7 +1508,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn saturdays" cellCol="5">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1559,7 +1562,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn sundays" cellCol="6">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1616,7 +1619,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn" cellCol="0">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1643,7 +1646,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="1">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1670,7 +1673,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="2">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1697,7 +1700,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="3">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1724,7 +1727,7 @@
               <div class="textCell" contenteditable="true" cellRow="23" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
             </div>
             <div class="textColumn" cellCol="4">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1778,7 +1781,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn saturdays" cellCol="5">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -1832,7 +1835,7 @@
               <div class="timeCell"></div>
             </div>
             <div class="textColumn sundays" cellCol="6">
-              <div class="textCell firstCell" contenteditable="true"></div>
+              <div class="textCell firstCell"></div>
               <div class="textCell" contenteditable="true" cellRow="0" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="1" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
               <div class="textCell" contenteditable="true" cellRow="2" onkeydown="keyMove(this)" onclick="clickCell(this)"></div>
@@ -2001,23 +2004,40 @@
 
       document.addEventListener("keydown", pageUp);
       document.addEventListener("keydown", pageDown);
-      document.addEventListener("keydown", saveData);
-      // document.addEventListener("click", borderTextCell); 이거 해야돼
+      document.addEventListener("keydown", saveDataManual);
+      document.addEventListener("click", borderTextCell);
 
       function clickCell(textCell) {
         currentCell = textCell;
         originRow = parseInt(currentCell.getAttribute("cellRow"));
         shadowRow = 0;
+        thisPage = textCell.parentNode.parentNode.parentNode.parentNode;
+        thisTable = textCell.parentNode.parentNode;
         numOfRows = textCell.parentNode.querySelectorAll(".textCell").length - 1;
-        getFontSize();
         writing = false;
         currentCell.style.caretColor = "transparent";
-        ///여기부터는 top,bot범위 클릭에도 적용해야함
+        getFontSize();
         cancelClickedCell();
         inputChecking2();
       }
 
-      function saveData() {
+      function calClassTime() {
+        saveDataAuto();
+        let totalText = [];
+        for (let j = 0; j < thisPage.querySelectorAll(".teacherTable").length; j++) {
+          let tempValue = 0;
+          for (let i = 0; i < thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".textingCell").length; i++) {
+            if (thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".textingCell")[i].getAttribute("including") === null) {
+              tempValue++;
+            } else {
+              tempValue += parseInt(thisPage.querySelectorAll(".teacherTable")[j].querySelectorAll(".textingCell")[i].getAttribute("including"));
+            }
+          }
+          totalText.push(thisPage.querySelectorAll(".teacherTable")[j].querySelector(".firstCell").innerText + " : " + tempValue / 2 + "  ");
+        }
+        alert(totalText);
+      }
+      function saveDataManual() {
         if (event.ctrlKey) {
           if (event.key === "s" || event.key === "S") {
             event.preventDefault();
@@ -2097,7 +2117,6 @@
               for (let t = 1; t < pages.querySelectorAll(".timeColumn")[6].querySelectorAll(".timeCell").length; t++) {
                 sunTimeData.push(pages.querySelectorAll(".timeColumn")[6].querySelectorAll(".timeCell")[t].innerText);
               }
-              //here 여기에서 페이지별로 담기
               allData.textData = textData;
               allData.teacherNameData = teacherNameData;
               allData.dateData = dateData;
@@ -2113,9 +2132,101 @@
           }
         }
       }
+      function saveDataAuto() {
+        // if (event.ctrlKey) {
+        //   if (event.key === "s" || event.key === "S") {
+        event.preventDefault();
+        let numOfPages = botDiv.querySelectorAll(".btnAddedPage").length;
+        pageData = [];
+        for (let p = 0; p < numOfPages; p++) {
+          allData = {};
+          textData = [];
+          teacherNameData = [];
+          dateData = [];
+          weekTimeData = [];
+          satTimeData = [];
+          sunTimeData = [];
+          pageName = botDiv.querySelectorAll(".btnAddedPage")[p].innerText;
+          let pages = document.querySelectorAll(".mid")[p];
+
+          //텍스트셀 저장
+          if (pages.querySelector(".midByTeachers").classList.contains("hide")) {
+            //요일별 화면인 경우
+            for (let j = 0; j < pages.querySelector(".midByDays").querySelectorAll(".textColumn").length; j++) {
+              let columnData = [];
+              for (let i = 1; i <= numOfRows + 1; i++) {
+                let cellData = {};
+                cellData.value = pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].innerText;
+                cellData.fontWeight = pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.fontWeight;
+                cellData.fontSize = pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.fontSize;
+                cellData.fontDeco = pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.textDecoration;
+
+                cellData.merge = pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("merged") ? "merged" : pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("hide") ? "hide" : null;
+                cellData.including = pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") ? pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") : null;
+                cellData.texting = pages.querySelector(".midByDays").querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("textingCell") ? "textingCell" : null;
+                cellData.height = cellData.including ? 3 * parseInt(cellData.including) + "vh" : "3vh";
+                columnData.push(cellData);
+              }
+              textData.push(columnData);
+            }
+          } else {
+            //선생님별 화면인 경우
+            for (let j = 0; j < pages.querySelector(".midByTeachers").querySelector(".teacherTable").querySelectorAll(".textColumn").length; j++) {
+              for (let k = 0; k < pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable").length; k++) {
+                let columnData = [];
+                for (let i = 1; i <= numOfRows + 1; i++) {
+                  let cellData = {};
+                  cellData.value = pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].innerText;
+                  cellData.fontWeight = pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.fontWeight;
+                  cellData.fontSize = pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.fontWSize;
+                  cellData.fontDeco = pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].style.textDecoration;
+
+                  cellData.merge = pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("merged") ? "merged" : pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("hide") ? "hide" : null;
+                  cellData.including = pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") ? pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].getAttribute("including") : null;
+                  cellData.texting = pages.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[k].querySelectorAll(".textColumn")[j].querySelectorAll(".textCell")[i].classList.contains("textingCell") ? "textingCell" : null;
+                  cellData.height = cellData.including ? 3 * parseInt(cellData.including) + "vh" : "3vh";
+                  columnData.push(cellData);
+                }
+                textData.push(columnData);
+              }
+            }
+          }
+          //선생님 이름 저장
+          for (let t = 0; t < pages.querySelector(".midByDays").querySelector(".dayTable").querySelectorAll(".textColumn").length; t++) {
+            teacherNameData.push(pages.querySelector(".midByDays").querySelectorAll(".textColumn")[t].querySelector(".firstCell").innerText);
+          }
+          //날짜 저장
+          for (let t = 0; t < 7; t++) {
+            dateData.push(pages.querySelectorAll(".timeCell.firstCell")[t].innerText);
+          }
+          //시간 저장
+          //평일
+          for (let t = 1; t < pages.querySelector(".timeColumn").querySelectorAll(".timeCell").length; t++) {
+            weekTimeData.push(pages.querySelector(".timeColumn").querySelectorAll(".timeCell")[t].innerText);
+          }
+          //토
+          for (let t = 1; t < pages.querySelectorAll(".timeColumn")[5].querySelectorAll(".timeCell").length; t++) {
+            satTimeData.push(pages.querySelectorAll(".timeColumn")[5].querySelectorAll(".timeCell")[t].innerText);
+          }
+          //일
+          for (let t = 1; t < pages.querySelectorAll(".timeColumn")[6].querySelectorAll(".timeCell").length; t++) {
+            sunTimeData.push(pages.querySelectorAll(".timeColumn")[6].querySelectorAll(".timeCell")[t].innerText);
+          }
+          allData.textData = textData;
+          allData.teacherNameData = teacherNameData;
+          allData.dateData = dateData;
+          allData.weekTimeData = weekTimeData;
+          allData.satTimeData = satTimeData;
+          allData.sunTimeData = sunTimeData;
+          allData.pageName = pageName;
+          pageData.push(allData);
+        }
+        pasteData();
+      }
+      // }
+      // }
 
       function pasteData() {
-        //7개 중에 textData, date, time3종, 페이지이름 담음, teacherName만 하면 됨
         //페이지별로 돌리기
         for (let i = 0; i < botDiv.querySelectorAll(".btnAddedPage").length; i++) {
           botDiv.querySelectorAll(".btnAddedPage")[i].innerText = pageData[i].pageName; //페이지버튼에 이름넣기
@@ -2169,6 +2280,13 @@
           for (let dd = 0; dd < pageData[i].sunTimeData.length; dd++) {
             pages.querySelectorAll(".dayTable")[6].querySelectorAll(".timeCell")[dd + 1].innerText = pageData[i].sunTimeData[dd];
           }
+          //teacherNameData
+          for (let dd = 0; dd < 7; dd++) {
+            for (let d = 0; d < pageData[i].teacherNameData.length; d++) {
+              pages.querySelectorAll(".dayTable")[dd].querySelectorAll(".textColumn")[d].querySelector(".firstCell").innerText = pageData[i].teacherNameData[d];
+            }
+          }
+
           //선생님별
           pages = document.querySelectorAll(".mid")[i].querySelector(".midByTeachers");
           for (let b = 0; b < pages.querySelectorAll(".teacherTable").length; b++) {
@@ -2223,6 +2341,10 @@
           //sunTimeData
           for (let dd = 0; dd < pageData[i].sunTimeData.length; dd++) {
             pages.querySelector(".sunColumn").querySelectorAll(".timeCell")[dd + 1].innerText = pageData[i].sunTimeData[dd];
+          }
+          //teacherNameData
+          for (let d = 0; d < pageData[i].teacherNameData.length; d++) {
+            pages.querySelectorAll(".teacherTable")[d].querySelector(".firstCell").innerText = pageData[i].teacherNameData[d];
           }
         }
       }
@@ -2365,6 +2487,10 @@
             thisTable.querySelectorAll(".textColumn")[currentColNum + 1].querySelector(".firstCell").focus();
           } else {
             div.parentNode.querySelectorAll(".textCell")[1].focus();
+          }
+
+          for (let j = 0; j < thisPage.querySelectorAll(".teacherTable").length; j++) {
+            thisPage.querySelectorAll(".teacherTable")[j].querySelector(".timeCell.firstCell").innerText = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn")[j].querySelector(".firstCell").innerText;
           }
         }
       }
@@ -2793,12 +2919,7 @@
             merge();
           } else if (event.key === "b" || event.key === "B") {
             fontBold();
-          }
-          //  else if (event.key === "s" || event.key === "S") {
-          //   event.preventDefault();
-          //   saveData();
-          // }
-          else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
+          } else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
             let upCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow - 1}"]`);
             let downCell = thisTable.querySelector(`.textColumn[cellCol="${cellCol}"]`).querySelector(`.textCell[cellRow="${cellRow + 1}"]`);
             let leftCell = cellCol > 0 ? thisTable.querySelector(`.textColumn[cellCol="${cellCol - 1}"]`).querySelector(`.textCell[cellRow="${cellRow}"]`) : null;
@@ -3186,6 +3307,7 @@
         originRow = cellRow;
       }
       function goTeachers() {
+        saveDataAuto();
         thisPage.querySelector(".midByDays").classList.add("hide");
         thisPage.querySelector(".midByTeachers").classList.remove("hide");
         document.querySelector(".btnGoDays").classList.remove("btnClicked");
@@ -3193,6 +3315,7 @@
         alignCenter();
       }
       function goDays() {
+        saveDataAuto();
         thisPage.querySelector(".midByTeachers").classList.add("hide");
         thisPage.querySelector(".midByDays").classList.remove("hide");
         document.querySelector(".btnGoTeachers").classList.remove("btnClicked");
