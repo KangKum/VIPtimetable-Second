@@ -233,6 +233,19 @@
         cursor: pointer;
         height: 50%;
       }
+
+      @media print {
+        .top,
+        .bot {
+          display: none;
+        }
+        .printBlock {
+          display: block;
+        }
+        .printSelection {
+          page-break-before: always;
+        }
+      }
     </style>
   </head>
   <body>
@@ -266,7 +279,7 @@
         <div style="width: 4%"></div>
         <button>파이어베이스</button>
         <div class="btnFixedTwo">
-          <button class="btnPrint">프린트</button>
+          <button class="btnPrint" onclick="customPrint()">프린트</button>
           <button class="btnClassTime" onclick="calClassTime()">시수확인</button>
           <button class="btnClear" onclick="allClear()">비우기</button>
         </div>
@@ -2022,6 +2035,25 @@
         inputChecking2();
       }
 
+      function customPrint() {
+        let rotation = document.querySelectorAll(".printSelection").length;
+        for (let i = 0; i < rotation; i++) {
+          document.querySelectorAll(".printSelection")[0].classList.remove("printSelection");
+        }
+
+        if (thisPage.querySelector(".midByDays").classList.contains("hide")) {
+          //선생님별
+          for (let i = 0; i < thisPage.querySelectorAll(".teacherTable").length; i++) {
+            thisPage.querySelectorAll(".teacherTable")[i].classList.add("printSelection");
+          }
+        } else {
+          //요일별
+          for (let i = 0; i < thisPage.querySelectorAll(".dayTable").length; i++) {
+            thisPage.querySelectorAll(".dayTable")[i].classList.add("printSelection");
+          }
+        }
+        window.print();
+      }
       function calClassTime() {
         saveDataAuto();
         let totalText = [];
@@ -3386,12 +3418,7 @@
           thisPage.querySelector(".midByTeachers").querySelectorAll(".teacherTable")[numOfTeachers - 1].remove();
         }
       }
-      function findThisPage() {
-        thisPageNum = botDiv.querySelector(".btnAddedPage.btnClicked").getAttribute("pageNum");
-        thisPage = document.querySelector(`.mid[midNum="${thisPageNum}"]`);
-      }
       function turnPage(button) {
-        findThisPage();
         inputChecking2();
         //버튼 전환
         for (let i = 0; i < botDiv.querySelectorAll(".btnAddedPage").length; i++) {
@@ -3399,12 +3426,17 @@
         }
         button.classList.add("btnClicked");
         thisPageNum = button.getAttribute("pageNum");
+        thisPage = document.querySelector(`.mid[midNum="${thisPageNum}"]`);
+
         //페이지 전환
         for (let i = 0; i < document.querySelectorAll(".mid").length; i++) {
           document.querySelectorAll(".mid")[i].classList.add("hide");
         }
-        document.querySelector(`.mid[midNum="${thisPageNum}"]`).classList.remove("hide");
-        thisPage = document.querySelector(`.mid[midNum="${thisPageNum}"]`);
+        thisPage.classList.remove("hide");
+        thisPage.querySelector(".midByDays").classList.remove("hide");
+        thisPage.querySelector(".midByTeachers").classList.add("hide");
+        topDiv.querySelector(".btnGoDays").classList.add("btnClicked");
+        topDiv.querySelector(".btnGoTeachers").classList.remove("btnClicked");
       }
       function addPage() {
         //버튼추가
@@ -3416,7 +3448,8 @@
         newPageBtn.classList.remove("btnClicked");
         botDiv.insertBefore(newPageBtn, botDiv.querySelector(".btnDeletePage"));
         //페이지추가
-        let cloneMid = document.querySelectorAll(".mid")[0].cloneNode(true);
+        let finalPageNum = document.querySelectorAll(".mid").length - 1;
+        let cloneMid = document.querySelectorAll(".mid")[finalPageNum].cloneNode(true);
         cloneMid.setAttribute("midNum", parseInt(document.querySelectorAll(".mid")[numOfpages - 1].getAttribute("midNum")) + 1);
         document.querySelector(".container").insertBefore(cloneMid, document.querySelector(".bot"));
         cloneMid.classList.add("hide");
@@ -3435,6 +3468,10 @@
           thisPageNum = thisPage.getAttribute("midNum");
           thisPage.classList.remove("hide");
           botDiv.querySelector(`.btnAddedPage[pageNum="${thisPageNum}"]`).classList.add("btnClicked");
+          thisPage.querySelector(".midByDays").classList.remove("hide");
+          thisPage.querySelector(".midByTeachers").classList.add("hide");
+          topDiv.querySelector(".btnGoDays").classList.add("btnClicked");
+          topDiv.querySelector(".btnGoTeachers").classList.remove("btnClicked");
         }
       }
 
