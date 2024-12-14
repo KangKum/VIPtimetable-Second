@@ -15,9 +15,19 @@
       span {
         text-align: center;
       }
+      table,
+      tr,
+      td {
+        border: 1px solid black;
+      }
+
+      td {
+        height: 3vh;
+        width: 13vh;
+      }
 
       .container {
-        height: 95vh;
+        height: 100%;
         border: none;
       }
       .top {
@@ -25,12 +35,10 @@
         height: 4vh;
         display: flex;
         border: none;
-        position: fixed;
         outline: 1px solid black;
       }
       .mid {
         width: 100%;
-        padding-top: 4vh;
       }
       .midByDays,
       .midByTeachers {
@@ -129,7 +137,8 @@
         width: 12vh;
       }
       .btnSat,
-      .btnSun {
+      .btnSun,
+      .btnScreen {
         width: 9vh;
       }
       .tempInput {
@@ -143,7 +152,7 @@
         position: fixed;
         right: 0;
       }
-      .btnClear .btnClassTime .btnPrint {
+      .btnClear .btnClassTime .btnPrint .btnClass {
         height: 100%;
         width: 12vh;
       }
@@ -229,6 +238,26 @@
         cursor: pointer;
         height: 50%;
       }
+      .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: white;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+      }
 
       @media print {
         .top,
@@ -275,12 +304,18 @@
         <button class="fontCancel" onclick="fontCancel()"><s>S</s></button>
         <!-- <button onclick="alignCenter()">C</button> -->
         <div style="width: 1%"></div>
-        <button class="btnSat" onclick="checkSat(this)">토요일</button>
-        <button class="btnSun" onclick="checkSun(this)">일요일</button>
+        <select class="btnScreen" onchange="selectScreen(this.value)">
+          <option value="50%">50%</option>
+          <option value="75%">75%</option>
+          <option value="90%">90%</option>
+          <option value="100%" selected>100%</option>
+        </select>
+        <!-- <button class="btnSat" onclick="checkSat(this)">토요일</button> -->
+        <!-- <button class="btnSun" onclick="checkSun(this)">일요일</button> -->
         <div style="width: 4%"></div>
-        <button>파이어베이스</button>
         <div class="btnFixedTwo">
           <button class="btnPrint" onclick="customPrint()">프린트</button>
+          <button class="btnClass" onclick="calClass()">수업확인</button>
           <button class="btnClassTime" onclick="calClassTime()">시수확인</button>
           <button class="btnClear" onclick="allClear()">비우기</button>
         </div>
@@ -289,7 +324,7 @@
         <div class="midByDays">
           <div class="dayTable" dayTable="0">
             <div class="timeColumn">
-              <div class="timeCell firstCell"></div>
+              <div class="timeCell firstCell" onclick="hideTable()"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -399,7 +434,7 @@
           </div>
           <div class="dayTable" dayTable="1">
             <div class="timeColumn">
-              <div class="timeCell firstCell"></div>
+              <div class="timeCell firstCell" onclick="hideTable()"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -509,7 +544,7 @@
           </div>
           <div class="dayTable" dayTable="2">
             <div class="timeColumn">
-              <div class="timeCell firstCell"></div>
+              <div class="timeCell firstCell" onclick="hideTable()"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -619,7 +654,7 @@
           </div>
           <div class="dayTable" dayTable="3">
             <div class="timeColumn">
-              <div class="timeCell firstCell"></div>
+              <div class="timeCell firstCell" onclick="hideTable()"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -729,7 +764,7 @@
           </div>
           <div class="dayTable" dayTable="4">
             <div class="timeColumn">
-              <div class="timeCell firstCell"></div>
+              <div class="timeCell firstCell" onclick="hideTable()"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -839,7 +874,7 @@
           </div>
           <div class="dayTable" dayTable="5">
             <div class="timeColumn">
-              <div class="timeCell firstCell"></div>
+              <div class="timeCell firstCell" onclick="hideTable()"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -949,7 +984,7 @@
           </div>
           <div class="dayTable" dayTable="6">
             <div class="timeColumn">
-              <div class="timeCell firstCell"></div>
+              <div class="timeCell firstCell" onclick="hideTable()"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -1061,7 +1096,7 @@
         <div class="midByTeachers hide">
           <div class="teacherTable" teacherTable="0">
             <div class="timeColumn">
-              <div class="timeCell firstCell"></div>
+              <div class="timeCell firstCell" onclick="hideTable()"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -1334,7 +1369,7 @@
 
           <div class="teacherTable" teacherTable="1">
             <div class="timeColumn">
-              <div class="timeCell firstCell"></div>
+              <div class="timeCell firstCell" onclick="hideTable()"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -1607,7 +1642,7 @@
 
           <div class="teacherTable" teacherTable="2">
             <div class="timeColumn">
-              <div class="timeCell firstCell"></div>
+              <div class="timeCell firstCell" onclick="hideTable()"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
               <div class="timeCell"></div>
@@ -2019,8 +2054,11 @@
 
       document.addEventListener("keydown", pageUp);
       document.addEventListener("keydown", pageDown);
+      document.addEventListener("keydown", closeText);
+      document.addEventListener("keydown", escModal);
       document.addEventListener("keydown", saveDataManual);
       document.addEventListener("click", borderTextCell);
+      document.addEventListener("scroll", topDivScroll);
 
       function clickCell(textCell) {
         currentCell = textCell;
@@ -2034,6 +2072,71 @@
         getFontSize();
         cancelClickedCell();
         inputChecking2();
+      }
+
+      function hideTable() {
+        let nowTable = event.target.parentNode.parentNode;
+        let nowTextColumns;
+        console.log(nowTable);
+        if (nowTable.classList.contains("dayTable")) {
+          nowTextColumns = nowTable.querySelectorAll(".textColumn");
+          if (nowTextColumns[0].classList.contains("hide")) {
+            for (let i = 0; i < nowTextColumns.length; i++) {
+              nowTextColumns[i].classList.remove("hide");
+            }
+          } else {
+            for (let i = 0; i < nowTextColumns.length; i++) {
+              nowTextColumns[i].classList.add("hide");
+            }
+          }
+        } else {
+          nowTextColumns = nowTable.querySelectorAll(".textColumn");
+          if (nowTextColumns[6].classList.contains("hide")) {
+            for (let i = 5; i < 7; i++) {
+              nowTextColumns[i].classList.remove("hide");
+            }
+            nowTable.querySelector(".satColumn").classList.remove("hide");
+            nowTable.querySelector(".sunColumn").classList.remove("hide");
+          } else {
+            for (let i = 5; i < 7; i++) {
+              nowTextColumns[i].classList.add("hide");
+            }
+            nowTable.querySelector(".satColumn").classList.add("hide");
+            nowTable.querySelector(".sunColumn").classList.add("hide");
+          }
+        }
+      }
+
+      function topDivScroll() {
+        const scrollTop = window.scrollY;
+        const scrollLeft = window.scrollX;
+
+        topDiv.style.transform = `translate(${scrollLeft}px, ${scrollTop})`;
+      }
+
+      function selectScreen(value) {
+        let allMids = document.querySelectorAll(".mid");
+        if (value === "50%") {
+          for (let i = 0; i < allMids.length; i++) {
+            allMids[i].style.transform = `scale(${0.5})`;
+            allMids[i].style.transformOrigin = "left top";
+          }
+        } else if (value === "75%") {
+          for (let i = 0; i < allMids.length; i++) {
+            allMids[i].style.transform = `scale(${0.75})`;
+            allMids[i].style.transformOrigin = "left top";
+          }
+        } else if (value === "90%") {
+          for (let i = 0; i < allMids.length; i++) {
+            allMids[i].style.transform = `scale(${0.9})`;
+            allMids[i].style.transformOrigin = "left top";
+          }
+        } else if (value === "100%") {
+          for (let i = 0; i < allMids.length; i++) {
+            allMids[i].style.transform = `scale(${1})`;
+            allMids[i].style.transformOrigin = "left top";
+          }
+        }
       }
 
       function customPrint() {
@@ -2080,7 +2183,7 @@
               thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.95)";
             }
             thisPage.querySelectorAll(".dayTable")[i].style.transformOrigin = "left";
-            thisPage.querySelector(".dayTable").querySelector(".textCell").innerText = thisPage.querySelectorAll(".dayTable")[i].offsetWidth;
+            // thisPage.querySelector(".dayTable").querySelector(".textCell").innerText = thisPage.querySelectorAll(".dayTable")[i].offsetWidth;
           }
         }
         window.print();
@@ -2105,6 +2208,98 @@
           totalText.push(thisPage.querySelectorAll(".teacherTable")[j].querySelector(".firstCell").innerText + " : " + tempValue / 2 + "  ");
         }
         alert(totalText);
+      }
+      function calClass() {
+        if (!thisPage.querySelector(".textingCell")) {
+          return;
+        }
+        // Overlay 생성
+        const overlay = document.createElement("div");
+        overlay.className = "overlay";
+        overlay.onclick = closeText;
+
+        //계산하기 - 수업
+        let allTextingCells = [];
+        allTextingCells.push(thisPage.querySelector(".midByDays").querySelectorAll(".textingCell")[0].innerText);
+        for (let i = 0; i < thisPage.querySelector(".midByDays").querySelectorAll(".textingCell").length; i++) {
+          if (!allTextingCells.includes(thisPage.querySelector(".midByDays").querySelectorAll(".textingCell")[i].innerText)) {
+            allTextingCells.push(thisPage.querySelector(".midByDays").querySelectorAll(".textingCell")[i].innerText);
+          }
+        }
+
+        //계산하기 - 시수
+        let allTextingCellTime = new Array(allTextingCells.length);
+        for (let c = 0; c < allTextingCellTime.length; c++) {
+          allTextingCellTime[c] = 0;
+        }
+        for (let i = 0; i < allTextingCells.length; i++) {
+          for (let j = 0; j < thisPage.querySelector(".midByDays").querySelectorAll(".textingCell").length; j++) {
+            if (allTextingCells[i] === thisPage.querySelector(".midByDays").querySelectorAll(".textingCell")[j].innerText) {
+              if (thisPage.querySelector(".midByDays").querySelectorAll(".textingCell")[j].getAttribute("including")) {
+                allTextingCellTime[i] += parseInt(thisPage.querySelector(".midByDays").querySelectorAll(".textingCell")[j].getAttribute("including")) / 2;
+              } else {
+                allTextingCellTime[i] += 0.5;
+              }
+            }
+          }
+        }
+
+        //합치기
+        let allclasses = [];
+        for (let i = 0; i < allTextingCells.length; i++) {
+          let classes = {};
+          classes.value = allTextingCells[i];
+          classes.time = allTextingCellTime[i];
+          allclasses.push(classes);
+        }
+        // Popup 생성
+        const popup = document.createElement("div");
+        popup.className = "popup";
+        // 테이블 생성
+        const tempTable = document.createElement("table");
+        if (allTextingCells.length > 40) {
+          for (let i = 0; i < 21; i++) {
+            const row = document.createElement("tr");
+            for (let j = 0; j < 3; j++) {
+              const cell = document.createElement("td");
+              row.appendChild(cell);
+            }
+            tempTable.appendChild(row);
+          }
+        } else if (allTextingCells.length > 20) {
+          for (let i = 0; i < 21; i++) {
+            const row = document.createElement("tr");
+            for (let j = 0; j < 2; j++) {
+              const cell = document.createElement("td");
+              row.appendChild(cell);
+            }
+            tempTable.appendChild(row);
+          }
+        } else {
+          for (let i = 0; i < 21; i++) {
+            const row = document.createElement("tr");
+            for (let j = 0; j < 1; j++) {
+              const cell = document.createElement("td");
+              row.appendChild(cell);
+            }
+            tempTable.appendChild(row);
+          }
+        }
+        tempTable.querySelectorAll("tr")[0].textContent = "수업";
+        tempTable.querySelectorAll("tr")[1].textContent = "시수";
+        for (let i = 0; i < allclasses.length; i++) {
+          tempTable.querySelectorAll("td")[i].textContent = allclasses[i].value + " : " + allclasses[i].time;
+        }
+        popup.appendChild(tempTable);
+        popup.innerHTML += `<button onclick="closeText()">닫기</button>`;
+        // 요소 추가
+        document.body.appendChild(overlay);
+        document.body.appendChild(popup);
+      }
+      function closeText() {
+        // 요소 제거
+        document.querySelector(".popup")?.remove();
+        document.querySelector(".overlay")?.remove();
       }
       function saveDataManual() {
         if (event.ctrlKey) {
@@ -3087,6 +3282,16 @@
           if (!writing) {
             event.preventDefault();
           }
+        } else if (event.key === "Escape") {
+          if (writing) {
+            currentCell.innerText = "";
+            currentCell.focus();
+            currentCell.style.caretColor = "transParent";
+            writing = false;
+            borderTextCell();
+          } else {
+            event.preventDefault();
+          }
         } else if (event.key === "ArrowUp" || event.key === "ArrowDown" || event.key === "ArrowLeft" || event.key === "ArrowRight") {
           if (writing) {
             return;
@@ -3575,11 +3780,7 @@
         document.querySelector(".dateModal").style.display = "";
         document.querySelector(".timeModal").style.display = "";
       }
-      document.addEventListener("keydown", (event) => {
-        if (event.key === "Escape") {
-          escModal();
-        }
-      });
+
       function applyDate() {
         numOfTeachers = thisPage.querySelector(".dayTable").querySelectorAll(".textColumn").length;
 
