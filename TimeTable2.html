@@ -101,6 +101,12 @@
       .textingCell {
         outline: 1px solid black;
       }
+      .timeCell.firstCell {
+        background-color: #d3cdcd;
+        color: #333;
+        cursor: pointer;
+        box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.3), inset -4px -4px 8px rgba(255, 255, 255, 0.5);
+      }
 
       .bot {
         width: 100%;
@@ -310,8 +316,6 @@
           <option value="90%">90%</option>
           <option value="100%" selected>100%</option>
         </select>
-        <!-- <button class="btnSat" onclick="checkSat(this)">토요일</button> -->
-        <!-- <button class="btnSun" onclick="checkSun(this)">일요일</button> -->
         <div style="width: 4%"></div>
         <div class="btnFixedTwo">
           <button class="btnPrint" onclick="customPrint()">프린트</button>
@@ -2066,7 +2070,7 @@
         shadowRow = 0;
         thisPage = textCell.parentNode.parentNode.parentNode.parentNode;
         thisTable = textCell.parentNode.parentNode;
-        numOfRows = textCell.parentNode.querySelectorAll(".textCell").length - 2; //here
+        numOfRows = textCell.parentNode.querySelectorAll(".textCell").length - 2;
         writing = false;
         currentCell.style.caretColor = "transparent";
         getFontSize();
@@ -2763,22 +2767,37 @@
       function allClear() {
         let alltextCells = thisPage.querySelectorAll(".textCell");
         let criteriaCell = thisPage.querySelector(".textCell");
+        console.log(criteriaCell);
         for (let i = 0; i < alltextCells.length; i++) {
           if (alltextCells[i].classList.contains("firstCell")) {
             //이름셀 무시
           } else if (alltextCells[i].classList.contains("merged")) {
+            //병합셀
             alltextCells[i].innerText = "";
             alltextCells[i].classList.remove("merged");
             alltextCells[i].removeAttribute("including");
+            alltextCells[i].style.fontWeight = "normal";
+            alltextCells[i].style.textDecoration = "none";
             alltextCells[i].style.height = criteriaCell.style.height;
           } else if (alltextCells[i].classList.contains("hide")) {
+            //숨은셀
             alltextCells[i].innerText = "";
             alltextCells[i].classList.remove("hide");
+            alltextCells[i].style.fontWeight = "normal";
+            alltextCells[i].style.textDecoration = "none";
+            alltextCells[i].style.height = criteriaCell.style.height;
           } else {
+            //일반셀
             alltextCells[i].innerText = "";
+            alltextCells[i].style.fontWeight = "normal";
+            alltextCells[i].style.textDecoration = "none";
+            alltextCells[i].style.height = criteriaCell.style.height;
           }
         }
         borderTextCell();
+        cancelClickedCell();
+        cancelCtrl();
+        currentCell.focus();
       }
       function addRow() {
         //간단하게 줄만 추가하기
