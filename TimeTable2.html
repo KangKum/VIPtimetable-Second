@@ -36,6 +36,7 @@
         display: flex;
         border: none;
         outline: 1px solid black;
+        transition: transform 0.2s ease-out;
       }
       .mid {
         width: 100%;
@@ -112,7 +113,6 @@
         width: 100%;
         height: 4vh;
         display: flex;
-        position: fixed;
         outline: 1px solid black;
       }
 
@@ -2063,6 +2063,7 @@
       document.addEventListener("keydown", saveDataManual);
       document.addEventListener("click", borderTextCell);
       document.addEventListener("scroll", topDivScroll);
+      document.addEventListener("keydown", customPrint);
 
       function clickCell(textCell) {
         currentCell = textCell;
@@ -2119,6 +2120,7 @@
         const scrollLeft = window.scrollX;
 
         topDiv.style.transform = `translate(${scrollLeft}px, ${scrollTop})`;
+        botDiv.style.transform = `translate(${scrollLeft}px, ${scrollTop})`;
       }
 
       function selectScreen(value) {
@@ -2148,56 +2150,61 @@
 
       function customPrint() {
         //클래스 초기화
-        let rotation = document.querySelectorAll(".printSelection").length;
-        for (let i = 0; i < rotation; i++) {
-          document.querySelectorAll(".printSelection")[0].classList.remove("printSelection");
-        }
-        if (thisPage.querySelector(".printBlock")) {
-          thisPage.querySelector(".printBlock").classList.remove("printBlock");
-        }
+        if (event.ctrlKey) {
+          if (event.key === "p" || event.key === "P") {
+            event.preventDefault();
+            let rotation = document.querySelectorAll(".printSelection").length;
+            for (let i = 0; i < rotation; i++) {
+              document.querySelectorAll(".printSelection")[0].classList.remove("printSelection");
+            }
+            if (thisPage.querySelector(".printBlock")) {
+              thisPage.querySelector(".printBlock").classList.remove("printBlock");
+            }
 
-        //프린트 페이지 사이즈 축소
-        if (thisPage.querySelector(".midByDays").classList.contains("hide")) {
-          //선생님별
-          thisPage.querySelector(".midByTeachers").classList.add("printBlock");
-          for (let i = 0; i < thisPage.querySelectorAll(".teacherTable").length; i++) {
-            thisPage.querySelectorAll(".teacherTable")[i].classList.add("printSelection");
-            if (thisPage.querySelectorAll(".teacherTable")[i].offsetWidth > 1100) {
-              thisPage.querySelectorAll(".teacherTable")[i].style.transform = "scale(0.95)";
+            //프린트 페이지 사이즈 축소
+            if (thisPage.querySelector(".midByDays").classList.contains("hide")) {
+              //선생님별
+              thisPage.querySelector(".midByTeachers").classList.add("printBlock");
+              for (let i = 0; i < thisPage.querySelectorAll(".teacherTable").length; i++) {
+                thisPage.querySelectorAll(".teacherTable")[i].classList.add("printSelection");
+                if (thisPage.querySelectorAll(".teacherTable")[i].offsetWidth > 1100) {
+                  thisPage.querySelectorAll(".teacherTable")[i].style.transform = "scale(0.95)";
+                } else {
+                  let sideWidth = 1100 - thisPage.querySelectorAll(".teacherTable")[i].offsetWidth / 2;
+                  thisPage.querySelectorAll(".teacherTable")[i].style.marginLeft = "150px";
+                }
+              }
             } else {
-              let sideWidth = 1100 - thisPage.querySelectorAll(".teacherTable")[i].offsetWidth / 2;
-              thisPage.querySelectorAll(".teacherTable")[i].style.marginLeft = "150px";
+              //요일별
+              thisPage.querySelector(".midByDays").classList.add("printBlock");
+              for (let i = 0; i < thisPage.querySelectorAll(".dayTable").length; i++) {
+                thisPage.querySelectorAll(".dayTable")[i].classList.add("printSelection");
+                if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1900) {
+                  thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.6)";
+                } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1750) {
+                  thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.65)";
+                } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1630) {
+                  thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.71)";
+                } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1520) {
+                  thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.77)";
+                } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1400) {
+                  thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.83)";
+                } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1250) {
+                  thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.9)";
+                } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1100) {
+                  thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.95)";
+                }
+                thisPage.querySelectorAll(".dayTable")[i].style.transformOrigin = "left";
+                // thisPage.querySelector(".dayTable").querySelector(".textCell").innerText = thisPage.querySelectorAll(".dayTable")[i].offsetWidth;
+              }
+            }
+            window.print();
+            //프린트 페이지 사이즈 복구
+            for (let i = 0; i < thisPage.querySelectorAll(".printSelection").length; i++) {
+              thisPage.querySelectorAll(".printSelection")[i].style.transform = "scale(1)";
+              thisPage.querySelectorAll(".printSelection")[i].style.marginLeft = "";
             }
           }
-        } else {
-          //요일별
-          thisPage.querySelector(".midByDays").classList.add("printBlock");
-          for (let i = 0; i < thisPage.querySelectorAll(".dayTable").length; i++) {
-            thisPage.querySelectorAll(".dayTable")[i].classList.add("printSelection");
-            if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1900) {
-              thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.6)";
-            } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1750) {
-              thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.65)";
-            } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1630) {
-              thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.71)";
-            } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1520) {
-              thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.77)";
-            } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1400) {
-              thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.83)";
-            } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1250) {
-              thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.9)";
-            } else if (thisPage.querySelectorAll(".dayTable")[i].offsetWidth > 1100) {
-              thisPage.querySelectorAll(".dayTable")[i].style.transform = "scale(0.95)";
-            }
-            thisPage.querySelectorAll(".dayTable")[i].style.transformOrigin = "left";
-            // thisPage.querySelector(".dayTable").querySelector(".textCell").innerText = thisPage.querySelectorAll(".dayTable")[i].offsetWidth;
-          }
-        }
-        window.print();
-        //프린트 페이지 사이즈 복구
-        for (let i = 0; i < thisPage.querySelectorAll(".printSelection").length; i++) {
-          thisPage.querySelectorAll(".printSelection")[i].style.transform = "scale(1)";
-          thisPage.querySelectorAll(".printSelection")[i].style.marginLeft = "";
         }
       }
       function calClassTime() {
